@@ -8,6 +8,12 @@
 
 typedef struct s_map
 {
+	char	*NOtexture;
+	char	*SOtexture;
+	char	*WEtexture;
+	char	*EAtexture;
+	int		Fcolor;
+	int		Ccolor;
 	char	**flatmap;
 	
 }	t_mapstuff;
@@ -15,6 +21,6 @@ typedef struct s_map
 
 int	errmsg_n_retval(char *msg, int value);
 int	check_map_extension(char *map_name);
-int	map_content(char *map_name);
+int	map_content(t_mapstuff *map, char *map_name);
 
 #endif

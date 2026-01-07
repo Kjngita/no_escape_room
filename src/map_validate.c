@@ -12,13 +12,17 @@ int	errmsg_n_retval(char *msg, int value)
 
 int	main(int ac, char **av)
 {
+	t_mapstuff	map;
 	if (ac < 2)
 		return (errmsg_n_retval("No map provided", 1));
 	if (ac > 2)
 		return (errmsg_n_retval("Only 1 map at a time pls", 1));
 	if (check_map_extension(av[1]) == -1)
 		return (1);
-	if (map_content(av[1]) == -1)
+	ft_bzero(&map, sizeof(t_mapstuff));
+	map.Fcolor = -1;
+	map.Ccolor = -1;
+	if (map_content(&map, av[1]) == -1)
 		return (1);
 	return (0);
 }
@@ -35,12 +39,36 @@ int	check_map_extension(char *map_name)
 	return (0);
 }
 
-int	map_content(char *map_name)
+int	map_content(t_mapstuff *map, char *map_name)
 {
-	int	fd;
+	int	map_fd;
 
-	fd = open(map_name, O_RDONLY);
-	if (fd < 0)
+	map_fd = open(map_name, O_RDONLY);
+	if (map_fd < 0)
 		return (errmsg_n_retval("Cannot open map file", -1));
+	// break_file_into_lines();
+	return (0);
+
+}
+
+int	break_file_into_lines(t_mapstuff *map, int map_fd)
+{
+	char	*line;
+
+	while (1)
+	{
+		line = get_next_line(map_fd);
+		if (!line)
+			return (errmsg_n_retval("Could not read map line", -1));
+		// if (line_is_empty(map, line) == -1)
+		// 	return (-1);
+		free (line);
+	}
 	return (0);
 }
+
+// int	line_is_empty(t_mapstuff *map, char *line)
+// {
+// 	if (ft_strlen(line) == 1 && line[0] == '\n')
+// 		return (0);
+// }
