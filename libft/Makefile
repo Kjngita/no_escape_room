@@ -1,0 +1,77 @@
+NAME = libft.a
+CFILES = ft_isalpha.c \
+	ft_isdigit.c \
+	ft_isalnum.c \
+	ft_isascii.c \
+	ft_isprint.c \
+	ft_strlen.c \
+	ft_memset.c \
+	ft_bzero.c \
+	ft_memmove.c ft_memcpy.c \
+	ft_strlcpy.c \
+	ft_strlcat.c \
+	ft_tolower.c ft_toupper.c \
+	ft_strchr.c	ft_strrchr.c \
+	ft_strncmp.c \
+	ft_memchr.c	\
+	ft_memcmp.c \
+	ft_strnstr.c \
+	ft_atoi.c \
+	ft_strdup.c \
+	ft_calloc.c \
+	ft_substr.c \
+	ft_strjoin.c \
+	ft_strtrim.c \
+	ft_split.c \
+	ft_itoa.c \
+	ft_strmapi.c ft_striteri.c \
+	ft_putchar_fd.c	ft_putstr_fd.c ft_putendl_fd.c \
+	ft_putnbr_fd.c \
+	ft_printf.c char_related.c num_related.c \
+	get_next_line.c get_next_line_utils.c
+
+BONUS_CFILES = ft_lstnew_bonus.c \
+	ft_lstadd_front_bonus.c \
+	ft_lstsize_bonus.c \
+	ft_lstlast_bonus.c \
+	ft_lstadd_back_bonus.c
+
+O_DIR = libft_objdir
+OFILES = $(addprefix $(O_DIR)/,$(CFILES:.c=.o))
+
+BONUS_OFILES = $(BONUS_CFILES:.c=.o)
+
+CFLAGS = -Wall -Wextra -Werror
+HEADER = libft.h
+
+$(NAME): $(OFILES)
+	ar -rcs $@ $^
+	@echo "\033[35m** libft archive created **\033[0m"
+
+all: $(NAME)
+
+$(O_DIR):
+	mkdir -p $@
+
+$(O_DIR)/%.o: %.c $(HEADER) | $(O_DIR)
+	cc $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -rf $(O_DIR)
+	rm -f $(BONUS_OFILES)
+	@echo "\033[35m** libft object files deleted **\033[0m"
+
+fclean: clean
+	rm -f $(NAME)
+	@echo "\033[35m** libft archive deleted **\033[0m"
+
+re: fclean all
+
+bonus: $(OFILES) $(BONUS_OFILES)
+	ar -rcs $(NAME) $^
+
+.SECONDARY: $(OFILES) $(BONUS_OFILES)
+
+.PHONY: all clean fclean re bonus
+
+.SILENT:
