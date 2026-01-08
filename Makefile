@@ -5,7 +5,8 @@ HEADER = inc/header_cub3d.h
 INCLUDES = -Iinc -I$(LIBFT_DIR) -I$(MLX_DIR)/include
 
 S_DIR = src
-CFILES = $(S_DIR)/map_validate.c
+CFILES = $(S_DIR)/map_validate.c \
+	$(S_DIR)/map_textures.c
 
 O_DIR = objdir
 OFILES = $(CFILES:$(S_DIR)/%.c=$(O_DIR)/%.o)

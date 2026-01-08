@@ -22,5 +22,6 @@ typedef struct s_map
 int	errmsg_n_retval(char *msg, int value);
 int	check_map_extension(char *map_name);
 int	map_content(t_mapstuff *map, char *map_name);
+int	extract_graphics_elements(t_mapstuff *map, int map_fd);
 
 #endif
