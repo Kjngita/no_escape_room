@@ -1,5 +1,19 @@
 #include "header_cub3d.h"
 
+int	compass(t_mapstuff *map, char *line, int direction)
+{
+	if (direction == NO)
+		return (register_texture_NO(map, line));
+	else if (direction == SO)
+		return (register_texture_SO(map, line));
+	else if (direction == WE)
+		return (register_texture_WE(map, line));
+	else if (direction == EA)
+		return (register_texture_EA(map, line));
+	else
+		return (errmsg_n_retval("Weird line", -1));
+}
+
 int	register_texture_NO(t_mapstuff *map, char *line)
 {
 	if (map->NOtexture)
@@ -19,6 +33,7 @@ int	register_texture_SO(t_mapstuff *map, char *line)
 		return (errmsg_n_retval("strdup failed SOtexture", -1));
 	return (0);
 }
+
 int	register_texture_WE(t_mapstuff *map, char *line)
 {
 	if (map->WEtexture)
@@ -28,6 +43,7 @@ int	register_texture_WE(t_mapstuff *map, char *line)
 		return (errmsg_n_retval("strdup failed WEtexture", -1));
 	return (0);
 }
+
 int	register_texture_EA(t_mapstuff *map, char *line)
 {
 	if (map->EAtexture)

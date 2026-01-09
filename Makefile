@@ -6,6 +6,7 @@ INCLUDES = -Iinc -I$(LIBFT_DIR) -I$(MLX_DIR)/include
 
 S_DIR = src
 CFILES = $(S_DIR)/map_validate.c \
+	$(S_DIR)/map_graphics.c \
 	$(S_DIR)/map_textures.c
 
 O_DIR = objdir
