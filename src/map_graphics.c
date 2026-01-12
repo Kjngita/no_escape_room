@@ -3,22 +3,34 @@
 int	extract_graphics_elements(t_mapstuff *map, int map_fd)
 {
 	char	*line;
+	int		eof;
 
+	eof = 0;
 	while (1)
 	{
-		line = get_next_line(map_fd);
+		line = get_next_line(map_fd, &eof);
 		if (!line)
+		{
+			if (eof == 1)
+				break ;
 			return (errmsg_n_retval("Could not read map line", -1));
+		}
 		line[strlen_no_nl(line)] = '\0';
 		if (line_is_empty(line))
 		{
-			free (line);
+			free_n_nullify(&line);
 			continue ;
 		}
 		else if (line_is_start_of_map(line))
-			return (got_all_elems(map, line, map_fd));
+		{
+			free_n_nullify(&line);
+			return (got_all_elems(map, map_fd));
+		}
 		else if (line_has_info(map, line) == -1) //can't be first since strtrim
+		{
+			free_n_nullify(&line);
 			return (-1);
+		}
 		free (line);
 	}
 	return (0);
@@ -63,12 +75,10 @@ int	line_has_info(t_mapstuff *map, char *line)
 	i = 0;
 	while (broken_down_line[i] != NULL)
 	{
-		free(broken_down_line[i]);
-		broken_down_line[i] = NULL;
+		free_n_nullify(&broken_down_line[i]);
 		i++;
 	}
-	free(broken_down_line);
-	broken_down_line = NULL;
+	free_n_nullify(broken_down_line);
 	if (direction == F || direction == C)
 		return (100);//(paintbrush(map, line, direction));
 	else

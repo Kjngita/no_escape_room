@@ -1,5 +1,14 @@
 #include "header_cub3d.h"
 
+void	free_n_nullify(char **useless)
+{
+	if (*useless)
+	{
+		free (*useless);
+		*useless = NULL;
+	}
+}
+
 int	errmsg_n_retval(char *msg, int value)
 {
 	if (msg)
@@ -70,7 +79,7 @@ int	strlen_no_nl(char *line)
 	return (i);
 }
 
-int	got_all_elems(t_mapstuff *map, char *line_startmap, int map_fd)
+int	got_all_elems(t_mapstuff *map, int map_fd)
 {
 	if (map->NOtexture == NULL || map->SOtexture == NULL
 		|| map->WEtexture == NULL || map->EAtexture == NULL
@@ -78,9 +87,11 @@ int	got_all_elems(t_mapstuff *map, char *line_startmap, int map_fd)
 		return (errmsg_n_retval("Map starts too soon", -1));
 	
 	// how to know size of map to malloc??
-	(void)line_startmap;
+	// mayb read until end and count, then another func to open map again?
 	(void)map_fd;
 	
+	
+
 	return (1);
 }
 

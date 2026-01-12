@@ -6,7 +6,7 @@
 /*   By: gita <gita@student.hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 16:12:26 by gita              #+#    #+#             */
-/*   Updated: 2025/08/11 22:03:37 by gita             ###   ########.fr       */
+/*   Updated: 2026/01/12 20:00:52 by gita             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*wipe_this(char *trash)
 	return (NULL);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, int *eof)
 {
 	static char	find_nl[BUFFER_SIZE + 1];
 	char		*result;
@@ -37,7 +37,7 @@ char	*get_next_line(int fd)
 			if (gnl_strchr(result, '\n'))
 				break ;
 		}
-		if (keep_reading(find_nl, fd) <= 0)
+		if (keep_reading(find_nl, fd, eof) <= 0)
 			break ;
 	}
 	if (result != NULL && *result != '\0')
@@ -98,13 +98,15 @@ char	*line_extract_n_update_buf(char *str)
 	return (before_nl);
 }
 
-ssize_t	keep_reading(char *findingnl, int fd)
+ssize_t	keep_reading(char *findingnl, int fd, int *eof)
 {
 	ssize_t	alr_read;
 
 	alr_read = read(fd, findingnl, BUFFER_SIZE);
 	if (alr_read < 0)
 		return (alr_read);
+	if (alr_read == 0)
+		*eof = 1;
 	findingnl[alr_read] = '\0';
 	return (alr_read);
 }

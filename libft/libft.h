@@ -6,7 +6,7 @@
 /*   By: gita <gita@student.hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 18:52:18 by gita              #+#    #+#             */
-/*   Updated: 2025/08/11 22:20:55 by gita             ###   ########.fr       */
+/*   Updated: 2026/01/12 20:01:06 by gita             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ int		fancy_num(uintptr_t patient, char *base);
 int		finger(uintptr_t ptr, char *base);
 
 /*GNL*/
-char	*get_next_line(int fd);
+char	*get_next_line(int fd, int *eof);
 char	*keep_joining(char *result, char *findnl);
 char	*line_extract_n_update_buf(char *str);
-ssize_t	keep_reading(char *findingnl, int fd);
+ssize_t	keep_reading(char *findingnl, int fd, int *eof);
 
 size_t	gnl_strlen(char *str);
 char	*gnl_strchr(char *s, unsigned char c);
