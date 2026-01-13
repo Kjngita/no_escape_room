@@ -1,13 +1,13 @@
 #include "header_cub3d.h"
 
-int	extract_graphics_elements(t_mapstuff *map, int map_fd)
+int	extract_graphics_elements(t_mapstuff *map, int map_fd, char **hotline)
 {
 	char	*line;
 	int		eof;
-int i = 0; //no need
+
 	eof = 0;
 	while (1)
-	{i++;
+	{
 		line = get_next_line(map_fd, &eof);
 		if (!line)
 		{
@@ -16,22 +16,29 @@ int i = 0; //no need
 			return (errmsg_n_retval("Could not read map line", -1));
 		}
 		line[strlen_no_nl(line)] = '\0';
-		if (line_is_empty(line))
-		{
-			free_n_nullify(&line);
-			continue ;
-		}
-		else if (line_is_start_of_map(line))
-		{printf("start map with line %i:%s\n", i, line);
-			free_n_nullify(&line);
-			return (got_all_elems(map, map_fd));
-		}
-		else if (line_has_info(map, line) == -1) //can't be first since strtrim
-		{
-			free_n_nullify(&line);
+		if (what_kinda_line(map, map_fd, line, hotline) == -1)
 			return (-1);
-		}
 		free (line);
+	}
+	return (0);
+}
+
+int	what_kinda_line(t_mapstuff *map, int map_fd, char *line, char **hotline)
+{
+	if (line_is_empty(line))
+		return (0);
+	else if (line_is_start_of_map(line))
+	{
+		*hotline = ft_strdup(line);
+		free_n_nullify(&line);
+		if (!*hotline)
+			return (errmsg_n_retval("strdup 1st map line failed", -1));
+		return (got_all_elems(map, map_fd));
+	}
+	else if (line_has_info(map, line) == -1)
+	{
+		free_n_nullify(&line);
+		return (-1);
 	}
 	return (0);
 }
@@ -64,25 +71,18 @@ int	line_is_start_of_map(char *line)
 
 int	line_has_info(t_mapstuff *map, char *line)
 {
-	size_t	i;
 	char	**broken_down_line;
-	int		direction;
+	int		info;
 
 	broken_down_line = ft_split(line, ' ');
 	if (!broken_down_line || !broken_down_line[0])
 		return (errmsg_n_retval("ft_split failed", -1));
-	direction = categorize(broken_down_line[0]);
-	i = 0;
-	while (broken_down_line[i] != NULL)
-	{
-		free_n_nullify(&broken_down_line[i]);
-		i++;
-	}
-	free_n_nullify(broken_down_line);
-	if (direction == F || direction == C)
-		return (100);//(paintbrush(map, line, direction));
+	info = categorize(broken_down_line[0]);
+	broken_down_line = clear_2x_char_pointers(broken_down_line);
+	if (info == F || info == C)
+		return (100);//(paintbrush(map, line, info));
 	else
-		return (compass(map, line, direction));
+		return (compass(map, line, info));
 }
 	
 int	categorize(char *text)

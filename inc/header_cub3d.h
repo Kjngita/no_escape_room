@@ -27,12 +27,17 @@ enum	e_categorization
 	C
 };
 
+
 void	free_n_nullify(char **useless);
-int	errmsg_n_retval(char *msg, int value);
+void	*clear_2x_char_pointers(char **trash);
+void	wipe_map(t_mapstuff *map);
+int		errmsg_n_retval(char *msg, int value);
+
 int	check_map_extension(char *map_name);
 int	strlen_no_nl(char *line);
 int	map_content(t_mapstuff *map, char *map_name);
-int	extract_graphics_elements(t_mapstuff *map, int map_fd);
+int	extract_graphics_elements(t_mapstuff *map, int map_fd, char **hotline);
+int	what_kinda_line(t_mapstuff *map, int map_fd, char *line, char **hotline);
 
 int	line_has_info(t_mapstuff *map, char *line);
 int	categorize(char *text);
