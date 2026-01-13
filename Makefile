@@ -5,9 +5,12 @@ HEADER = inc/header_cub3d.h
 INCLUDES = -Iinc -I$(LIBFT_DIR) -I$(MLX_DIR)/include
 
 S_DIR = src
-CFILES = $(S_DIR)/map_validate.c \
-	$(S_DIR)/map_graphics.c \
-	$(S_DIR)/map_textures.c
+PAR = parsing
+EXE = execution
+CFILES = $(S_DIR)/$(PAR)/map_validate.c \
+	$(S_DIR)/$(PAR)/map_graphics.c \
+	$(S_DIR)/$(PAR)/map_textures.c \
+	$(S_DIR)/$(EXE)/placeholder.c
 
 O_DIR = objdir
 OFILES = $(CFILES:$(S_DIR)/%.c=$(O_DIR)/%.o)
@@ -34,7 +37,8 @@ $(NAME): $(OFILES)
 	@echo "└───────────────────────────┘"
 
 $(O_DIR):
-	mkdir -p $@
+	mkdir -p $(O_DIR)/parsing
+	mkdir -p $(O_DIR)/execution
 
 $(O_DIR)/%.o: $(S_DIR)/%.c $(HEADER) | $(O_DIR)
 	cc $(FLAGS) $(INCLUDES) -c $< -o $@
