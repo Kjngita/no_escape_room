@@ -4,10 +4,10 @@ int	extract_graphics_elements(t_mapstuff *map, int map_fd)
 {
 	char	*line;
 	int		eof;
-
+int i = 0; //no need
 	eof = 0;
 	while (1)
-	{
+	{i++;
 		line = get_next_line(map_fd, &eof);
 		if (!line)
 		{
@@ -22,7 +22,7 @@ int	extract_graphics_elements(t_mapstuff *map, int map_fd)
 			continue ;
 		}
 		else if (line_is_start_of_map(line))
-		{
+		{printf("start map with line %i:%s\n", i, line);
 			free_n_nullify(&line);
 			return (got_all_elems(map, map_fd));
 		}
