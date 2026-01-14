@@ -12,8 +12,8 @@ int	main(int ac, char **av)
 	if (check_map_extension(av[1]) == -1)
 		return (1);
 	ft_bzero(&map, sizeof(t_mapstuff));
-	map.Fcolor = -1;
-	map.Ccolor = -1;
+	map.Fcolor = bitshift_rgba(0, 0, 0, 0);
+	map.Ccolor = bitshift_rgba(0, 0, 0, 0);
 	if (map_content(&map, av[1]) == -1)
 	{
 		wipe_map(&map);

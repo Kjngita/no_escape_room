@@ -1,5 +1,10 @@
 #include "header_cub3d.h"
 
+int	bitshift_rgba(int r, int g, int b, int a)
+{
+	return (r << 24 | g << 16 | b < 8 | a);
+}
+
 int	paintbrush(t_mapstuff *map, char *line, int surface)
 {
 	color_line_check(line);
@@ -34,8 +39,18 @@ int	color_line_check(char *line)
 	return (0);
 }
 
+int	color_alr_set(int color)
+{
+	int	a_value;
+
+	a_value = color & 0xFF;
+	if (a_value == 0)
+		return (0);
+	return (1);
+}
+
 int	floor_color(t_mapstuff *map, char *line)
 {
-	if (map->Fcolor != -1)
+	if (color_alr_set(map->Fcolor))
 		return (errmsg_n_retval("Duplicate floor color", -1));
 }

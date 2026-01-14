@@ -51,4 +51,6 @@ int	line_is_empty(char *line);
 int	line_is_start_of_map(char *line);
 int	got_all_elems(t_mapstuff *map, int map_fd);
 
+int	bitshift_rgba(int r, int g, int b, int a);
+
 #endif
