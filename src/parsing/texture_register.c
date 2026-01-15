@@ -11,7 +11,10 @@ int	compass(t_mapstuff *map, char *line, int direction)
 	else if (direction == EA)
 		return (register_texture_EA(map, line));
 	else
+	{
+		printf("Line %s\n", line);
 		return (errmsg_n_retval("Weird line", -1));
+	}
 }
 
 int	register_texture_NO(t_mapstuff *map, char *line)

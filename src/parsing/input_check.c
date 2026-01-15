@@ -12,8 +12,8 @@ int	main(int ac, char **av)
 	if (check_map_extension(av[1]) == -1)
 		return (1);
 	ft_bzero(&map, sizeof(t_mapstuff));
-	map.Fcolor = bitshift_rgba(0, 0, 0, 0);
-	map.Ccolor = bitshift_rgba(0, 0, 0, 0);
+	map.Fcolor = bitshift_rgba(0, 0, 0, 0); //printf("F");color_alr_set(map.Fcolor);
+	map.Ccolor = bitshift_rgba(0, 0, 0, 0); //printf("C");color_alr_set(map.Ccolor);
 	if (map_content(&map, av[1]) == -1)
 	{
 		wipe_map(&map);
@@ -68,7 +68,7 @@ int	got_all_elems(t_mapstuff *map, int map_fd)
 {
 	if (map->NOtexture == NULL || map->SOtexture == NULL
 		|| map->WEtexture == NULL || map->EAtexture == NULL
-		|| map->Fcolor == -1 || map->Ccolor == -1)
+		|| !color_alr_set(map->Fcolor) || !color_alr_set(map->Ccolor))
 		return (errmsg_n_retval("Map starts too soon", -1));
 	
 	(void)map_fd;

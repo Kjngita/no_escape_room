@@ -74,19 +74,19 @@ int	line_has_info(t_mapstuff *map, char *line)
 	char	**broken_down_line;
 	int		info;
 
-	broken_down_line = ft_split(line, ' ');
+	broken_down_line = ft_split(line, " ");
 	if (!broken_down_line || !broken_down_line[0])
 		return (errmsg_n_retval("ft_split failed", -1));
-	info = categorize(broken_down_line[0]);
+	info = categorize(broken_down_line[0]); printf("direction = %i\n", info);
 	broken_down_line = clear_2x_char_pointers(broken_down_line);
 	if (info == F || info == C)
-		return (100);//(paintbrush(map, line, info));
+		return (paintbrush(map, line, info));
 	else
 		return (compass(map, line, info));
 }
 	
 int	categorize(char *text)
-{
+{ printf("Categorize %s\n", text);
 	if (ft_strncmp(text, "NO", 3) == 0)
 		return (NO);
 	else if (ft_strncmp(text, "SO", 3) == 0)
