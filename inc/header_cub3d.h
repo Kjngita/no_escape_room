@@ -51,11 +51,11 @@ int			line_is_empty(char *line);
 int			line_is_start_of_map(char *line);
 int			got_all_elems(t_mapstuff *map, int map_fd);
 
-uint32_t	bitshift_rgba(uint32_t r, uint32_t g, uint32_t b, uint32_t a);
+uint32_t	bitshift_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 int			paintbrush(t_mapstuff *map, char *line, int surface);
 int			color_line_check(char *line);
 int			color_alr_set(uint32_t color);
-uint32_t	cub3d_atoi(char *str);
+int			cub3d_atoi(char *str);
 int			floor_color(t_mapstuff *map, char *line);
 int			ceiling_color(t_mapstuff *map, char *line);
 

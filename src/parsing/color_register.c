@@ -1,6 +1,6 @@
 #include "header_cub3d.h"
 
-uint32_t	bitshift_rgba(uint32_t r, uint32_t g, uint32_t b, uint32_t a)
+uint32_t	bitshift_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 {
 	return (r << 24 | g << 16 | b << 8 | a);
 }
@@ -14,16 +14,16 @@ int	paintbrush(t_mapstuff *map, char *line, int surface)
 		if (floor_color(map, line) == -1)
 			return (-1);
 	}
-	// else if (surface == C)
-	// {
-
-	// }
-
-	// if (color_alr_set(map->Fcolor) && color_alr_set(map->Ccolor))
-	// {
-	// 	if (map->Fcolor == map->Ccolor)
-	// 		return (errmsg_n_retval("Same color for floor & ceiling", -1));
-	// }
+	else if (surface == C)
+	{
+		if (ceiling_color(map, line) == -1)
+			return (-1);
+	}
+	if (color_alr_set(map->Fcolor) && color_alr_set(map->Ccolor))
+	{
+		if (map->Fcolor == map->Ccolor)
+			return (errmsg_n_retval("Same color for floor & ceiling", -1));
+	}
 	return (0);
 }
 
@@ -36,8 +36,11 @@ int	color_line_check(char *line)
 	comma = 0;
 	while (line[i])
 	{
-		if (ft_strchr("FC, ", line[i]) == NULL || !ft_isdigit(line[i]))
+		if (ft_strchr("FC, ", line[i]) == NULL && !ft_isdigit(line[i]))
+		{
+			printf("\n%c\n", line[i]);
 			return (errmsg_n_retval("Color line: Foreign character", -1));
+		}
 		if (line[i] == ',')
 			comma++;
 		i++;
@@ -67,9 +70,9 @@ int	color_alr_set(uint32_t color)
 int	floor_color(t_mapstuff *map, char *line)
 {
 	char	**splitted;
-	uint8_t	r;
-	uint8_t	g;
-	uint8_t	b;
+	int		r;
+	int		g;
+	int		b;
 
 	if (color_alr_set(map->Fcolor))
 		return (errmsg_n_retval("Duplicate floor color", -1));
@@ -84,24 +87,42 @@ int	floor_color(t_mapstuff *map, char *line)
 	splitted = clear_2x_char_pointers(splitted);
 	if (r < 0 || g < 0 || b < 0)
 		return (errmsg_n_retval("Invalid input for floor color", -1));
-	map->Fcolor = bitshift_rgba(r, g, b, 255); printf("Changed F color\n");
+	map->Fcolor = bitshift_rgba((uint8_t)r, (uint8_t)g, (uint8_t)b, 255); printf("~~Changed F color~~\n");
 	return (0);	
 }
 
-// int	ceiling_color(t_mapstuff *map, char *line)
-// {
-// 	if (color_alr_set(map->Ccolor))
-// 		return (errmsg_n_retval("Duplicate ceiling color", -1));
-// }
+int	ceiling_color(t_mapstuff *map, char *line)
+{
+	char	**splitted;
+	int		r;
+	int		g;
+	int		b;
+
+	if (color_alr_set(map->Ccolor))
+		return (errmsg_n_retval("Duplicate ceiling color", -1));
+	splitted = ft_split(line, " ,");
+	if (!splitted)
+		return (errmsg_n_retval("ft_split failed Ccolor", -1));
+	if (!splitted[1] || !splitted[2] || !splitted[3] || splitted[4] != NULL)
+		return (errmsg_n_retval("Smt fishy ft_split Ccolor", -1));
+	r = cub3d_atoi(splitted[1]);
+	g = cub3d_atoi(splitted[2]);
+	b = cub3d_atoi(splitted[3]);
+	splitted = clear_2x_char_pointers(splitted);
+	if (r < 0 || g < 0 || b < 0)
+		return (errmsg_n_retval("Invalid input for ceiling color", -1));
+	map->Ccolor = bitshift_rgba((uint8_t)r, (uint8_t)g, (uint8_t)b, 255); printf("~~Changed C color~~\n");
+	return (0);	
+}
 
 /*
 Turn a string to integer.
 Other than 1 possible sign for the number, accept only digits.
 
-Return: -1 on errors (not standard/not in 0-255 range integer) 
+Return: 256 on errors (not standard/not in 0-255 range integer) 
 or the converted integer
 */
-uint32_t	cub3d_atoi(char *str)
+int	cub3d_atoi(char *str)
 {
 	size_t		i;
 	uint32_t	nbr;
