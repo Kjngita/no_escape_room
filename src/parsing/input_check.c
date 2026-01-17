@@ -41,6 +41,7 @@ int	map_content(t_mapstuff *map, char *map_name)
 	int		map_fd;
 	char	*hotline;
 
+	hotline = NULL;
 	map_fd = open(map_name, O_RDONLY);
 	if (map_fd < 0)
 		return (errmsg_n_retval("Cannot open file", -1));
@@ -70,7 +71,8 @@ int	got_all_elems(t_mapstuff *map, int map_fd)
 		|| map->WEtexture == NULL || map->EAtexture == NULL
 		|| !color_alr_set(map->Fcolor) || !color_alr_set(map->Ccolor))
 		return (errmsg_n_retval("Map starts too soon", -1));
-	
+	printf("Checking elems:\nN: %s\nS: %s\nW: %s\nE: %s\n", map->NOtexture, map->SOtexture, map->WEtexture, map->EAtexture);
+	printf("F:%i\nC:%i\n", map->Fcolor, map->Ccolor);
 	(void)map_fd;
 	
 	

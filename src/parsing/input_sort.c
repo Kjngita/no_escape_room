@@ -17,7 +17,10 @@ int	extract_graphics_elements(t_mapstuff *map, int map_fd, char **hotline)
 		}
 		line[strlen_no_nl(line)] = '\0';
 		if (what_kinda_line(map, map_fd, line, hotline) == -1)
+		{
+			free_n_nullify(&line);
 			return (-1);
+		}
 		free (line);
 	}
 	return (0);
@@ -76,7 +79,7 @@ int	line_has_info(t_mapstuff *map, char *line)
 
 	broken_down_line = ft_split(line, " ");
 	if (!broken_down_line || !broken_down_line[0])
-		return (errmsg_n_retval("ft_split failed", -1));
+		return (errmsg_n_retval("ft_split failed line info", -1));
 	info = categorize(broken_down_line[0]); //printf("direction = %i\n", info);
 	broken_down_line = clear_2x_char_pointers(broken_down_line);
 	if (info == F || info == C)

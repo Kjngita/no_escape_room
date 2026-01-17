@@ -119,7 +119,7 @@ int	ceiling_color(t_mapstuff *map, char *line)
 Turn a string to integer.
 Other than 1 possible sign for the number, accept only digits.
 
-Return: 256 on errors (not standard/not in 0-255 range integer) 
+Return: -1 on errors (not standard/not in 0-255 range integer) 
 or the converted integer
 */
 int	cub3d_atoi(char *str)
