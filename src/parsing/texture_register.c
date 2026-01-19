@@ -5,6 +5,7 @@ int	compass(t_mapstuff *map, char *line, int direction)
 	char	**extract;
 	int		check;
 
+	check = 0;
 	if (direction != NO && direction != SO && direction != WE && direction != EA)
 		return (errmsg_n_retval("Weird line", -1));
 	extract = ft_split(line, " ");
