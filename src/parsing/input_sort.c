@@ -36,7 +36,7 @@ int	what_kinda_line(t_mapstuff *map, int map_fd, char *line, char **hotline)
 		free_n_nullify(&line);
 		if (!*hotline)
 			return (errmsg_n_retval("strdup 1st map line failed", -1));
-		return (got_all_elems(map, map_fd));
+		return (got_all_elems(map));
 	}
 	else if (line_has_info(map, line) == -1)
 	{

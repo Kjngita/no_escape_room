@@ -50,6 +50,11 @@ int	map_content(t_mapstuff *map, char *map_name)
 		close (map_fd);
 		return (-1);
 	}
+	if (extract_map(map, map_fd, &hotline) == -1)
+	{
+		close (map_fd);
+		return (-1);
+	}
 	close (map_fd);
 	return (0);
 
@@ -65,18 +70,13 @@ int	strlen_no_nl(char *line)
 	return (i);
 }
 
-int	got_all_elems(t_mapstuff *map, int map_fd)
+int	got_all_elems(t_mapstuff *map)
 {
 	if (map->NOtexture == NULL || map->SOtexture == NULL
 		|| map->WEtexture == NULL || map->EAtexture == NULL
 		|| !color_alr_set(map->Fcolor) || !color_alr_set(map->Ccolor))
 		return (errmsg_n_retval("Map starts too soon", -1));
-	printf("Checking elems:\nN: %s\nS: %s\nW: %s\nE: %s\n", map->NOtexture, map->SOtexture, map->WEtexture, map->EAtexture);
-	printf("F:%i\nC:%i\n", map->Fcolor, map->Ccolor);
-	(void)map_fd;
-	
-	
-
+	printf("Checking elems:\nN: %s\nS: %s\nW: %s\nE: %s\n", map->NOtexture, map->SOtexture, map->WEtexture, map->EAtexture);printf("F:%i\nC:%i\n", map->Fcolor, map->Ccolor);
 	return (1);
 }
 

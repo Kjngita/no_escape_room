@@ -6,6 +6,13 @@
 # include <unistd.h>
 # include <fcntl.h>
 
+typedef struct s_maplines
+{
+	char				*mapline;
+	struct s_maplines	*next;
+}	t_maplines;
+
+
 typedef struct s_map
 {
 	char		*NOtexture;
@@ -14,7 +21,8 @@ typedef struct s_map
 	char		*EAtexture;
 	uint32_t	Fcolor;
 	uint32_t	Ccolor;
-	char		**flatmap;
+	char		orientation;
+	t_maplines	*flatmap;
 }	t_mapstuff;
 
 enum	e_categorization
@@ -49,7 +57,7 @@ int			register_texture_EA(t_mapstuff *map, char *line);
 
 int			line_is_empty(char *line);
 int			line_is_start_of_map(char *line);
-int			got_all_elems(t_mapstuff *map, int map_fd);
+int			got_all_elems(t_mapstuff *map);
 
 uint32_t	bitshift_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 int			paintbrush(t_mapstuff *map, char *line, int surface);
