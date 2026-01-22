@@ -11,6 +11,7 @@ CFILES = $(S_DIR)/$(PAR)/input_check.c \
 	$(S_DIR)/$(PAR)/input_sort.c \
 	$(S_DIR)/$(PAR)/texture_register.c \
 	$(S_DIR)/$(PAR)/color_register.c \
+	$(S_DIR)/$(PAR)/map_extraction.c \
 	$(S_DIR)/$(PAR)/cleanup.c \
 	$(S_DIR)/$(EXE)/placeholder.c
 

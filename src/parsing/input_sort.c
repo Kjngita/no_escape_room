@@ -4,6 +4,7 @@ int	extract_graphics_elements(t_mapstuff *map, int map_fd, char **hotline)
 {
 	char	*line;
 	int		eof;
+	int		check;
 
 	eof = 0;
 	while (1)
@@ -16,31 +17,31 @@ int	extract_graphics_elements(t_mapstuff *map, int map_fd, char **hotline)
 			return (errmsg_n_retval("Could not read map line", -1));
 		}
 		line[strlen_no_nl(line)] = '\0';
-		if (what_kinda_line(map, map_fd, line, hotline) == -1)
-		{
-			free_n_nullify(&line);
+		check = what_kinda_line(map, &line, hotline);
+		if (check == -1)
 			return (-1);
-		}
+		else if (check == 1)
+			return (got_all_elems(map));
 		free (line);
 	}
 	return (0);
 }
 
-int	what_kinda_line(t_mapstuff *map, int map_fd, char *line, char **hotline)
+int	what_kinda_line(t_mapstuff *map, char **line, char **hotline)
 {
-	if (line_is_empty(line))
+	if (line_is_empty(*line))
 		return (0);
-	else if (line_is_start_of_map(line))
+	else if (line_is_start_of_map(*line))
 	{
-		*hotline = ft_strdup(line);
-		free_n_nullify(&line);
+		*hotline = ft_strdup(*line);
+		free_n_nullify(line);
 		if (!*hotline)
 			return (errmsg_n_retval("strdup 1st map line failed", -1));
-		return (got_all_elems(map));
+		return (1);
 	}
-	else if (line_has_info(map, line) == -1)
+	else if (line_has_info(map, *line) == -1)
 	{
-		free_n_nullify(&line);
+		free_n_nullify(line);
 		return (-1);
 	}
 	return (0);

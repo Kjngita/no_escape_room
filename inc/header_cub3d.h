@@ -21,7 +21,9 @@ typedef struct s_map
 	char		*EAtexture;
 	uint32_t	Fcolor;
 	uint32_t	Ccolor;
-	char		orientation;
+	char		start_pos;
+	size_t		player_start_x;
+	size_t		player_start_y;
 	t_maplines	*flatmap;
 }	t_mapstuff;
 
@@ -38,6 +40,7 @@ enum	e_categorization
 
 void		free_n_nullify(char **useless);
 void		*clear_2x_char_pointers(char **trash);
+void		clear_maplines(t_mapstuff *map);
 void		wipe_map(t_mapstuff *map);
 int			errmsg_n_retval(char *msg, int value);
 
@@ -45,7 +48,7 @@ int			check_map_extension(char *map_name);
 int			strlen_no_nl(char *line);
 int			map_content(t_mapstuff *map, char *map_name);
 int			extract_graphics_elements(t_mapstuff *map, int map_fd, char **hotline);
-int			what_kinda_line(t_mapstuff *map, int map_fd, char *line, char **hotline);
+int			what_kinda_line(t_mapstuff *map, char **line, char **hotline);
 
 int			line_has_info(t_mapstuff *map, char *line);
 int			categorize(char *text);
@@ -66,5 +69,13 @@ int			color_alr_set(uint32_t color);
 int			cub3d_atoi(char *str);
 int			floor_color(t_mapstuff *map, char *line);
 int			ceiling_color(t_mapstuff *map, char *line);
+
+int			extract_map(t_mapstuff *map, int map_fd, char **map_1stline, size_t *line_no);
+int			map_line_acceptable(t_mapstuff *map, char *line, size_t line_no);
+int			start_pos_setup(t_mapstuff *map, char direction, size_t x_coord,
+			size_t y_coord);
+int			add_to_flatmap(t_mapstuff *map, char **line_to_add, size_t line_no);
+int			map_valid(t_mapstuff *map, size_t map_height);
+int		copy_linkedlist_to_2xpointers(t_mapstuff *map, char **dest);
 
 #endif

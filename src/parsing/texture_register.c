@@ -7,7 +7,10 @@ int	compass(t_mapstuff *map, char *line, int direction)
 
 	check = 0;
 	if (direction != NO && direction != SO && direction != WE && direction != EA)
+	{
+		printf("%s\n", line);
 		return (errmsg_n_retval("Weird line", -1));
+	}
 	extract = ft_split(line, " ");
 	if (!extract || !extract[0] || !extract[1])
 		return (errmsg_n_retval("ft_split failed in texture", -1));

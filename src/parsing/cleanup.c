@@ -1,5 +1,21 @@
 #include "header_cub3d.h"
 
+void	wipe_map(t_mapstuff *map)
+{
+	if (!map)
+		return ;
+	if (map->NOtexture)
+		free_n_nullify(&map->NOtexture);
+	if (map->SOtexture)
+		free_n_nullify(&map->SOtexture);
+	if (map->WEtexture)
+		free_n_nullify(&map->WEtexture);
+	if (map->EAtexture)
+		free_n_nullify(&map->EAtexture);
+	if (map->flatmap)
+		clear_maplines(map);
+}
+
 void	free_n_nullify(char **useless)
 {
 	if (*useless)
@@ -26,21 +42,18 @@ void	*clear_2x_char_pointers(char **trash)
 	return (NULL);
 }
 
-void	wipe_map(t_mapstuff *map)
+void	clear_maplines(t_mapstuff *map)
 {
-	if (!map)
-		return ;
-	if (map->NOtexture)
-		free_n_nullify(&map->NOtexture);
-	if (map->SOtexture)
-		free_n_nullify(&map->SOtexture);
-	if (map->WEtexture)
-		free_n_nullify(&map->WEtexture);
-	if (map->EAtexture)
-		free_n_nullify(&map->EAtexture);
-	if (map->flatmap)
-		map->flatmap = clear_2x_char_pointers(map->flatmap);
-	
+	t_maplines	*del;
+
+	while (map->flatmap)
+	{
+		del = map->flatmap->next;
+		if (map->flatmap->mapline)
+			free_n_nullify(&map->flatmap->mapline);
+		free (map->flatmap);
+		map->flatmap = del;
+	}
 }
 
 int	errmsg_n_retval(char *msg, int value)

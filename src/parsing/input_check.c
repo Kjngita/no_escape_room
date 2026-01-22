@@ -1,6 +1,17 @@
 
 #include "header_cub3d.h"
 
+static void print_map(t_mapstuff *map)
+{
+	t_maplines	*print;
+	print = map->flatmap;
+	while (print)
+	{
+		printf("%s\n", print->mapline);
+		print = print->next;
+	}
+}
+
 int	main(int ac, char **av)
 {
 	t_mapstuff	map;
@@ -19,6 +30,8 @@ int	main(int ac, char **av)
 		wipe_map(&map);
 		return (1);
 	}
+	print_map(&map);
+	wipe_map(&map);
 	return (0);
 }
 
@@ -40,8 +53,10 @@ int	map_content(t_mapstuff *map, char *map_name)
 {
 	int		map_fd;
 	char	*hotline;
+	size_t	line_no;
 
 	hotline = NULL;
+	line_no = 0;
 	map_fd = open(map_name, O_RDONLY);
 	if (map_fd < 0)
 		return (errmsg_n_retval("Cannot open file", -1));
@@ -50,12 +65,13 @@ int	map_content(t_mapstuff *map, char *map_name)
 		close (map_fd);
 		return (-1);
 	}
-	if (extract_map(map, map_fd, &hotline) == -1)
+	if (extract_map(map, map_fd, &hotline, &line_no) == -1)
 	{
 		close (map_fd);
 		return (-1);
 	}
 	close (map_fd);
+	map_valid(map, line_no + 1);
 	return (0);
 
 }
