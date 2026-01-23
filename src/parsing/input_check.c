@@ -1,16 +1,16 @@
 
 #include "header_cub3d.h"
 
-static void print_map(t_mapstuff *map)
-{
-	t_maplines	*print;
-	print = map->flatmap;
-	while (print)
-	{
-		printf("%s\n", print->mapline);
-		print = print->next;
-	}
-}
+// static void print_map(t_mapstuff *map)
+// {
+// 	t_maplines	*print;
+// 	print = map->flatmap;
+// 	while (print)
+// 	{
+// 		printf("%s\n", print->mapline);
+// 		print = print->next;
+// 	}
+// }
 
 int	main(int ac, char **av)
 {
@@ -30,7 +30,7 @@ int	main(int ac, char **av)
 		wipe_map(&map);
 		return (1);
 	}
-	print_map(&map);
+	// print_map(&map);
 	wipe_map(&map);
 	return (0);
 }

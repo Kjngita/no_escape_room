@@ -17,7 +17,7 @@ int	extract_map(t_mapstuff *map, int map_fd, char **map_1stline, size_t *line_no
 			break ;
 		}
 		line[strlen_no_nl(line)] = '\0';
-		*(line_no)++;
+		(*line_no)++;
 		if (map_line_acceptable(map, line, *line_no) == -1)
 			return (-1);
 		free (line);
@@ -100,9 +100,13 @@ int	map_valid(t_mapstuff *map, size_t map_height)
 	if (!testmap)
 		return (errmsg_n_retval("ft_calloc failed checking map", -1));
 	copy_linkedlist_to_2xpointers(map, testmap);
+	
 	size_t i = 0;
 	while (i < map_height)
 		printf("%s\n", testmap[i++]);
+	//flood fill
+	
+	testmap = clear_2x_char_pointers(testmap);
 	return (0);
 }
 
@@ -122,7 +126,7 @@ int	copy_linkedlist_to_2xpointers(t_mapstuff *map, char **dest)
 			return (errmsg_n_retval("ft_strdup failed ll->2xp", -1));
 		}
 		i++;
-		copy = map->flatmap->next;
+		copy = copy->next;
 	}
 	return (0);
 }
