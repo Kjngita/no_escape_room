@@ -76,6 +76,7 @@ int			start_pos_setup(t_mapstuff *map, char direction, size_t x_coord,
 			size_t y_coord);
 int			add_to_flatmap(t_mapstuff *map, char **line_to_add, size_t line_no);
 int			map_valid(t_mapstuff *map, size_t map_height);
-int		copy_linkedlist_to_2xpointers(t_mapstuff *map, char **dest);
+int			copy_linkedlist_to_2xpointers(t_mapstuff *map, char **dest);
+void		flood_fill(char **testmap, size_t x_coord, size_t y_coord, int *hole);
 
 #endif

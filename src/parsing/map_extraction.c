@@ -96,16 +96,21 @@ int	map_valid(t_mapstuff *map, size_t map_height)
 {
 	char	**testmap;
 
-	testmap = ft_calloc(map_height, sizeof (char *));
+	testmap = ft_calloc(map_height + 1, sizeof (char *));
 	if (!testmap)
 		return (errmsg_n_retval("ft_calloc failed checking map", -1));
 	copy_linkedlist_to_2xpointers(map, testmap);
 	
-	size_t i = 0;
-	while (i < map_height)
-		printf("%s\n", testmap[i++]);
-	//flood fill
-	
+	// size_t i = 0;
+	// while (i < map_height)
+	// 	printf("%s\n", testmap[i++]);
+	int	hole = 0;
+	flood_fill(testmap, map->player_start_x, map->player_start_y, &hole);
+	if (hole == 1)
+	{
+		testmap = clear_2x_char_pointers(testmap);
+		return (errmsg_n_retval("Found black hole in map", -1));
+	} printf("Done flood\n");
 	testmap = clear_2x_char_pointers(testmap);
 	return (0);
 }
@@ -128,5 +133,27 @@ int	copy_linkedlist_to_2xpointers(t_mapstuff *map, char **dest)
 		i++;
 		copy = copy->next;
 	}
+	dest[i] = NULL;
 	return (0);
+}
+
+void	flood_fill(char **testmap, size_t x_coord, size_t y_coord, int *hole)
+{
+	char	tile;
+
+	tile = testmap[y_coord][x_coord];
+	if (tile == '1' || tile == 'F' || *hole == 1)
+		return ;
+	if (tile == ' ')
+		*hole = 1;
+	tile = 'F';
+	flood_fill(testmap, x_coord + 1, y_coord, hole);
+	flood_fill(testmap, x_coord - 1, y_coord, hole);
+	flood_fill(testmap, x_coord, y_coord + 1, hole);
+	flood_fill(testmap, x_coord, y_coord - 1, hole);
+	// if (flood_fill(testmap, x_coord + 1, y_coord) == -1
+	// 	|| flood_fill(testmap, x_coord - 1, y_coord) == -1
+	// 	|| flood_fill(testmap, x_coord, y_coord + 1) == -1
+	// 	|| flood_fill(testmap, x_coord, y_coord - 1) == -1)
+	// 	return (-1);
 }
