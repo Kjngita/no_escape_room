@@ -12,8 +12,8 @@ void	wipe_map(t_mapstuff *map)
 		free_n_nullify(&map->WEtexture);
 	if (map->EAtexture)
 		free_n_nullify(&map->EAtexture);
-	if (map->flatmap)
-		clear_maplines(map);
+	if (map->dungeon)
+		map->dungeon = clear_2x_char_pointers(map->dungeon);
 }
 
 void	free_n_nullify(char **useless)
@@ -42,17 +42,17 @@ void	*clear_2x_char_pointers(char **trash)
 	return (NULL);
 }
 
-void	clear_maplines(t_mapstuff *map)
+void	clear_maplines(t_maplines *map_chain)
 {
 	t_maplines	*del;
 
-	while (map->flatmap)
+	while (map_chain)
 	{
-		del = map->flatmap->next;
-		if (map->flatmap->mapline)
-			free_n_nullify(&map->flatmap->mapline);
-		free (map->flatmap);
-		map->flatmap = del;
+		del = map_chain->next;
+		if (map_chain->mapline)
+			free_n_nullify(&map_chain->mapline);
+		free (map_chain);
+		map_chain = del;
 	}
 }
 

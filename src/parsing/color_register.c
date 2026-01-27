@@ -61,7 +61,7 @@ int	color_alr_set(uint32_t color)
 {
 	uint8_t	a_value;
 
-	a_value = color & 0xFF; printf("Color %u alpha %u\n", color, a_value);
+	a_value = color & 0xFF;
 	if (a_value == 0)
 		return (0);
 	return (1);
@@ -87,7 +87,7 @@ int	floor_color(t_mapstuff *map, char *line)
 	splitted = clear_2x_char_pointers(splitted);
 	if (r < 0 || g < 0 || b < 0)
 		return (errmsg_n_retval("Invalid input for floor color", -1));
-	map->Fcolor = bitshift_rgba((uint8_t)r, (uint8_t)g, (uint8_t)b, 255); printf("~~Changed F color~~\n");
+	map->Fcolor = bitshift_rgba((uint8_t)r, (uint8_t)g, (uint8_t)b, 255);
 	return (0);	
 }
 
@@ -111,7 +111,7 @@ int	ceiling_color(t_mapstuff *map, char *line)
 	splitted = clear_2x_char_pointers(splitted);
 	if (r < 0 || g < 0 || b < 0)
 		return (errmsg_n_retval("Invalid input for ceiling color", -1));
-	map->Ccolor = bitshift_rgba((uint8_t)r, (uint8_t)g, (uint8_t)b, 255); printf("~~Changed C color~~\n");
+	map->Ccolor = bitshift_rgba((uint8_t)r, (uint8_t)g, (uint8_t)b, 255);
 	return (0);	
 }
 

@@ -1,12 +1,15 @@
 #include "header_cub3d.h"
 
-int	extract_map(t_mapstuff *map, int map_fd, char **map_1stline, size_t *line_no)
+int	extract_map(t_mapstuff *map, t_maplines *map_chain, int map_fd,
+	char **map_1stline)
 {
 	char	*line;
 	int		eof;
+	size_t	line_no;
 
 	eof = 0;
-	add_to_flatmap(map, map_1stline, *line_no);
+	line_no = 0;
+	add_to_flatmap(map_chain, map_1stline, line_no);
 	while (1)
 	{
 		line = get_next_line(map_fd, &eof);
@@ -17,17 +20,18 @@ int	extract_map(t_mapstuff *map, int map_fd, char **map_1stline, size_t *line_no
 			break ;
 		}
 		line[strlen_no_nl(line)] = '\0';
-		(*line_no)++;
-		if (map_line_acceptable(map, line, *line_no) == -1)
+		line_no++;
+		if (map_line_acceptable(map, map_chain, line, line_no) == -1)
 			return (-1);
 		free (line);
 	}
-	if (!map->start_pos)
-		return (errmsg_n_retval("No spawning orientation found", -1));
+	if (map_valid(map, map_chain, line_no + 1) == -1)
+		return (-1);
 	return (0);
 }
 
-int	map_line_acceptable(t_mapstuff *map, char *line, size_t line_no)
+int	map_line_acceptable(t_mapstuff *map, t_maplines *map_chain,
+	char *line, size_t line_no)
 {
 	size_t	i;
 
@@ -45,7 +49,7 @@ int	map_line_acceptable(t_mapstuff *map, char *line, size_t line_no)
 		}
 		i++;
 	}
-	add_to_flatmap(map, &line, line_no);
+	add_to_flatmap(map_chain, &line, line_no);
 	return (0);
 }
 
@@ -63,65 +67,67 @@ int	start_pos_setup(t_mapstuff *map, char direction, size_t x_coord,
 	}
 }
 
-int	add_to_flatmap(t_mapstuff *map, char **line_to_add, size_t line_no)
+int	add_to_flatmap(t_maplines *map_chain, char **line_to_add,
+	size_t line_no)
 {
 	t_maplines	*new_node;
 	t_maplines	*tail;
 
+	if (line_no == 0)
+	{
+		map_chain->mapline = *line_to_add;
+		map_chain->next = NULL;
+		return (0);
+	}
 	new_node = ft_calloc(1, sizeof(t_maplines));
 	if (!new_node)
 		return (errmsg_n_retval("ft_calloc failed adding to flatmap", -1));
-	if (line_no == 0)
-		new_node->mapline = *line_to_add;
-	else
-	{
-		new_node->mapline = ft_strdup(*line_to_add);
-		if (!new_node->mapline)
-			return (errmsg_n_retval("ft_strdup failed adding to flatmap", -1));
-	}
+	new_node->mapline = ft_strdup(*line_to_add);
+	if (!new_node->mapline)
+		return (errmsg_n_retval("ft_strdup failed adding to flatmap", -1));
 	new_node->next = NULL;
-	if (!map->flatmap)
-		map->flatmap = new_node;
-	else
-	{
-		tail = map->flatmap;
-		while (tail->next)
-			tail = tail->next;
-		tail->next = new_node;
-	}
+	tail = map_chain;
+	while (tail->next)
+		tail = tail->next;
+	tail->next = new_node;
 	return (0);
 }
 
-int	map_valid(t_mapstuff *map, size_t map_height)
+int	map_valid(t_mapstuff *map, t_maplines *map_chain, size_t map_height)
 {
 	char	**testmap;
+	int		hole;
 
+	if (!map->start_pos)
+		return (errmsg_n_retval("No spawning orientation found", -1));
 	testmap = ft_calloc(map_height + 1, sizeof (char *));
 	if (!testmap)
 		return (errmsg_n_retval("ft_calloc failed checking map", -1));
-	copy_linkedlist_to_2xpointers(map, testmap);
-	
-	// size_t i = 0;
-	// while (i < map_height)
-	// 	printf("%s\n", testmap[i++]);
-	int	hole = 0;
+	if (copy_linkedlist_to_2xpointers(map_chain, testmap) == -1)
+		return (-1);
+	hole = 0;
 	flood_fill(testmap, map->player_start_x, map->player_start_y, &hole);
 	if (hole == 1)
 	{
 		testmap = clear_2x_char_pointers(testmap);
 		return (errmsg_n_retval("Found black hole in map", -1));
-	} printf("Done flood\n");
-	testmap = clear_2x_char_pointers(testmap);
+	}
+	testmap = clear_2x_char_pointers(testmap); printf("✅ Map okay\n");
+	map->dungeon = ft_calloc(map_height + 1, sizeof (char *));
+	if (!map->dungeon)
+		return (errmsg_n_retval("ft_calloc failed creating map", -1));
+	if (copy_linkedlist_to_2xpointers(map_chain, map->dungeon) == -1)
+		return (-1);
 	return (0);
 }
 
-int	copy_linkedlist_to_2xpointers(t_mapstuff *map, char **dest)
+int	copy_linkedlist_to_2xpointers(t_maplines *map_chain, char **dest)
 {
 	t_maplines	*copy;
 	size_t		i;
 
 	i = 0;
-	copy = map->flatmap;
+	copy = map_chain;
 	while (copy)
 	{
 		dest[i] = ft_strdup(copy->mapline);
@@ -145,15 +151,13 @@ void	flood_fill(char **testmap, size_t x_coord, size_t y_coord, int *hole)
 	if (tile == '1' || tile == 'F' || *hole == 1)
 		return ;
 	if (tile == ' ')
+	{
 		*hole = 1;
-	tile = 'F';
+		return ;
+	}
+	testmap[y_coord][x_coord] = 'F';
 	flood_fill(testmap, x_coord + 1, y_coord, hole);
 	flood_fill(testmap, x_coord - 1, y_coord, hole);
 	flood_fill(testmap, x_coord, y_coord + 1, hole);
 	flood_fill(testmap, x_coord, y_coord - 1, hole);
-	// if (flood_fill(testmap, x_coord + 1, y_coord) == -1
-	// 	|| flood_fill(testmap, x_coord - 1, y_coord) == -1
-	// 	|| flood_fill(testmap, x_coord, y_coord + 1) == -1
-	// 	|| flood_fill(testmap, x_coord, y_coord - 1) == -1)
-	// 	return (-1);
 }

@@ -1,16 +1,15 @@
 
 #include "header_cub3d.h"
 
-// static void print_map(t_mapstuff *map)
-// {
-// 	t_maplines	*print;
-// 	print = map->flatmap;
-// 	while (print)
-// 	{
-// 		printf("%s\n", print->mapline);
-// 		print = print->next;
-// 	}
-// }
+static void print_map(t_mapstuff *map)
+{
+	int i = 0;
+	while (map->dungeon[i])
+	{
+		printf("%s\n", map->dungeon[i]);
+		i++;
+	}
+}
 
 int	main(int ac, char **av)
 {
@@ -30,7 +29,7 @@ int	main(int ac, char **av)
 		wipe_map(&map);
 		return (1);
 	}
-	// print_map(&map);
+	print_map(&map);
 	wipe_map(&map);
 	return (0);
 }
@@ -51,12 +50,14 @@ int	check_map_extension(char *map_name)
 
 int	map_content(t_mapstuff *map, char *map_name)
 {
-	int		map_fd;
-	char	*hotline;
-	size_t	line_no;
+	int			map_fd;
+	char		*hotline;
+	t_maplines	*map_chain;
 
 	hotline = NULL;
-	line_no = 0;
+	map_chain = ft_calloc(1, sizeof(t_maplines));
+	if (!map_chain)
+		return (errmsg_n_retval("ft_calloc failed init mapchain", -1));
 	map_fd = open(map_name, O_RDONLY);
 	if (map_fd < 0)
 		return (errmsg_n_retval("Cannot open file", -1));
@@ -65,15 +66,15 @@ int	map_content(t_mapstuff *map, char *map_name)
 		close (map_fd);
 		return (-1);
 	}
-	if (extract_map(map, map_fd, &hotline, &line_no) == -1)
+	if (extract_map(map, map_chain, map_fd, &hotline) == -1)
 	{
+		clear_maplines(map_chain);
 		close (map_fd);
 		return (-1);
 	}
 	close (map_fd);
-	map_valid(map, line_no + 1);
+	clear_maplines(map_chain);
 	return (0);
-
 }
 
 int	strlen_no_nl(char *line)
