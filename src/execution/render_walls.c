@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 13:05:18 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/28 15:40:12 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/28 17:39:34 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +47,17 @@ void	calc_line_height(t_ray *ray)
 		ray->line_bottom = HEIGHT - 1;
 }
 
-uint32_t	check_color(t_ray *ray)
+uint32_t	get_color(t_ray *ray)
 {
-	if (ray->side == 0) // vertical wall hit
-	{
-		if (ray->step_x < 0) //moved left, hit E facing wall
-			return (E_COLOR);
-		else
-			return(W_COLOR); //moved right, hit W facing wall
-	}
-	// horizontal wall hit
-	if (ray->step_y < 0) // moved up, hit S facing wall (Y coordinates flipped)
-		return (S_COLOR);
-	else
-		return (N_COLOR); //moved down , hit N facing wall (Y coordinates flipped)
-		
+	if (ray->wall_face == NORTH)
+		return (N_COLOR);
+	if (ray->wall_face == SOUTH)
+		return(S_COLOR);
+	if (ray->wall_face == WEST)
+		return(W_COLOR);
+	if (ray->wall_face == EAST)
+		return (E_COLOR);
+	return (COLOR_MISSING);
 }
 
 void	draw_wall_line(t_data *data, t_ray *ray)
@@ -69,7 +65,7 @@ void	draw_wall_line(t_data *data, t_ray *ray)
 	uint32_t	draw_color;
 	int			y;
 
-	draw_color = check_color(ray);
+	draw_color = get_color(ray);
 	y = ray->line_top;
 	while (y <= ray->line_bottom)
 	{

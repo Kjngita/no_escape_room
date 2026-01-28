@@ -27,6 +27,15 @@
 #define E_COLOR 0xCFBAF0FF
 #define N_COLOR 0xFDE4CFFF
 #define S_COLOR 0xF1C0E8FF
+#define COLOR_MISSING 0xFE019AFF
+
+typedef enum e_face
+{
+	NORTH = 0,
+	SOUTH = 1,
+	WEST = 2,
+	EAST = 3
+}	t_face;
 
 typedef struct s_data
 {
@@ -56,20 +65,24 @@ typedef struct s_ray
 	// WALL DETECTION & DISTANCE CALCULATION
 	int		map_x; //current map square
 	int		map_y; //current map square
-	double	step_x; // range between -1 (left) and 1 (right)
-	double	step_y; // range between -1 (down) and 1 (up)
-	double	delta_x; //delta x: distance along diagonal to travel between VERTICAL grid lines
-	double	delta_y; //delta y: distance along diagonal to travel between HORIZONTAL grid lines
+	double	step_x; //direction to advance ray: -1 (left) or 1 (right)
+	double	step_y; //direction to advance ray: -1 (up) or 1 (down)
+	double	delta_x; //delta x: diagonal distance to travel between VERTICAL grid lines
+	double	delta_y; //delta y: diagonal distance to travel between HORIZONTAL grid lines
 	double	side_dist_x; //distance to next x grid line from origin (increments by delta_x)
 	double	side_dist_y; //distance to next y grid line from origin (increment by delta_y)
-	double	wall_dist; //distance from player to wall along diagonal
-	int		side; // if 0: NS wall hit, if 1: WE wall hit
+	double	wall_dist; //diagonal distance from player to wall
+	int		side; // 0: vertical (N TO S) wall hit, 1 if horizontal (W to E)
+	t_face	wall_face; //which wall face the ray hit
 
 	// RENDERING
-	int	screen_x;
-	int	line_height;
-	int	line_top;
-	int	line_bottom;
+	double	wall_x; //exact hit location on wall, range 0.0 - 1.0
+	int	texture_x; //pixel column that wall_x corresponds to, range 0 - texture width
+	int	screen_x; //screen pixel column to draw
+	int	line_height; //how high to draw the wall column
+	int	line_top; //screen y pixel to start drawing from
+	int	line_bottom; //screen y pixel to stop drawing at
+
 }	t_ray;
 
 //used by draw_line to store variables

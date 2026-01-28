@@ -6,11 +6,29 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 11:24:03 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/28 15:04:23 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/28 17:44:31 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header_cub3d.h"
+
+static void	check_face(t_ray *ray)
+{
+	if (ray->side == 0) // vertical (N to S) wall hit
+	{
+		if (ray->step_x < 0) //moved left, hit E facing wall
+			ray->wall_face = EAST;
+		else
+			ray->wall_face = WEST; //moved right, hit W facing wall
+	}
+	else// horizontal (W to E) wall hit
+	{
+		if (ray->step_y < 0) // moved up, hit S facing wall (Y coordinates flipped)
+			ray->wall_face = SOUTH;
+		else
+			ray->wall_face = NORTH; //moved down , hit N facing wall (Y coordinates flipped)
+	}
+}
 
 static void	calc_wall_dist(t_data *data, t_ray *ray)
 {
@@ -54,8 +72,10 @@ void	cast_rays(t_data *data)
 	{
 		init_ray(data, &ray, i);
 		cast_ray(data, &ray);
+		check_face(&ray);
 		calc_wall_dist(data, &ray);
 		calc_line_height(&ray);
+		//check_wall_x(data, &ray);
 		//draw_ray(data, &ray, data->img);
 		draw_wall_line(data, &ray);
 		i++;
