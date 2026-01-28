@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 13:05:18 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/28 15:06:06 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/28 15:40:12 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	fill_background(t_data *data)
 		while (y < HEIGHT)
 		{
 			if (y < (HEIGHT / 2))
-				mlx_put_pixel(data->img, x, y, data->c_color);
+				mlx_put_pixel(data->img, x, y, C_COLOR);
 			else
-				mlx_put_pixel(data->img, x, y, data->f_color);
+				mlx_put_pixel(data->img, x, y, F_COLOR);
 			y++;
 		}
 		x++;

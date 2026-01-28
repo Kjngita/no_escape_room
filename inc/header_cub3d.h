@@ -21,10 +21,12 @@
 #define MAP_WIDTH 10
 #define	RAY_COUNT 1000
 #define	HUGE_DELTA 1e30
-#define W_COLOR 0xCC0058FF
-#define E_COLOR 0xFF99C5FF
-#define N_COLOR 0xFF70AEFF
-#define S_COLOR 0xFF70AEFF
+#define C_COLOR 0x90DBF4FF
+#define F_COLOR 0xB9FBC0FF
+#define W_COLOR 0xFBF8CCFF
+#define E_COLOR 0xCFBAF0FF
+#define N_COLOR 0xFDE4CFFF
+#define S_COLOR 0xF1C0E8FF
 
 typedef struct s_data
 {
@@ -37,8 +39,6 @@ typedef struct s_data
 	double			plane_x; //x offset of right edge of view plane, from dir_x
 	double			plane_y; //y offset of right edge of view plane, from dir_y
 	int				map[10][10];
-	uint32_t		c_color;
-	uint32_t		f_color;
 }	t_data;
 
 /*

@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 13:50:35 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/28 15:05:58 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/28 15:40:30 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int main(void)
 	gamedata->pos_y = 5.0;
 	init_facing(gamedata, 'E');
 	init_map(gamedata);
-	init_colors(gamedata);
 
 	// 1. Initialize MLX (Width, Height, Title, Resizeable)
 	open_window(gamedata);

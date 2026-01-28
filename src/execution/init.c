@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:54:42 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/28 13:56:02 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/28 15:40:21 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,4 @@ void init_map(t_data *data)
 		}
 		y++;
 	}
-}
-
-void	init_colors(t_data *data)
-{
-	data->c_color = 0x800000FF;
-	data->f_color = 0x222021FF;
 }
