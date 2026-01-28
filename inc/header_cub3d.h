@@ -2,8 +2,8 @@
 # define HEADER_CUB3D_H
 
 # include "libft.h"
+# include "MLX42.h"
 # include <stdio.h>
-# include <unistd.h>
 # include <fcntl.h>
 
 typedef struct s_maplines
@@ -12,21 +12,39 @@ typedef struct s_maplines
 	struct s_maplines	*next;
 }	t_maplines;
 
-
 typedef struct s_map
 {
-	char		*NOtexture;
-	char		*SOtexture;
-	char		*WEtexture;
-	char		*EAtexture;
+	// char		*NOtexture;
+	// char		*SOtexture;
+	// char		*WEtexture;
+	// char		*EAtexture;
+	mlx_t		*game_window;
+	int			texture_set[4];
+	mlx_image_t	*NO_img;
+	mlx_image_t	*SO_img;
+	mlx_image_t	*WE_img;
+	mlx_image_t	*EA_img;
 	uint32_t	Fcolor;
 	uint32_t	Ccolor;
 	char		start_pos;
 	size_t		player_start_x;
 	size_t		player_start_y;
-	// t_maplines	*flatmap;
 	char		**dungeon;
 }	t_mapstuff;
+
+typedef struct s_data
+{
+	mlx_t			*window;
+	t_mapstuff		*map;
+	mlx_image_t 	*img;
+	double			pos_x; //exact player position, ex. 5.5
+	double			pos_y; //exact player position, ex. 5.5
+	double			dir_x; //x offset of point player is facing (x + y sum constant)
+	double			dir_y; //y offet of point player is facing (x + y sum constant)
+	double			plane_x; //x offset of right edge of view plane, from dir_x
+	double			plane_y; //y offset of right edge of view plane, from dir_y
+	int				map[10][10];
+}	t_data;
 
 enum	e_categorization
 {
@@ -51,13 +69,13 @@ int			map_content(t_mapstuff *map, char *map_name);
 int			extract_graphics_elements(t_mapstuff *map, int map_fd, char **hotline);
 int			what_kinda_line(t_mapstuff *map, char **line, char **hotline);
 
-int			line_has_info(t_mapstuff *map, char *line);
+int			line_has_info(t_data *data, char *line);
 int			categorize(char *text);
-int			compass(t_mapstuff *map, char *line, int direction);
-int			register_texture_NO(t_mapstuff *map, char *line);
-int			register_texture_SO(t_mapstuff *map, char *line);
-int			register_texture_WE(t_mapstuff *map, char *line);
-int			register_texture_EA(t_mapstuff *map, char *line);
+int			compass(t_data *data, char *line, int direction);
+int			register_texture_NO(t_data *data, char *line);
+int			register_texture_SO(t_data *data, char *line);
+int			register_texture_WE(t_data *data, char *line);
+int			register_texture_EA(t_data *data, char *line);
 
 int			line_is_empty(char *line);
 int			line_is_start_of_map(char *line);

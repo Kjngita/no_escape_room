@@ -73,7 +73,7 @@ int	line_is_start_of_map(char *line)
 	return (1);
 }
 
-int	line_has_info(t_mapstuff *map, char *line)
+int	line_has_info(t_data *data, char *line)
 {
 	char	**broken_down_line;
 	int		info;
@@ -84,9 +84,9 @@ int	line_has_info(t_mapstuff *map, char *line)
 	info = categorize(broken_down_line[0]); //printf("direction = %i\n", info);
 	broken_down_line = clear_2x_char_pointers(broken_down_line);
 	if (info == F || info == C)
-		return (paintbrush(map, line, info));
+		return (paintbrush(data, line, info));
 	else
-		return (compass(map, line, info));
+		return (compass(data, line, info));
 }
 	
 int	categorize(char *text)

@@ -19,11 +19,6 @@ int	paintbrush(t_mapstuff *map, char *line, int surface)
 		if (ceiling_color(map, line) == -1)
 			return (-1);
 	}
-	if (color_alr_set(map->Fcolor) && color_alr_set(map->Ccolor))
-	{
-		if (map->Fcolor == map->Ccolor)
-			return (errmsg_n_retval("Same color for floor & ceiling", -1));
-	}
 	return (0);
 }
 
