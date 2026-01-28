@@ -7,9 +7,12 @@ INCLUDES = -Iinc -I$(LIBFT_DIR) -I$(MLX_DIR)/include
 S_DIR = src
 PAR = parsing
 EXE = execution
-CFILES = $(S_DIR)/$(PAR)/map_validate.c \
-	$(S_DIR)/$(PAR)/map_graphics.c \
-	$(S_DIR)/$(PAR)/map_textures.c \
+CFILES = $(S_DIR)/$(PAR)/input_check.c \
+	$(S_DIR)/$(PAR)/input_sort.c \
+	$(S_DIR)/$(PAR)/texture_register.c \
+	$(S_DIR)/$(PAR)/color_register.c \
+	$(S_DIR)/$(PAR)/map_extraction.c \
+	$(S_DIR)/$(PAR)/cleanup.c \
 	$(S_DIR)/$(EXE)/placeholder.c
 
 O_DIR = objdir
@@ -37,8 +40,8 @@ $(NAME): $(OFILES)
 	@echo "└───────────────────────────┘"
 
 $(O_DIR):
-	mkdir -p $(O_DIR)/parsing
-	mkdir -p $(O_DIR)/execution
+	mkdir -p $(O_DIR)/$(PAR)
+	mkdir -p $(O_DIR)/$(EXE)
 
 $(O_DIR)/%.o: $(S_DIR)/%.c $(HEADER) | $(O_DIR)
 	cc $(FLAGS) $(INCLUDES) -c $< -o $@
