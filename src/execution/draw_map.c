@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 18:03:04 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/22 21:52:08 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:43:49 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int map[10][10] = {
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
 */
-
+//*UPDATE MAP DEPENDANCY!!!
 void draw_map(t_data *data)
 {
 	int			i;

@@ -88,7 +88,7 @@ int	line_has_info(t_mapstuff *map, char *line)
 	else
 		return (compass(map, line, info));
 }
-	
+
 int	categorize(char *text)
 { //printf("Categorize %s\n", text);
 	if (ft_strncmp(text, "NO", 3) == 0)
@@ -106,3 +106,4 @@ int	categorize(char *text)
 	else
 		return (-123);
 }
+

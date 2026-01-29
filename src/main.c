@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 13:50:35 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/28 15:40:30 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/29 17:52:41 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	open_window(t_data *data)
 {
+	// 1. Initialize MLX (Width, Height, Title, Resizeable)
 	data->window = mlx_init(WIDTH, HEIGHT, "Chaplin Moustache Hunting Club", true);
 	/*
 	if (!data->window)
@@ -54,37 +55,40 @@ void	game_loop(void *param)
 
 }
 
-int main(void)
+int	main(int argc, char **argv)
 {
-	t_data	*gamedata;
+	t_data	gamedata;
 
+	ft_bzero(&gamedata, sizeof(t_data));
 	// initializes pos to center of screen, facing north (up)
-	gamedata = ft_calloc(1, sizeof(t_data));
-	gamedata->pos_x = 5.0;
-	gamedata->pos_y = 5.0;
-	init_facing(gamedata, 'E');
-	init_map(gamedata);
+	//gamedata.pos_x = 5.0;
+	//gamedata.pos_y = 5.0;
+	/*	if (parse_input(&gamedata.map_data, argc, argv))
+		return(1); 
+	*/
+	parse_input(&gamedata.map_data, argc, argv);
+	init_facing(&gamedata, gamedata.map_data.start_pos);
+	init_map(&gamedata);
 
-	// 1. Initialize MLX (Width, Height, Title, Resizeable)
-	open_window(gamedata);
-	if (!gamedata->window)
+	open_window(&gamedata);
+	if (!gamedata.window)
 	{
 		// MLX42 has a built-in error string function
 		puts(mlx_strerror(mlx_errno));
 		return (EXIT_FAILURE);
 	}
-	gamedata->img = mlx_new_image(gamedata->window, WIDTH, HEIGHT);
-	mlx_image_to_window(gamedata->window, gamedata->img, 0, 0);
+	gamedata.img = mlx_new_image(gamedata.window, WIDTH, HEIGHT);
+	mlx_image_to_window(gamedata.window, gamedata.img, 0, 0);
 	// 2. Register the key hook
 	// We pass 'mlx' as the parameter so we can use it in the function
-	mlx_key_hook(gamedata->window, &key_hook, gamedata);
-	mlx_loop_hook(gamedata->window, &game_loop, gamedata);
+	mlx_key_hook(gamedata.window, &key_hook, &gamedata);
+	mlx_loop_hook(gamedata.window, &game_loop, &gamedata);
 	// 3. Start the application loop
 	printf("Window opened! Press ESC to close.\n");
-	mlx_loop(gamedata->window);
+	mlx_loop(gamedata.window);
 
 	// 4. Cleanup memory
-	mlx_terminate(gamedata->window);
+	mlx_terminate(gamedata.window);
 	return (EXIT_SUCCESS);
 }
 /*

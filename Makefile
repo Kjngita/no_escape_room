@@ -9,19 +9,19 @@ PAR = parsing
 EXE = execution
 
 CFILES = $(S_DIR)/main.c \
-  $(S_DIR)/$(PAR)/input_check.c \
+	$(S_DIR)/$(PAR)/input_check.c \
 	$(S_DIR)/$(PAR)/input_sort.c \
 	$(S_DIR)/$(PAR)/texture_register.c \
 	$(S_DIR)/$(PAR)/color_register.c \
 	$(S_DIR)/$(PAR)/map_extraction.c \
 	$(S_DIR)/$(PAR)/cleanup.c \
-  $(S_DIR)/$(EXE)/controls.c \
-  $(S_DIR)/$(EXE)/init.c \
-  $(S_DIR)/$(EXE)/draw_map.c \
-  $(S_DIR)/$(EXE)/init_ray.c \
-  $(S_DIR)/$(EXE)/draw_ray.c \
-  $(S_DIR)/$(EXE)/cast_rays.c \
-  $(S_DIR)/$(EXE)/render_walls.c
+	$(S_DIR)/$(EXE)/controls.c \
+	$(S_DIR)/$(EXE)/init.c \
+	$(S_DIR)/$(EXE)/draw_map.c \
+	$(S_DIR)/$(EXE)/init_ray.c \
+	$(S_DIR)/$(EXE)/draw_ray.c \
+	$(S_DIR)/$(EXE)/cast_rays.c \
+	$(S_DIR)/$(EXE)/render_walls.c
 
 O_DIR = objdir
 OFILES = $(CFILES:$(S_DIR)/%.c=$(O_DIR)/%.o)

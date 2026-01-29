@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:54:42 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/28 15:40:21 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:44:00 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	init_facing(t_data *data, unsigned char facing)
 		data->plane_y = 0.66;
 	}
 }
-
+//*UPDATE MAP DEPENDANCY!!!
 void init_map(t_data *data)
 {
 	int x;

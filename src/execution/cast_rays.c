@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 11:24:03 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/28 17:44:31 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:43:01 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	cast_ray(t_data *data, t_ray *ray)
 			ray->map_y += ray->step_y;
 			ray->side = 1; //hit horizontal (y) grid line
 		}
-		if (data->map[ray->map_y][ray->map_x] != 0)
+		if (data->map[ray->map_y][ray->map_x] != 0)//*UPDATE!!!
 			hit = 1;
 	}
 }

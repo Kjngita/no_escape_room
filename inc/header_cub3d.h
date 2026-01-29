@@ -29,6 +29,55 @@
 #define S_COLOR 0xF1C0E8FF
 #define COLOR_MISSING 0xFE019AFF
 
+enum	e_categorization
+{
+	NO,
+	SO,
+	WE,
+	EA,
+	F,
+	C
+};
+
+typedef struct s_maplines
+{
+	char				*mapline;
+	struct s_maplines	*next;
+}	t_maplines;
+
+typedef struct s_map
+{
+	char		*NOtexture;
+	char		*SOtexture;
+	char		*WEtexture;
+	char		*EAtexture;
+	uint32_t	Fcolor;
+	uint32_t	Ccolor;
+	char		start_pos; //Player start facing 
+	size_t		player_start_x;
+	size_t		player_start_y;
+	// t_maplines	*flatmap;
+	char		**dungeon;
+}	t_mapstuff;
+
+typedef struct s_data
+{
+	// ------------ MLX data
+	mlx_t			*window;
+	mlx_image_t 	*img;
+	// ------------ Player state 
+	double			pos_x; //exact player position, ex. 5.5
+	double			pos_y; //exact player position, ex. 5.5
+	double			dir_x; //x offset of point player is facing (x + y sum constant)
+	double			dir_y; //y offet of point player is facing (x + y sum constant)
+	double			plane_x; //x offset of right edge of view plane, from dir_x
+	double			plane_y; //y offset of right edge of view plane, from dir_y
+	int				map[10][10]; //! DELETE redundant test code!
+	// ------------ Parsed data
+	t_mapstuff		map_data;
+}	t_data;
+
+//used to explitly track which wall face a ray hits
 typedef enum e_face
 {
 	NORTH = 0,
@@ -36,23 +85,6 @@ typedef enum e_face
 	WEST = 2,
 	EAST = 3
 }	t_face;
-
-typedef struct s_data
-{
-	mlx_t			*window;
-	mlx_image_t 	*img;
-	double			pos_x; //exact player position, ex. 5.5
-	double			pos_y; //exact player position, ex. 5.5
-	double			dir_x; //x offset of point player is facing (x + y sum constant)
-	double			dir_y; //y offet of point player is facing (x + y sum constant)
-	double			plane_x; //x offset of right edge of view plane, from dir_x
-	double			plane_y; //y offset of right edge of view plane, from dir_y
-	int				map[10][10];
-}	t_data;
-
-/*
-
-*/
 
 //used by cast_rays to store variables
 typedef struct s_ray
@@ -98,39 +130,7 @@ typedef struct s_line
 	int		map_y;
 }	t_line;
 
-typedef struct s_maplines
-{
-	char				*mapline;
-	struct s_maplines	*next;
-}	t_maplines;
-
-
-typedef struct s_map
-{
-	char		*NOtexture;
-	char		*SOtexture;
-	char		*WEtexture;
-	char		*EAtexture;
-	uint32_t	Fcolor;
-	uint32_t	Ccolor;
-	char		start_pos;
-	size_t		player_start_x;
-	size_t		player_start_y;
-	// t_maplines	*flatmap;
-	char		**dungeon;
-}	t_mapstuff;
-
-enum	e_categorization
-{
-	NO,
-	SO,
-	WE,
-	EA,
-	F,
-	C
-};
-
-
+int			parse_input(t_mapstuff *map, int ac, char **av);
 void		free_n_nullify(char **useless);
 void		*clear_2x_char_pointers(char **trash);
 void		clear_maplines(t_maplines *map_chain);

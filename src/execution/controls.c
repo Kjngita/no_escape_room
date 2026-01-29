@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:07:45 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/28 12:20:34 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/29 15:43:40 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	rotate(t_data *data, int dir)
 	data->plane_x = data->plane_x * cos(ROT_SPEED * dir) - data->plane_y * sin(ROT_SPEED * dir);
 	data->plane_y = old_plane_x * sin(ROT_SPEED * dir) + data->plane_y * cos(ROT_SPEED * dir);
 }
-
+//*UPDATE MAP DEPENDANCY!!!
 void	move_forward(t_data *data)
 {
 	double	new_pos_x;
@@ -44,7 +44,7 @@ void	move_forward(t_data *data)
 	if (data->map[(int)data->pos_y][(int)new_pos_x] == 0)
 		data->pos_x = new_pos_x;
 }
-
+//*UPDATE MAP DEPENDANCY!!!
 void	move_backward(t_data *data)
 {
 	double	new_pos_x;

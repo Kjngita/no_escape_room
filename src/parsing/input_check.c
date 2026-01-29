@@ -10,27 +10,27 @@ static void print_map(t_mapstuff *map)
 		i++;
 	}
 }
+/*
+	*Renamed from main
+*/
 
-int	main(int ac, char **av)
+int	parse_input(t_mapstuff *map, int ac, char **av)
 {
-	t_mapstuff	map;
-
 	if (ac < 2)
 		return (errmsg_n_retval("No scene file provided", 1));
 	if (ac > 2)
 		return (errmsg_n_retval("Only 1 file at a time pls", 1));
 	if (check_map_extension(av[1]) == -1)
 		return (1);
-	ft_bzero(&map, sizeof(t_mapstuff));
-	map.Fcolor = bitshift_rgba(0, 0, 0, 0); //printf("F");color_alr_set(map.Fcolor);
-	map.Ccolor = bitshift_rgba(0, 0, 0, 0); //printf("C");color_alr_set(map.Ccolor);
-	if (map_content(&map, av[1]) == -1)
+	map->Fcolor = bitshift_rgba(0, 0, 0, 0); //printf("F");color_alr_set(map.Fcolor);
+	map->Ccolor = bitshift_rgba(0, 0, 0, 0); //printf("C");color_alr_set(map.Ccolor);
+	if (map_content(map, av[1]) == -1)
 	{
-		wipe_map(&map);
+		wipe_map(map);
 		return (1);
 	}
-	print_map(&map);
-	wipe_map(&map);
+	print_map(map);
+	wipe_map(map);
 	return (0);
 }
 
