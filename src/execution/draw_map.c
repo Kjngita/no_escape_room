@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 18:03:04 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/29 15:43:49 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/29 20:44:57 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void draw_map(t_data *data)
 		x = 0;
 		while (x < 10)
 		{
-			if (data->map[y][x] == 1)
+			if (data->map_data.dungeon[y][x] == '1')
 				color = 0xFFFFFFFF;
 			else
 				color = 0x000000FF;

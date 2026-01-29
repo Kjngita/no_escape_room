@@ -1,5 +1,0 @@
-/*	$(S_DIR)/$(PAR)/map_validate.c \
-	$(S_DIR)/$(PAR)/map_graphics.c \
-	$(S_DIR)/$(PAR)/map_textures.c \
-	$(S_DIR)/$(EXE)/placeholder.c
-*/

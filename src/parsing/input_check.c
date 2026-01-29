@@ -10,9 +10,8 @@ static void print_map(t_mapstuff *map)
 		i++;
 	}
 }
-/*
-	*Renamed from main
-*/
+
+//* UPDATE:renamed from main
 
 int	parse_input(t_mapstuff *map, int ac, char **av)
 {

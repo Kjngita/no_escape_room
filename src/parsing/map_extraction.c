@@ -29,6 +29,11 @@ int	extract_map(t_mapstuff *map, t_maplines *map_chain, int map_fd,
 		return (-1);
 	return (0);
 }
+/*
+	*UPDATE: Player start location is now set to '0' in the map array
+	*(data->map_data.dungeon) after facing and position data has been
+	*stored in the relevant variables by start_pos_setup
+*/
 
 int	map_line_acceptable(t_mapstuff *map, t_maplines *map_chain,
 	char *line, size_t line_no)
@@ -46,6 +51,7 @@ int	map_line_acceptable(t_mapstuff *map, t_maplines *map_chain,
 		{
 			if (start_pos_setup(map, line[i], i, line_no) == -1)
 				return (-1);
+			line[i] = '0';
 		}
 		i++;
 	}

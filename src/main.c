@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 13:50:35 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/29 17:52:41 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/29 21:03:59 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,12 @@ int	main(int argc, char **argv)
 	t_data	gamedata;
 
 	ft_bzero(&gamedata, sizeof(t_data));
-	// initializes pos to center of screen, facing north (up)
-	//gamedata.pos_x = 5.0;
-	//gamedata.pos_y = 5.0;
-	/*	if (parse_input(&gamedata.map_data, argc, argv))
+	/*	
+	if (parse_input(&gamedata.map_data, argc, argv))
 		return(1); 
 	*/
 	parse_input(&gamedata.map_data, argc, argv);
-	init_facing(&gamedata, gamedata.map_data.start_pos);
-	init_map(&gamedata);
-
+	init_player_start(&gamedata);
 	open_window(&gamedata);
 	if (!gamedata.window)
 	{
@@ -79,24 +75,11 @@ int	main(int argc, char **argv)
 	}
 	gamedata.img = mlx_new_image(gamedata.window, WIDTH, HEIGHT);
 	mlx_image_to_window(gamedata.window, gamedata.img, 0, 0);
-	// 2. Register the key hook
-	// We pass 'mlx' as the parameter so we can use it in the function
 	mlx_key_hook(gamedata.window, &key_hook, &gamedata);
 	mlx_loop_hook(gamedata.window, &game_loop, &gamedata);
-	// 3. Start the application loop
 	printf("Window opened! Press ESC to close.\n");
 	mlx_loop(gamedata.window);
 
-	// 4. Cleanup memory
 	mlx_terminate(gamedata.window);
 	return (EXIT_SUCCESS);
 }
-/*
-Facing direction cheat sheet:
-
-Start Direction	dir_x	dir_y	plane_x	plane_y
-North (N)		0		-1		0.66	0
-South (S)		0		1		-0.66	0
-West (W)		-1		0		0		-0.66
-East (E)		1		0		0		0.66
-*/

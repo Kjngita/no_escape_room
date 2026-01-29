@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:54:42 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/29 15:44:00 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/29 21:03:18 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,17 @@
 
 /*
 	All dir and plane values are initialized to 0 by default, and only changed
-	by init_facing when necessary.
+	by init_player_start when necessary.
+
+	*UPDATE: Now gets initial facing and start location x y coordinates
+	*from parsed data!
 */
 
-void	init_facing(t_data *data, unsigned char facing)
+void	init_player_start(t_data *data)
 {
+	char	facing;
+
+	facing = data->map_data.start_pos;
 	if (facing == 'N')
 	{
 		data->dir_y = -1;
@@ -39,34 +45,6 @@ void	init_facing(t_data *data, unsigned char facing)
 		data->dir_x = 1;
 		data->plane_y = 0.66;
 	}
-}
-//*UPDATE MAP DEPENDANCY!!!
-void init_map(t_data *data)
-{
-	int x;
-	int y;
-
-	int temp_map[10][10] = {
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 0, 1, 1, 0, 0, 1, 0, 0, 1},
-		{1, 0, 1, 0, 0, 0, 1, 0, 0, 1},
-		{1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
-		{1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
-		{1, 0, 1, 1, 1, 0, 1, 0, 0, 1},
-		{1, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-		{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-	};
-	y = 0;
-	while (y < 10)
-	{
-		x = 0;
-		while (x < 10)
-		{
-			data->map[y][x] = temp_map[y][x];
-			x++;
-		}
-		y++;
-	}
+	data->pos_x = (double)data->map_data.player_start_x + 0.5;
+	data->pos_y = (double)data->map_data.player_start_y + 0.5;
 }

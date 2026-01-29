@@ -72,7 +72,6 @@ typedef struct s_data
 	double			dir_y; //y offet of point player is facing (x + y sum constant)
 	double			plane_x; //x offset of right edge of view plane, from dir_x
 	double			plane_y; //y offset of right edge of view plane, from dir_y
-	int				map[10][10]; //! DELETE redundant test code!
 	// ------------ Parsed data
 	t_mapstuff		map_data;
 }	t_data;
@@ -181,7 +180,7 @@ void	fill_background(t_data *data);
 void	calc_line_height(t_ray *ray);
 void	draw_wall_line(t_data *data, t_ray *ray);
 
-void	init_facing(t_data *data, unsigned char facing);
+void	init_player_start(t_data *data);
 void	init_map(t_data *data);
 void	init_colors(t_data *data);
 

@@ -6,11 +6,15 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 13:05:18 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/28 17:39:34 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/29 21:28:12 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header_cub3d.h"
+
+/*
+*UPDATE: now uses ceiling and floor colors parsed from map file
+*/
 
 void	fill_background(t_data *data)
 {
@@ -24,9 +28,9 @@ void	fill_background(t_data *data)
 		while (y < HEIGHT)
 		{
 			if (y < (HEIGHT / 2))
-				mlx_put_pixel(data->img, x, y, C_COLOR);
+				mlx_put_pixel(data->img, x, y, data->map_data.Ccolor);
 			else
-				mlx_put_pixel(data->img, x, y, F_COLOR);
+				mlx_put_pixel(data->img, x, y, data->map_data.Fcolor);
 			y++;
 		}
 		x++;
