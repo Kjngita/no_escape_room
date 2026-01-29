@@ -30,7 +30,7 @@ int	parse_input(t_mapstuff *map, int ac, char **av)
 		return (1);
 	}
 	print_map(map);
-	wipe_map(map);
+	//wipe_map(map);
 	return (0);
 }
 
