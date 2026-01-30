@@ -10,19 +10,14 @@
 # include <math.h>
 # include <string.h>
 
+// Default screen dimensions
 #define WIDTH 1920
 #define HEIGHT 1080
 #define MOVE_SPEED 0.06
 #define ROT_SPEED 0.02
-#define SCALE 100
-#define TILE_SIZE 64  // Pixels per map square
-#define LINE_LEN 50   // How long the red line looks
-#define MAP_HEIGHT 10
-#define MAP_WIDTH 10
-#define	RAY_COUNT 1000
+#define TILE_SIZE 64  // Used by minimap test build
 #define	HUGE_DELTA 1e30
-#define C_COLOR 0x90DBF4FF
-#define F_COLOR 0xB9FBC0FF
+//	Wall colors used for solid color rendering
 #define W_COLOR 0xFBF8CCFF
 #define E_COLOR 0xCFBAF0FF
 #define N_COLOR 0xFDE4CFFF
@@ -56,7 +51,6 @@ typedef struct s_map
 	char		start_pos; //Player start facing 
 	size_t		player_start_x;
 	size_t		player_start_y;
-	// t_maplines	*flatmap;
 	char		**dungeon;
 }	t_mapstuff;
 
