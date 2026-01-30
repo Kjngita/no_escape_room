@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:07:45 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/29 20:44:39 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/30 10:18:06 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,29 @@ void	move_backward(t_data *data)
 	if (data->map_data.dungeon[(int)data->pos_y][(int)new_pos_x] == '0')
 		data->pos_x = new_pos_x;
 }
-/*
+
 void	move_left(t_data *data)
 {
+	double new_pos_x;
+	double new_pos_y;
 	
+	new_pos_x = data->pos_x - data->plane_x * MOVE_SPEED;
+	new_pos_y = data->pos_y - data->plane_y * MOVE_SPEED;
+	if (data->map_data.dungeon[(int)new_pos_y][(int)data->pos_x] == '0')
+		data->pos_y = new_pos_y;
+	if (data->map_data.dungeon[(int)data->pos_y][(int)new_pos_x] == '0')
+		data->pos_x = new_pos_x;
 }
 
 void	move_right(t_data *data)
 {
+	double new_pos_x;
+	double new_pos_y;
 	
+	new_pos_x = data->pos_x + data->plane_x * MOVE_SPEED;
+	new_pos_y = data->pos_y + data->plane_y * MOVE_SPEED;
+	if (data->map_data.dungeon[(int)new_pos_y][(int)data->pos_x] == '0')
+		data->pos_y = new_pos_y;
+	if (data->map_data.dungeon[(int)data->pos_y][(int)new_pos_x] == '0')
+		data->pos_x = new_pos_x;
 }
-*/

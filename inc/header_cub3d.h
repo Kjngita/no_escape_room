@@ -189,5 +189,7 @@ void	draw_map(t_data *data);
 void	rotate(t_data *data, int dir);
 void	move_forward(t_data *data);
 void	move_backward(t_data *data);
+void	move_left(t_data *data);
+void	move_right(t_data *data);
 
 #endif

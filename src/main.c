@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 13:50:35 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/29 21:03:59 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/30 10:23:02 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,17 @@ void	game_loop(void *param)
 		rotate(data, -1);
 	if (mlx_is_key_down(data->window, MLX_KEY_RIGHT))
 		rotate(data, 1);
-	if (mlx_is_key_down(data->window, MLX_KEY_UP))
+	if (mlx_is_key_down(data->window, MLX_KEY_W))
 		move_forward(data);
-	if (mlx_is_key_down(data->window, MLX_KEY_DOWN))
+	if (mlx_is_key_down(data->window, MLX_KEY_S))
 		move_backward(data);
+	if (mlx_is_key_down(data->window, MLX_KEY_A))
+		move_left(data);
+	if (mlx_is_key_down(data->window, MLX_KEY_D))
+		move_right(data);
 	fill_background(data);
-	//draw_compass(data);
 	//draw_map(data);
 	cast_rays(data);
-
 }
 
 int	main(int argc, char **argv)
