@@ -4,14 +4,14 @@ void	wipe_map(t_mapstuff *map)
 {
 	if (!map)
 		return ;
-	if (map->NOtexture)
-		free_n_nullify(&map->NOtexture);
-	if (map->SOtexture)
-		free_n_nullify(&map->SOtexture);
-	if (map->WEtexture)
-		free_n_nullify(&map->WEtexture);
-	if (map->EAtexture)
-		free_n_nullify(&map->EAtexture);
+	if (map->NO_texture)
+		mlx_delete_texture(map->NO_texture);
+	if (map->SO_texture)
+		mlx_delete_texture(map->SO_texture);
+	if (map->WE_texture)
+		mlx_delete_texture(map->WE_texture);
+	if (map->EA_texture)
+		mlx_delete_texture(map->EA_texture);
 	if (map->dungeon)
 		map->dungeon = clear_2x_char_pointers(map->dungeon);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: gita <gita@student.hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 13:50:35 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/30 14:03:45 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/30 16:48:54 by gita             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ int	main(int argc, char **argv)
 	if (parse_input(&gamedata.map_data, argc, argv))
 		return(1); 
 	*/
-	parse_input(&gamedata.map_data, argc, argv);
+	if (parse_input(&gamedata.map_data, argc, argv))
+		return (EXIT_FAILURE);
 	init_player_start(&gamedata);
 	open_window(&gamedata);
 	if (!gamedata.window)

@@ -5,7 +5,6 @@
 # include "MLX42/MLX42.h"
 # include <stdio.h>
 # include <fcntl.h>
-# include <stdlib.h>
 # include <math.h>
 # include <string.h>
 
@@ -20,27 +19,25 @@
 #define MAP_WIDTH 10
 #define	RAY_COUNT 1000
 #define	HUGE_DELTA 1e30
-#define C_COLOR 0x90DBF4FF
-#define F_COLOR 0xB9FBC0FF
 #define W_COLOR 0xFBF8CCFF
 #define E_COLOR 0xCFBAF0FF
 #define N_COLOR 0xFDE4CFFF
 #define S_COLOR 0xF1C0E8FF
 #define COLOR_MISSING 0xFE019AFF
 
-typedef struct s_data
-{
-	mlx_t			*window;
-	t_mapstuff		*map;
-	mlx_image_t 	*img;
-	double			pos_x; //exact player position, ex. 5.5
-	double			pos_y; //exact player position, ex. 5.5
-	double			dir_x; //x offset of point player is facing (x + y sum constant)
-	double			dir_y; //y offet of point player is facing (x + y sum constant)
-	double			plane_x; //x offset of right edge of view plane, from dir_x
-	double			plane_y; //y offset of right edge of view plane, from dir_y
-	int				map[10][10];
-}	t_data;
+// typedef struct s_data
+// {
+// 	mlx_t			*window;
+// 	t_mapstuff		*map;
+// 	mlx_image_t 	*img;
+// 	double			pos_x; //exact player position, ex. 5.5
+// 	double			pos_y; //exact player position, ex. 5.5
+// 	double			dir_x; //x offset of point player is facing (x + y sum constant)
+// 	double			dir_y; //y offet of point player is facing (x + y sum constant)
+// 	double			plane_x; //x offset of right edge of view plane, from dir_x
+// 	double			plane_y; //y offset of right edge of view plane, from dir_y
+// 	int				map[10][10];
+// }	t_data;
 
 enum	e_categorization
 {
@@ -60,17 +57,17 @@ typedef struct s_maplines
 
 typedef struct s_map
 {
-	char		*NOtexture;
-	char		*SOtexture;
-	char		*WEtexture;
-	char		*EAtexture;
-	uint32_t	Fcolor;
-	uint32_t	Ccolor;
-	char		start_pos; //Player start facing 
-	size_t		player_start_x;
-	size_t		player_start_y;
-	// t_maplines	*flatmap;
-	char		**dungeon;
+	// int				texture_set[4];
+	mlx_texture_t	*NO_texture;
+	mlx_texture_t	*SO_texture;
+	mlx_texture_t	*WE_texture;
+	mlx_texture_t	*EA_texture;
+	uint32_t		Fcolor;
+	uint32_t		Ccolor;
+	char			start_pos; //Player start facing 
+	size_t			player_start_x;
+	size_t			player_start_y;
+	char			**dungeon;
 }	t_mapstuff;
 
 typedef struct s_data
@@ -155,13 +152,14 @@ int			map_content(t_mapstuff *map, char *map_name);
 int			extract_graphics_elements(t_mapstuff *map, int map_fd, char **hotline);
 int			what_kinda_line(t_mapstuff *map, char **line, char **hotline);
 
-int			line_has_info(t_data *data, char *line);
+int			line_has_info(t_mapstuff *map, char *line);
 int			categorize(char *text);
-int			compass(t_data *data, char *line, int direction);
-int			register_texture_NO(t_data *data, char *line);
-int			register_texture_SO(t_data *data, char *line);
-int			register_texture_WE(t_data *data, char *line);
-int			register_texture_EA(t_data *data, char *line);
+int			compass(t_mapstuff *map, char *line, int direction);
+int			file_is_png(char *path);
+int			register_texture_NO(t_mapstuff *map, char *line);
+int			register_texture_SO(t_mapstuff *map, char *line);
+int			register_texture_WE(t_mapstuff *map, char *line);
+int			register_texture_EA(t_mapstuff *map, char *line);
 
 int			line_is_empty(char *line);
 int			line_is_start_of_map(char *line);
