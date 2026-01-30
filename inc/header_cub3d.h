@@ -2,31 +2,32 @@
 # define HEADER_CUB3D_H
 
 # include "libft.h"
+# include "MLX42/MLX42.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <stdlib.h>
+# include <math.h>
+# include <string.h>
 
-typedef struct s_maplines
-{
-	char				*mapline;
-	struct s_maplines	*next;
-}	t_maplines;
-
-
-typedef struct s_map
-{
-	char		*NOtexture;
-	char		*SOtexture;
-	char		*WEtexture;
-	char		*EAtexture;
-	uint32_t	Fcolor;
-	uint32_t	Ccolor;
-	char		start_pos;
-	size_t		player_start_x;
-	size_t		player_start_y;
-	// t_maplines	*flatmap;
-	char		**dungeon;
-}	t_mapstuff;
+#define WIDTH 1920
+#define HEIGHT 1080
+#define MOVE_SPEED 0.06
+#define ROT_SPEED 0.02
+#define SCALE 100
+#define TILE_SIZE 64  // Pixels per map square
+#define LINE_LEN 50   // How long the red line looks
+#define MAP_HEIGHT 10
+#define MAP_WIDTH 10
+#define	RAY_COUNT 1000
+#define	HUGE_DELTA 1e30
+#define C_COLOR 0x90DBF4FF
+#define F_COLOR 0xB9FBC0FF
+#define W_COLOR 0xFBF8CCFF
+#define E_COLOR 0xCFBAF0FF
+#define N_COLOR 0xFDE4CFFF
+#define S_COLOR 0xF1C0E8FF
+#define COLOR_MISSING 0xFE019AFF
 
 enum	e_categorization
 {
@@ -38,7 +39,97 @@ enum	e_categorization
 	C
 };
 
+typedef struct s_maplines
+{
+	char				*mapline;
+	struct s_maplines	*next;
+}	t_maplines;
 
+typedef struct s_map
+{
+	char		*NOtexture;
+	char		*SOtexture;
+	char		*WEtexture;
+	char		*EAtexture;
+	uint32_t	Fcolor;
+	uint32_t	Ccolor;
+	char		start_pos; //Player start facing 
+	size_t		player_start_x;
+	size_t		player_start_y;
+	// t_maplines	*flatmap;
+	char		**dungeon;
+}	t_mapstuff;
+
+typedef struct s_data
+{
+	// ------------ MLX data
+	mlx_t			*window;
+	mlx_image_t 	*img;
+	// ------------ Player state 
+	double			pos_x; //exact player position, ex. 5.5
+	double			pos_y; //exact player position, ex. 5.5
+	double			dir_x; //x offset of point player is facing (x + y sum remains constant when rotating view)
+	double			dir_y; //y offet of point player is facing (x + y sum remains constant when rotating view)
+	double			plane_x; //x offset of right edge of view plane, from dir_x
+	double			plane_y; //y offset of right edge of view plane, from dir_y
+	// ------------ Parsed data
+	t_mapstuff		map_data;
+}	t_data;
+
+//used to explitly track which wall face a ray hits
+typedef enum e_face
+{
+	NORTH = 0,
+	SOUTH = 1,
+	WEST = 2,
+	EAST = 3
+}	t_face;
+
+//used by cast_rays to store variables
+typedef struct s_ray
+{
+	// RAY DIRECTION
+	double	camera_x; // ray position along camera plane, between -1 and 1
+	double	ray_dir_x; //if camera_x = 0, equal to dir_x
+	double	ray_dir_y; //if camera_x = 0, equal to dir_y
+
+	// WALL DETECTION & DISTANCE CALCULATION
+	int		map_x; //current map square
+	int		map_y; //current map square
+	double	step_x; //direction to advance ray: -1 (left) or 1 (right)
+	double	step_y; //direction to advance ray: -1 (up) or 1 (down)
+	double	delta_x; //delta x: diagonal distance to travel between VERTICAL grid lines
+	double	delta_y; //delta y: diagonal distance to travel between HORIZONTAL grid lines
+	double	side_dist_x; //distance to next x grid line from origin (increments by delta_x)
+	double	side_dist_y; //distance to next y grid line from origin (increment by delta_y)
+	double	wall_dist; //diagonal distance from player to wall
+	int		side; // 0: vertical (N TO S) wall hit, 1 if horizontal (W to E)
+	t_face	wall_face; //which wall face the ray hit
+
+	// RENDERING
+	double	wall_x; //exact hit location on wall, range 0.0 - 1.0
+	int	texture_x; //pixel column that wall_x corresponds to, range 0 - texture width
+	int	screen_x; //screen pixel column to draw
+	int	line_height; //how high to draw the wall column
+	int	line_top; //screen y pixel to start drawing from
+	int	line_bottom; //screen y pixel to stop drawing at
+
+}	t_ray;
+
+//used by draw_line to store variables
+typedef struct s_line
+{
+	int	dx; //delta x: total horizontal distance from start to end
+	int	dy; //delta y: total vertical distance from start to end
+	int	sx; //step x: horizontal direction, either 1 (right) or -1 (left)
+	int	sy; //step y: vertical direction, either 1 (up) or -1 (down)
+	int	err; //tracks drift from perfect mathematical line
+	int	e2; //err * 2 for calculation efficiency
+	int		map_x;
+	int		map_y;
+}	t_line;
+
+int			parse_input(t_mapstuff *map, int ac, char **av);
 void		free_n_nullify(char **useless);
 void		*clear_2x_char_pointers(char **trash);
 void		clear_maplines(t_maplines *map_chain);
@@ -80,5 +171,25 @@ int			add_to_flatmap(t_maplines *map_chain, char **line_to_add, size_t line_no);
 int			map_valid(t_mapstuff *map, t_maplines *map_chain, size_t map_height);
 int			copy_linkedlist_to_2xpointers(t_maplines *map_chain, char **dest);
 void		flood_fill(char **testmap, size_t x_coord, size_t y_coord, int *hole);
+
+void	draw_ray(t_data *data, t_ray *ray, mlx_image_t *img);
+void	cast_rays(t_data *data);
+void	init_ray(t_data *data, t_ray *ray, int x);
+
+void	fill_background(t_data *data);
+void	calc_line_height(t_data *data, t_ray *ray);
+void	draw_wall_line(t_data *data, t_ray *ray);
+
+void	init_player_start(t_data *data);
+void	init_map(t_data *data);
+void	init_colors(t_data *data);
+
+void	draw_map(t_data *data);
+
+void	rotate(t_data *data, int dir);
+void	move_forward(t_data *data);
+void	move_backward(t_data *data);
+void	move_left(t_data *data);
+void	move_right(t_data *data);
 
 #endif
