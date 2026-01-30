@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 13:05:18 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/29 21:28:12 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/30 11:24:30 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@
 
 void	fill_background(t_data *data)
 {
-	int	x;
-	int	y;
+	uint32_t	x;
+	uint32_t	y;
 
 	x = 0;
-	while (x < WIDTH)
+	while (x < data->img->width)
 	{
 		y = 0;
-		while (y < HEIGHT)
+		while (y < data->img->height)
 		{
-			if (y < (HEIGHT / 2))
+			if (y < (data->img->height / 2))
 				mlx_put_pixel(data->img, x, y, data->map_data.Ccolor);
 			else
 				mlx_put_pixel(data->img, x, y, data->map_data.Fcolor);
@@ -37,18 +37,20 @@ void	fill_background(t_data *data)
 	}
 }
 
-void	calc_line_height(t_ray *ray)
+void	calc_line_height(t_data *data, t_ray *ray)
 {
-	int center;
+	int screen_height;
+	int screen_center;
 
-	center = HEIGHT / 2;
-	ray->line_height = (int)(HEIGHT / ray->wall_dist);
-	ray->line_top = center - (ray->line_height / 2);
-	ray->line_bottom = center + (ray->line_height / 2);
+	screen_height = (int)data->img->height;
+	screen_center = screen_height / 2;
+	ray->line_height = (int)(screen_height / ray->wall_dist);
+	ray->line_top = screen_center - (ray->line_height / 2);
+	ray->line_bottom = screen_center + (ray->line_height / 2);
 	if (ray->line_top < 0)
 		ray->line_top = 0;
-	if (ray->line_bottom >= HEIGHT)
-		ray->line_bottom = HEIGHT - 1;
+	if (ray->line_bottom >= screen_height)
+		ray->line_bottom = screen_height - 1;
 }
 
 uint32_t	get_color(t_ray *ray)

@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 11:24:03 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/29 21:32:08 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/30 11:18:36 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,13 @@ void	cast_rays(t_data *data)
 	int		i;
 	
 	i = 0;
-	while (i < WIDTH)
+	while (i < (int)data->img->width)
 	{
 		init_ray(data, &ray, i);
 		cast_ray(data, &ray);
 		check_face(&ray);
 		calc_wall_dist(data, &ray);
-		calc_line_height(&ray);
+		calc_line_height(data, &ray);
 		//check_wall_x(data, &ray);
 		//draw_ray(data, &ray, data->img);
 		draw_wall_line(data, &ray);

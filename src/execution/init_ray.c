@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 21:26:38 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/28 14:24:39 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/30 11:10:04 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ Initializes variable values of a new ray
 
 void	init_ray(t_data *data, t_ray *ray, int x)
 {
-	ray->camera_x = 2.0 * x / WIDTH - 1;
+	ray->camera_x = 2.0 * x / (double)data->img->width - 1;
 	ray->ray_dir_x = data->dir_x + (data->plane_x * ray->camera_x);
 	ray->ray_dir_y = data->dir_y + (data->plane_y * ray->camera_x);
 	ray->map_x = (int)data->pos_x;
