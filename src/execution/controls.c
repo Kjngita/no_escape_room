@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:07:45 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/30 10:18:06 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/30 11:59:44 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,11 @@ void	move_backward(t_data *data)
 		data->pos_x = new_pos_x;
 }
 
+/*
+Uses plane_x and plane_y as direction to offset player position, because
+the offset angle is perpendicular to view direction
+*/
+
 void	move_left(t_data *data)
 {
 	double new_pos_x;
@@ -70,6 +75,11 @@ void	move_left(t_data *data)
 	if (data->map_data.dungeon[(int)data->pos_y][(int)new_pos_x] == '0')
 		data->pos_x = new_pos_x;
 }
+
+/*
+Uses plane_x and plane_y as direction to offset player position, because
+the offset angle is perpendicular to view direction
+*/
 
 void	move_right(t_data *data)
 {

@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 11:24:03 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/30 11:18:36 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/30 11:56:58 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,10 @@ static void	cast_ray(t_data *data, t_ray *ray)
 			hit = 1;
 	}
 }
+/*
+*UPDATE: now supports window resizing, by fetching screen width
+*from mlx img data.
+*/
 
 void	cast_rays(t_data *data)
 {

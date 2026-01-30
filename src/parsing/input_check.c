@@ -47,6 +47,15 @@ int	check_map_extension(char *map_name)
 	return (0);
 }
 
+/*
+*	UPDATES:
+*	1.	Added cleanup if extract_graphics_elements fails
+*	2.	Packed clear_maplines and close function calls into
+*		return statements to save lines
+*	3.	Moved map_chain allocation to after fd opening and
+*		and added fd close on ft_calloc failure
+*/
+
 int	map_content(t_mapstuff *map, char *map_name)
 {
 	int			map_fd;
@@ -54,26 +63,20 @@ int	map_content(t_mapstuff *map, char *map_name)
 	t_maplines	*map_chain;
 
 	hotline = NULL;
-	map_chain = ft_calloc(1, sizeof(t_maplines));
-	if (!map_chain)
-		return (errmsg_n_retval("ft_calloc failed init mapchain", -1));
 	map_fd = open(map_name, O_RDONLY);
 	if (map_fd < 0)
 		return (errmsg_n_retval("Cannot open file", -1));
+	map_chain = ft_calloc(1, sizeof(t_maplines));
+	if (!map_chain)
+	{
+		close(map_fd);
+		return (errmsg_n_retval("ft_calloc failed init mapchain", -1));
+	}
 	if (extract_graphics_elements(map, map_fd, &hotline) == -1)
-	{
-		close (map_fd);
-		return (-1);
-	}
+		return (clear_maplines(map_chain), close(map_fd), -1);
 	if (extract_map(map, map_chain, map_fd, &hotline) == -1)
-	{
-		clear_maplines(map_chain);
-		close (map_fd);
-		return (-1);
-	}
-	close (map_fd);
-	clear_maplines(map_chain);
-	return (0);
+		return (clear_maplines(map_chain), close(map_fd), -1);
+	return (close(map_fd), clear_maplines(map_chain), 0);
 }
 
 int	strlen_no_nl(char *line)

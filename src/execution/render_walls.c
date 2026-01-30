@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 13:05:18 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/30 11:24:30 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/30 11:56:25 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 /*
 *UPDATE: now uses ceiling and floor colors parsed from map file
+*UPDATE: now supports window resizing, by fetching screen height
+*from mlx img data.
 */
 
 void	fill_background(t_data *data)
@@ -37,6 +39,11 @@ void	fill_background(t_data *data)
 	}
 }
 
+/*
+*UPDATE: now supports window resizing, by fetching screen height
+*from mlx img data.
+*/
+
 void	calc_line_height(t_data *data, t_ray *ray)
 {
 	int screen_height;
@@ -52,6 +59,14 @@ void	calc_line_height(t_data *data, t_ray *ray)
 	if (ray->line_bottom >= screen_height)
 		ray->line_bottom = screen_height - 1;
 }
+
+/*
+	Test build function. Returns the draw color corresponding to
+	each wall face, used for solid color rendering.
+	
+	!	Repurpose this function to fetch correct texture instead
+	!	of color when implementing texture rendering?
+*/
 
 uint32_t	get_color(t_ray *ray)
 {

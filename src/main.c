@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 13:50:35 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/30 11:07:53 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:03:45 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ int	main(int argc, char **argv)
 	mlx_loop(gamedata.window);
 
 	mlx_terminate(gamedata.window);
+	wipe_map(&gamedata.map_data);
 	return (EXIT_SUCCESS);
 }

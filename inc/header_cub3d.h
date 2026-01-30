@@ -68,8 +68,8 @@ typedef struct s_data
 	// ------------ Player state 
 	double			pos_x; //exact player position, ex. 5.5
 	double			pos_y; //exact player position, ex. 5.5
-	double			dir_x; //x offset of point player is facing (x + y sum constant)
-	double			dir_y; //y offet of point player is facing (x + y sum constant)
+	double			dir_x; //x offset of point player is facing (x + y sum remains constant when rotating view)
+	double			dir_y; //y offet of point player is facing (x + y sum remains constant when rotating view)
 	double			plane_x; //x offset of right edge of view plane, from dir_x
 	double			plane_y; //y offset of right edge of view plane, from dir_y
 	// ------------ Parsed data
