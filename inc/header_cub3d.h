@@ -168,6 +168,7 @@ void	init_ray(t_data *data, t_ray *ray, int x);
 
 void	fill_background(t_data *data);
 void	calc_line_height(t_data *data, t_ray *ray);
+void	find_wall_x(t_data *data, t_ray *ray);
 void	draw_wall_line(t_data *data, t_ray *ray);
 
 void	init_player_start(t_data *data);
