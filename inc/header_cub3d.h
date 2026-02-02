@@ -23,20 +23,6 @@
 #define S_COLOR 0xF1C0E8FF
 #define COLOR_MISSING 0xFE019AFF
 
-// typedef struct s_data
-// {
-// 	mlx_t			*window;
-// 	t_mapstuff		*map;
-// 	mlx_image_t 	*img;
-// 	double			pos_x; //exact player position, ex. 5.5
-// 	double			pos_y; //exact player position, ex. 5.5
-// 	double			dir_x; //x offset of point player is facing (x + y sum constant)
-// 	double			dir_y; //y offet of point player is facing (x + y sum constant)
-// 	double			plane_x; //x offset of right edge of view plane, from dir_x
-// 	double			plane_y; //y offset of right edge of view plane, from dir_y
-// 	int				map[10][10];
-// }	t_data;
-
 enum	e_categorization
 {
 	NO,
