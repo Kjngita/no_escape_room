@@ -1,10 +1,11 @@
-NO ./textures/texture.png
-SO ./textures/texture.png
-WE ./textures/texture.png
+NO /home/gita/Github/2:very_notshort/textures/floor.png
+SO /home/gita/Github/2:very_notshort/textures/wall.png
+WE /home/gita/Github/2:very_notshort/textures/player.png
+EA /home/gita/Github/2:very_notshort/textures/exit.png
 
 
 F 220,100,0
-C 225,30,0
+C 123      , 159,68
 
         1111111111111111111111111
         1000000000110000000000001

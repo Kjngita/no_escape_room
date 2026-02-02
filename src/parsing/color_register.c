@@ -11,12 +11,12 @@ int	paintbrush(t_mapstuff *map, char *line, int surface)
 		return (-1);
 	if (surface == F)
 	{
-		if (floor_color(map, line) == -1)
+		if (set_color(&map->Fcolor, line) == -1)
 			return (-1);
 	}
 	else if (surface == C)
 	{
-		if (ceiling_color(map, line) == -1)
+		if (set_color(&map->Ccolor, line) == -1)
 			return (-1);
 	}
 	return (0);
@@ -32,10 +32,7 @@ int	color_line_check(char *line)
 	while (line[i])
 	{
 		if (ft_strchr("FC, ", line[i]) == NULL && !ft_isdigit(line[i]))
-		{
-			printf("\n%c\n", line[i]);
 			return (errmsg_n_retval("Color line: Foreign character", -1));
-		}
 		if (line[i] == ',')
 			comma++;
 		i++;
@@ -62,52 +59,28 @@ int	color_alr_set(uint32_t color)
 	return (1);
 }
 
-int	floor_color(t_mapstuff *map, char *line)
+int	set_color(uint32_t *surface_color, char *line)
 {
 	char	**splitted;
 	int		r;
 	int		g;
 	int		b;
 
-	if (color_alr_set(map->Fcolor))
-		return (errmsg_n_retval("Duplicate floor color", -1));
+	if (color_alr_set(*surface_color))
+		return (errmsg_n_retval("Duplicate color registration", -1));
 	splitted = ft_split(line, " ,");
 	if (!splitted)
-		return (errmsg_n_retval("ft_split failed Fcolor", -1));
+		return (errmsg_n_retval("ft_split failed setting color", -1));
 	if (!splitted[1] || !splitted[2] || !splitted[3] || splitted[4] != NULL)
-		return (errmsg_n_retval("Smt fishy ft_split Fcolor", -1));
+		return (errmsg_n_retval("Smt fishy ft_split setting color", -1));
 	r = cub3d_atoi(splitted[1]);
 	g = cub3d_atoi(splitted[2]);
 	b = cub3d_atoi(splitted[3]);
 	splitted = clear_2x_char_pointers(splitted);
 	if (r < 0 || g < 0 || b < 0)
-		return (errmsg_n_retval("Invalid input for floor color", -1));
-	map->Fcolor = bitshift_rgba((uint8_t)r, (uint8_t)g, (uint8_t)b, 255);
-	return (0);	
-}
-
-int	ceiling_color(t_mapstuff *map, char *line)
-{
-	char	**splitted;
-	int		r;
-	int		g;
-	int		b;
-
-	if (color_alr_set(map->Ccolor))
-		return (errmsg_n_retval("Duplicate ceiling color", -1));
-	splitted = ft_split(line, " ,");
-	if (!splitted)
-		return (errmsg_n_retval("ft_split failed Ccolor", -1));
-	if (!splitted[1] || !splitted[2] || !splitted[3] || splitted[4] != NULL)
-		return (errmsg_n_retval("Smt fishy ft_split Ccolor", -1));
-	r = cub3d_atoi(splitted[1]);
-	g = cub3d_atoi(splitted[2]);
-	b = cub3d_atoi(splitted[3]);
-	splitted = clear_2x_char_pointers(splitted);
-	if (r < 0 || g < 0 || b < 0)
-		return (errmsg_n_retval("Invalid input for ceiling color", -1));
-	map->Ccolor = bitshift_rgba((uint8_t)r, (uint8_t)g, (uint8_t)b, 255);
-	return (0);	
+		return (errmsg_n_retval("Invalid input for color", -1));
+	*surface_color = bitshift_rgba((uint8_t)r, (uint8_t)g, (uint8_t)b, 255);
+	return (0);
 }
 
 /*

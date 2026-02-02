@@ -1,7 +1,7 @@
 
 #include "header_cub3d.h"
 
-static void print_map(t_mapstuff *map)
+static void print_map(t_mapstuff *map) //DELETEEEEEEEE
 {
 	int i = 0;
 	while (map->dungeon[i])
@@ -28,7 +28,7 @@ int	parse_input(t_mapstuff *map, int ac, char **av)
 		wipe_map(map);
 		return (1);
 	}
-	print_map(map);
+	print_map(map); //DELETEEEEEEEEEEEEE
 	//wipe_map(map);
 	return (0);
 }

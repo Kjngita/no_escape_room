@@ -57,7 +57,6 @@ typedef struct s_maplines
 
 typedef struct s_map
 {
-	// int				texture_set[4];
 	mlx_texture_t	*NO_texture;
 	mlx_texture_t	*SO_texture;
 	mlx_texture_t	*WE_texture;
@@ -156,10 +155,7 @@ int			line_has_info(t_mapstuff *map, char *line);
 int			categorize(char *text);
 int			compass(t_mapstuff *map, char *line, int direction);
 int			file_is_png(char *path);
-int			register_texture_NO(t_mapstuff *map, char *line);
-int			register_texture_SO(t_mapstuff *map, char *line);
-int			register_texture_WE(t_mapstuff *map, char *line);
-int			register_texture_EA(t_mapstuff *map, char *line);
+int			register_texture(mlx_texture_t **wall_texture, char *path);
 
 int			line_is_empty(char *line);
 int			line_is_start_of_map(char *line);
@@ -170,8 +166,7 @@ int			paintbrush(t_mapstuff *map, char *line, int surface);
 int			color_line_check(char *line);
 int			color_alr_set(uint32_t color);
 int			cub3d_atoi(char *str);
-int			floor_color(t_mapstuff *map, char *line);
-int			ceiling_color(t_mapstuff *map, char *line);
+int			set_color(uint32_t *surface_color, char *line);
 
 int			extract_map(t_mapstuff *map, t_maplines *map_chain, int map_fd,
 			char **map_1stline);
