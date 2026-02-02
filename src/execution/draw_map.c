@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 18:03:04 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/02 18:31:18 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/02 21:43:53 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ void draw_map(t_data *data)
 		while (map[y][x] != '\0')
 		{
 			if (map[y][x] == '1')
-				color = 0xFFFFFFFF;
+				color = 0xFFFFFF80;
 			else if (map[y][x] == '0')
-				color = 0x000000FF;
+				color = 0x00000080;
 			else
 			{
 				x++;

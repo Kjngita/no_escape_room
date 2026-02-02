@@ -13,7 +13,7 @@
 #define HEIGHT 1080 // Default starting screen height
 #define MOVE_SPEED 0.06 // Move amount per frame
 #define ROT_SPEED 0.02 // Turn amount per frame
-#define	MOUSE_SENSITIVITY 0.08
+#define	MOUSE_SENSITIVITY 0.08 // Used by mouse_look to dampen rotation factor
 #define TILE_SIZE 64  // Used by minimap test build
 #define	HUGE_DELTA 1e30 // Functionally infinite delta, when dir_x or dir_y == 0
 
@@ -23,6 +23,13 @@
 #define N_COLOR 0xFDE4CFFF
 #define S_COLOR 0xF1C0E8FF
 #define COLOR_MISSING 0xFE019AFF
+
+/*
+NOTE: last two digits of a hexadecimal color code are the alpha channel
+100 % opacity = FF (255)
+50 % opacity = 80 or 7F (128)
+0 % opacity = 00 (0)
+*/
 
 enum	e_categorization
 {
