@@ -6,30 +6,18 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 18:03:04 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/29 20:44:57 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/30 17:20:24 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header_cub3d.h"
 
 /*
-placeholder test map
+! USED TO DRAW MINIMAP FIRST BUILD!
+! NOT FULLY INTEGRATED TO SUPPORT VARIABLY SIZED PARSED MAPS AND
+! NEEDS TO BE UPDATED BEFORE IT CAN BE USED TO DRAW FINAL MINIMAP!
 */
-/*
-int map[10][10] = {
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 1, 1, 0, 0, 1, 0, 0, 1},
-	{1, 0, 1, 0, 0, 0, 1, 0, 0, 1},
-	{1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 1, 0, 0, 0, 0, 1},
-	{1, 0, 1, 1, 1, 0, 1, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-};
-*/
-//*UPDATE MAP DEPENDANCY!!!
+
 void draw_map(t_data *data)
 {
 	int			i;

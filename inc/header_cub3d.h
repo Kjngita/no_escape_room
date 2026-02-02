@@ -8,17 +8,15 @@
 # include <math.h>
 # include <string.h>
 
-#define WIDTH 1920
-#define HEIGHT 1080
-#define MOVE_SPEED 0.06
-#define ROT_SPEED 0.02
-#define SCALE 100
-#define TILE_SIZE 64  // Pixels per map square
-#define LINE_LEN 50   // How long the red line looks
-#define MAP_HEIGHT 10
-#define MAP_WIDTH 10
-#define	RAY_COUNT 1000
-#define	HUGE_DELTA 1e30
+
+#define WIDTH 1920 // Default starting screen width
+#define HEIGHT 1080 // Default starting screen height
+#define MOVE_SPEED 0.06 // Move amount per frame
+#define ROT_SPEED 0.02 // Turn amount per frame
+#define TILE_SIZE 64  // Used by minimap test build
+#define	HUGE_DELTA 1e30 // Functionally infinite delta, when dir_x or dir_y == 0
+
+//	Wall colors used for solid color rendering
 #define W_COLOR 0xFBF8CCFF
 #define E_COLOR 0xCFBAF0FF
 #define N_COLOR 0xFDE4CFFF
@@ -72,8 +70,8 @@ typedef struct s_map
 typedef struct s_data
 {
 	// ------------ MLX data
-	mlx_t			*window;
-	mlx_image_t 	*img;
+	mlx_t			*window; // the "frame" where canvas is placed
+	mlx_image_t 	*img; // the "canvas" where pixels are drawn
 	// ------------ Player state 
 	double			pos_x; //exact player position, ex. 5.5
 	double			pos_y; //exact player position, ex. 5.5

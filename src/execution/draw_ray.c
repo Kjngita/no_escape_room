@@ -6,14 +6,16 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 11:22:08 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/28 11:26:02 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/01/30 17:22:35 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header_cub3d.h"
 
 /*
-Visualization test code: refactor if planning to use in final build!
+!	USED BY INITIAL RAY VISUALIZATION TEST, BUT CURRENTLY UNUSED!
+!	WILL NEED TO BE REBUILT IF WE IMPLEMENT VIEW CONE VISUALIZATION
+!	IN OUR MINIMAP VIEW
 */
 
 static void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1)
@@ -40,7 +42,9 @@ static void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1)
 }
 
 /*
-Visualization test code: refactor if planning to use in final build!
+!	USED BY INITIAL RAY VISUALIZATION TEST, BUT CURRENTLY UNUSED!
+!	WILL NEED TO BE REBUILT IF WE IMPLEMENT VIEW CONE VISUALIZATION
+!	IN OUR MINIMAP VIEW
 */
 
 void	draw_ray(t_data *data, t_ray *ray, mlx_image_t *img)
