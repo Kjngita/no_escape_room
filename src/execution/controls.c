@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:07:45 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/30 11:59:44 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/02 20:31:34 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ and -1 counter-clockwise. dir_x and dir_y correspond to coordinates on the
 radius of a circle, so that the vector length of dir_x + dir_y remains constant.
 */
 
-void	rotate(t_data *data, int dir)
+void	rotate(t_data *data, double dir)
 {
 	double	old_dir_x;
 	double	old_plane_x;

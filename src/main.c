@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gita <gita@student.hive.fi>                +#+  +:+       +#+        */
+/*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 13:50:35 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/02 15:17:52 by gita             ###   ########.fr       */
+/*   Updated: 2026/02/02 20:37:59 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header_cub3d.h"
+
+void	mouse_look(t_data *data)
+{
+	int32_t	x;
+	int32_t	y;
+	int			center_x;
+	int			delta_x;
+
+	center_x = data->window->width / 2;
+	mlx_get_mouse_pos(data->window, &x, &y);
+	delta_x = x - center_x;
+	if (delta_x != 0)
+	{
+		rotate(data, delta_x * MOUSE_SENSITIVITY);
+		mlx_set_mouse_pos(data->window, center_x, data->window->height / 2);
+	}
+}
 
 void	open_window(t_data *data)
 {
@@ -20,6 +37,7 @@ void	open_window(t_data *data)
 	if (!data->window)
 		cleanup function
 	*/
+	mlx_set_cursor_mode(data->window, MLX_MOUSE_HIDDEN);
 }
 
 void	resize_hook(int32_t width, int32_t height, void *param)
@@ -30,7 +48,12 @@ void	resize_hook(int32_t width, int32_t height, void *param)
 	mlx_resize_image(data->img, width, height);
 }
 
-// Hook function to handle key input
+/*
+*	Hook function to handle key press input. NOTE: cool bolean toggle
+*	operator for toggling minimap visibility! This syntax switches
+*	the boolean to whatever it is currently *not* :)
+*/
+
 void	key_hook(mlx_key_data_t pressed_key, void *param)
 {
 	t_data	*data;
@@ -40,6 +63,8 @@ void	key_hook(mlx_key_data_t pressed_key, void *param)
 	{
 		if (pressed_key.key == MLX_KEY_ESCAPE)
 			mlx_close_window(data->window);
+		if (pressed_key.key == MLX_KEY_TAB)
+			data->minimap->enabled = !data->minimap->enabled;
 	}
 }
 
@@ -60,9 +85,10 @@ void	game_loop(void *param)
 		move_left(data);
 	if (mlx_is_key_down(data->window, MLX_KEY_D))
 		move_right(data);
+	mouse_look(data);
 	fill_background(data);
-	//draw_map(data);
 	cast_rays(data);
+	draw_map(data);
 }
 
 int	main(int argc, char **argv)
@@ -81,7 +107,10 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	}
 	gamedata.img = mlx_new_image(gamedata.window, WIDTH, HEIGHT);
+	gamedata.minimap = mlx_new_image(gamedata.window, 400, 400);
+	gamedata.minimap->enabled = false;
 	mlx_image_to_window(gamedata.window, gamedata.img, 0, 0);
+	mlx_image_to_window(gamedata.window, gamedata.minimap, 0, 0);
 	mlx_key_hook(gamedata.window, &key_hook, &gamedata);
 	mlx_resize_hook(gamedata.window, &resize_hook, &gamedata);
 	mlx_loop_hook(gamedata.window, &game_loop, &gamedata);

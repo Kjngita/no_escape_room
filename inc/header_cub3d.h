@@ -13,6 +13,7 @@
 #define HEIGHT 1080 // Default starting screen height
 #define MOVE_SPEED 0.06 // Move amount per frame
 #define ROT_SPEED 0.02 // Turn amount per frame
+#define	MOUSE_SENSITIVITY 0.08
 #define TILE_SIZE 64  // Used by minimap test build
 #define	HUGE_DELTA 1e30 // Functionally infinite delta, when dir_x or dir_y == 0
 
@@ -58,6 +59,7 @@ typedef struct s_data
 	// ------------ MLX data
 	mlx_t			*window; // the "frame" where canvas is placed
 	mlx_image_t 	*img; // the "canvas" where pixels are drawn
+	mlx_image_t		*minimap;
 	// ------------ Player state 
 	double			pos_x; //exact player position, ex. 5.5
 	double			pos_y; //exact player position, ex. 5.5
@@ -176,7 +178,7 @@ void	init_colors(t_data *data);
 
 void	draw_map(t_data *data);
 
-void	rotate(t_data *data, int dir);
+void	rotate(t_data *data, double dir);
 void	move_forward(t_data *data);
 void	move_backward(t_data *data);
 void	move_left(t_data *data);
