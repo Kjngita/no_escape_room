@@ -1,7 +1,7 @@
 
 #include "header_cub3d.h"
 
-static void print_map(t_mapstuff *map)
+static void print_map(t_mapstuff *map) //DELETEEEEEEEE
 {
 	int i = 0;
 	while (map->dungeon[i])
@@ -28,7 +28,7 @@ int	parse_input(t_mapstuff *map, int ac, char **av)
 		wipe_map(map);
 		return (1);
 	}
-	print_map(map);
+	print_map(map); //DELETEEEEEEEEEEEEE
 	//wipe_map(map);
 	return (0);
 }
@@ -76,7 +76,7 @@ int	map_content(t_mapstuff *map, char *map_name)
 		return (clear_maplines(map_chain), close(map_fd), -1);
 	if (extract_map(map, map_chain, map_fd, &hotline) == -1)
 		return (clear_maplines(map_chain), close(map_fd), -1);
-	return (close(map_fd), clear_maplines(map_chain), 0);
+	return (close(map_fd), clear_maplines(map_chain), 0); //needs to change
 }
 
 int	strlen_no_nl(char *line)
@@ -91,11 +91,10 @@ int	strlen_no_nl(char *line)
 
 int	got_all_elems(t_mapstuff *map)
 {
-	if (map->NOtexture == NULL || map->SOtexture == NULL
-		|| map->WEtexture == NULL || map->EAtexture == NULL
+	if (map->NO_texture == NULL || map->SO_texture == NULL
+		|| map->WE_texture == NULL || map->EA_texture == NULL
 		|| !color_alr_set(map->Fcolor) || !color_alr_set(map->Ccolor))
 		return (errmsg_n_retval("Map starts too soon", -1));
-	printf("Checking elems:\nN: %s\nS: %s\nW: %s\nE: %s\n", map->NOtexture, map->SOtexture, map->WEtexture, map->EAtexture);printf("F:%i\nC:%i\n", map->Fcolor, map->Ccolor);
 	return (1);
 }
 
