@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_rays.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: gita <gita@student.hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 11:24:03 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/30 11:56:58 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/02 19:39:48 by gita             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	cast_rays(t_data *data)
 		check_face(&ray);
 		calc_wall_dist(data, &ray);
 		calc_line_height(data, &ray);
-		//check_wall_x(data, &ray);
+		find_wall_x(data, &ray);
 		//draw_ray(data, &ray, data->img);
 		draw_wall_line(data, &ray);
 		i++;
