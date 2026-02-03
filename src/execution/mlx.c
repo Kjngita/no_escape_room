@@ -6,19 +6,39 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 08:57:42 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/03 15:18:49 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/03 15:59:13 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header_cub3d.h"
 
+static mlx_image_t	*load_gun(t_data *data, char *path, int width, int height)
+{
+	mlx_texture_t	*texture;
+	mlx_image_t		*image;
+
+	texture = mlx_load_png(path);
+	if (!texture)
+		return (NULL);
+	image = mlx_texture_to_image(data->window, texture);
+	mlx_delete_texture(texture);
+	if (!image)
+		return (NULL);
+	mlx_resize_image(image, width, height);
+	if (!image)
+		return (mlx_delete_image(data->window, image), NULL);
+	return (image);
+}
+
 void	init_images(t_data *data)
 {
 	data->img = mlx_new_image(data->window, WIDTH, HEIGHT);
 	data->minimap = mlx_new_image(data->window, MINIMAP_SIDE, MINIMAP_SIDE);
+	data->chaingun = load_gun(data, "./textures/chaingun_default.png", 650, 650);
 	data->minimap->enabled = false;
 	mlx_image_to_window(data->window, data->img, 0, 0);
 	mlx_image_to_window(data->window, data->minimap, 50, 50);
+	mlx_image_to_window(data->window, data->chaingun, (data->window->width / 2 - 325), (data->window->height - 650));
 }
 
 
