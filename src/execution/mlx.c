@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 08:57:42 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/03 15:59:13 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/03 18:00:35 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	open_window(t_data *data)
 {
 	// 1. Initialize MLX (Width, Height, Title, Resizeable)
 	data->window = mlx_init(WIDTH, HEIGHT, "Chaplin Moustache Hunting Club", true);
+	mlx_set_cursor_mode(data->window, MLX_MOUSE_HIDDEN);
 	/*
 	if (!data->window)
 		cleanup function
@@ -79,11 +80,11 @@ void	key_hook(mlx_key_data_t pressed_key, void *param)
 			data->minimap->enabled = !data->minimap->enabled;
 		if (pressed_key.key == MLX_KEY_M)
 		{
-			data->mouse_look_enabled = !data->mouse_look_enabled;
-			if (data->mouse_look_enabled == true)
-				mlx_set_cursor_mode(data->window, MLX_MOUSE_HIDDEN);
-			else
+			data->cursor_enabled = !data->cursor_enabled;
+			if (data->cursor_enabled == true)
 				mlx_set_cursor_mode(data->window, MLX_MOUSE_NORMAL);
+			else
+				mlx_set_cursor_mode(data->window, MLX_MOUSE_HIDDEN);
 		}
 	}
 }

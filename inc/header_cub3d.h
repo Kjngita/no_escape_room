@@ -73,7 +73,7 @@ typedef struct s_data
 	mlx_image_t 	*img; // the "canvas" where pixels are drawn
 	mlx_image_t		*minimap;
 	mlx_image_t		*chaingun;
-	int				mouse_look_enabled;
+	int				cursor_enabled;
 	// ------------ Player state 
 	double			pos_x; //exact player position, ex. 5.5
 	double			pos_y; //exact player position, ex. 5.5
