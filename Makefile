@@ -21,7 +21,9 @@ CFILES = $(S_DIR)/main.c \
 	$(S_DIR)/$(EXE)/init_ray.c \
 	$(S_DIR)/$(EXE)/draw_ray.c \
 	$(S_DIR)/$(EXE)/cast_rays.c \
-	$(S_DIR)/$(EXE)/render_walls.c
+	$(S_DIR)/$(EXE)/render_walls.c \
+	$(S_DIR)/$(EXE)/mlx.c \
+	$(S_DIR)/$(EXE)/mouse_look.c
 
 O_DIR = objdir
 OFILES = $(CFILES:$(S_DIR)/%.c=$(O_DIR)/%.o)

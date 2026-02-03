@@ -13,15 +13,17 @@
 #define HEIGHT 1080 // Default starting screen height
 #define MOVE_SPEED 0.06 // Move amount per frame
 #define ROT_SPEED 0.02 // Turn amount per frame
-#define TILE_SIZE 64  // Used by minimap test build
+#define	MOUSE_SENSITIVITY 0.08 // Used by mouse_look to dampen rotation factor
 #define	HUGE_DELTA 1e30 // Functionally infinite delta, when dir_x or dir_y == 0
 
-//	Wall colors used for solid color rendering
-#define W_COLOR 0xFBF8CCFF
-#define E_COLOR 0xCFBAF0FF
-#define N_COLOR 0xFDE4CFFF
-#define S_COLOR 0xF1C0E8FF
-#define COLOR_MISSING 0xFE019AFF
+#define	MINIMAP_SIDE 400
+
+/*
+NOTE: last two digits of a hexadecimal color code are the alpha channel
+100 % opacity = FF (255)
+50 % opacity = 80 or 7F (128)
+0 % opacity = 00 (0)
+*/
 
 enum	e_categorization
 {
@@ -51,6 +53,9 @@ typedef struct s_map
 	size_t			player_start_x;
 	size_t			player_start_y;
 	char			**dungeon;
+	int				map_width;
+	int				map_height;
+	double			minimap_tile_size;
 }	t_mapstuff;
 
 typedef struct s_data
@@ -58,6 +63,9 @@ typedef struct s_data
 	// ------------ MLX data
 	mlx_t			*window; // the "frame" where canvas is placed
 	mlx_image_t 	*img; // the "canvas" where pixels are drawn
+	mlx_image_t		*minimap;
+	mlx_image_t		*chaingun;
+	int				cursor_enabled;
 	// ------------ Player state 
 	double			pos_x; //exact player position, ex. 5.5
 	double			pos_y; //exact player position, ex. 5.5
@@ -173,15 +181,21 @@ void	draw_wall_line(t_data *data, t_ray *ray);
 uint32_t	get_color(t_data *data, t_ray *ray, int tex_x, int tex_y);
 
 void	init_player_start(t_data *data);
-void	init_map(t_data *data);
-void	init_colors(t_data *data);
+void	init_images(t_data *data);
 
+void	calc_map_dimensions(t_data *data);
+void	calc_minimap_scaling(t_data *data);
 void	draw_map(t_data *data);
 
-void	rotate(t_data *data, int dir);
+void	mouse_look(t_data *data);
+void	rotate(t_data *data, double dir);
 void	move_forward(t_data *data);
 void	move_backward(t_data *data);
 void	move_left(t_data *data);
 void	move_right(t_data *data);
+
+void	open_window(t_data *data);
+void	resize_hook(int32_t width, int32_t height, void *param);
+void	key_hook(mlx_key_data_t pressed_key, void *param);
 
 #endif
