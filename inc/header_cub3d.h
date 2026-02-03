@@ -17,6 +17,8 @@
 #define TILE_SIZE 64  // Used by minimap test build
 #define	HUGE_DELTA 1e30 // Functionally infinite delta, when dir_x or dir_y == 0
 
+#define	MINIMAP_SIDE 400
+
 //	Wall colors used for solid color rendering
 #define W_COLOR 0xFBF8CCFF
 #define E_COLOR 0xCFBAF0FF
@@ -61,6 +63,7 @@ typedef struct s_map
 	char			**dungeon;
 	int				map_width;
 	int				map_height;
+	double			minimap_tile_size;
 }	t_mapstuff;
 
 typedef struct s_data
@@ -185,7 +188,10 @@ void	draw_wall_line(t_data *data, t_ray *ray);
 void	init_player_start(t_data *data);
 void	init_map(t_data *data);
 void	init_colors(t_data *data);
+void	init_images(t_data *data);
 
+void	calc_map_dimensions(t_data *data);
+void	calc_minimap_scaling(t_data *data);
 void	draw_map(t_data *data);
 
 void	mouse_look(t_data *data);

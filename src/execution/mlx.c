@@ -6,11 +6,21 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 08:57:42 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/03 10:38:09 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/03 15:18:49 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header_cub3d.h"
+
+void	init_images(t_data *data)
+{
+	data->img = mlx_new_image(data->window, WIDTH, HEIGHT);
+	data->minimap = mlx_new_image(data->window, MINIMAP_SIDE, MINIMAP_SIDE);
+	data->minimap->enabled = false;
+	mlx_image_to_window(data->window, data->img, 0, 0);
+	mlx_image_to_window(data->window, data->minimap, 50, 50);
+}
+
 
 void	open_window(t_data *data)
 {
