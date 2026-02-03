@@ -59,6 +59,8 @@ typedef struct s_map
 	size_t			player_start_x;
 	size_t			player_start_y;
 	char			**dungeon;
+	int				map_width;
+	int				map_height;
 }	t_mapstuff;
 
 typedef struct s_data
@@ -67,6 +69,7 @@ typedef struct s_data
 	mlx_t			*window; // the "frame" where canvas is placed
 	mlx_image_t 	*img; // the "canvas" where pixels are drawn
 	mlx_image_t		*minimap;
+	int				mouse_look_enabled;
 	// ------------ Player state 
 	double			pos_x; //exact player position, ex. 5.5
 	double			pos_y; //exact player position, ex. 5.5
@@ -185,10 +188,15 @@ void	init_colors(t_data *data);
 
 void	draw_map(t_data *data);
 
+void	mouse_look(t_data *data);
 void	rotate(t_data *data, double dir);
 void	move_forward(t_data *data);
 void	move_backward(t_data *data);
 void	move_left(t_data *data);
 void	move_right(t_data *data);
+
+void	open_window(t_data *data);
+void	resize_hook(int32_t width, int32_t height, void *param);
+void	key_hook(mlx_key_data_t pressed_key, void *param);
 
 #endif

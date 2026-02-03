@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 18:03:04 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/02 21:43:53 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/03 10:07:53 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ void draw_map(t_data *data)
 	int			x;
 	int			y;
 	uint32_t	color;
-	char		**map = data->map_data.dungeon;
-
+	char		**map;
+	
+	map = data->map_data.dungeon;
 	y = 0;
 	while (map[y] != NULL)
 	{
