@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 11:22:08 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/30 17:22:35 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/03 21:11:11 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ static void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1)
 
 void	draw_ray(t_data *data, t_ray *ray, mlx_image_t *img)
 {
-	double current_dist;
+	double	current_dist;
+	int		tile_size;
+
+	tile_size = data->map_data.minimap_tile_size;
 
 	// 1. Recover the exact Euclidean distance from the DDA variables
 	if (ray->side == 0)
@@ -58,11 +61,12 @@ void	draw_ray(t_data *data, t_ray *ray, mlx_image_t *img)
 		current_dist = ray->side_dist_y - ray->delta_y;
 
 	// 2. Calculate coordinates
-	int start_x = (int)(data->pos_x * TILE_SIZE);
-	int start_y = (int)(data->pos_y * TILE_SIZE);
+	int start_x = (int)(data->pos_x * tile_size);
+	int start_y = (int)(data->pos_y * tile_size);
 
-	int end_x = (int)((data->pos_x + ray->ray_dir_x * current_dist) * TILE_SIZE);
-	int end_y = (int)((data->pos_y + ray->ray_dir_y * current_dist) * TILE_SIZE);
+	int end_x = (int)((data->pos_x + ray->ray_dir_x * current_dist) * tile_size);
+	int end_y = (int)((data->pos_y + ray->ray_dir_y * current_dist) * tile_size);
 
 	draw_line(img, start_x, start_y, end_x, end_y);
 }
+
