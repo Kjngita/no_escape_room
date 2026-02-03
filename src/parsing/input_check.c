@@ -62,18 +62,15 @@ int	map_content(t_mapstuff *map, char *map_name)
 	}
 	if (extract_graphics_elements(map, map_fd, &hotline) == -1)
 	{
-		close(map_fd);
-		return (-1);
+		free_n_nullify(&hotline);
+		return (clear_maplines_close_fd_retval(map_chain, map_fd, -1));
 	}
 	if (extract_map(map, map_chain, map_fd, &hotline) == -1)
 	{
-		clear_maplines(map_chain);
-		close(map_fd);
-		return (-1);
+		free_n_nullify(&hotline);
+		return (clear_maplines_close_fd_retval(map_chain, map_fd, -1));
 	}
-	clear_maplines(map_chain);
-	close(map_fd);
-	return (0);
+	return (clear_maplines_close_fd_retval(map_chain, map_fd, 0));
 }
 
 int	strlen_no_nl(char *line)

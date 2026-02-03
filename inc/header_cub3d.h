@@ -133,7 +133,7 @@ typedef struct s_line
 int			parse_input(t_mapstuff *map, int ac, char **av);
 void		free_n_nullify(char **useless);
 void		*clear_2x_char_pointers(char **trash);
-void		clear_maplines(t_maplines *map_chain);
+int			clear_maplines_close_fd_retval(t_maplines *map_chain, int fd, int value);
 void		wipe_map(t_mapstuff *map);
 int			errmsg_n_retval(char *msg, int value);
 

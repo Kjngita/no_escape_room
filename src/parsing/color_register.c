@@ -93,7 +93,7 @@ or the converted integer
 int	cub3d_atoi(char *str)
 {
 	size_t		i;
-	uint32_t	nbr;
+	int			nbr;
 
 	if (!str)
 		return (-1);
@@ -107,12 +107,12 @@ int	cub3d_atoi(char *str)
 	}
 	while (str[i])
 	{
-		if (nbr > 255 || str[i] < '0' || str[i] > '9')
+		if (str[i] < '0' || str[i] > '9')
 			return (-1);
 		nbr = (nbr * 10 + str[i]) - '0';
 		i++;
 	}
-	if (str[i] != 0)
+	if (nbr > 255 || str[i] != 0)
 		return (-1);
 	return (nbr);
 }
