@@ -14,17 +14,9 @@
 #define MOVE_SPEED 0.06 // Move amount per frame
 #define ROT_SPEED 0.02 // Turn amount per frame
 #define	MOUSE_SENSITIVITY 0.08 // Used by mouse_look to dampen rotation factor
-#define TILE_SIZE 64  // Used by minimap test build
 #define	HUGE_DELTA 1e30 // Functionally infinite delta, when dir_x or dir_y == 0
 
 #define	MINIMAP_SIDE 400
-
-//	Wall colors used for solid color rendering
-#define W_COLOR 0xFBF8CCFF
-#define E_COLOR 0xCFBAF0FF
-#define N_COLOR 0xFDE4CFFF
-#define S_COLOR 0xF1C0E8FF
-#define COLOR_MISSING 0xFE019AFF
 
 /*
 NOTE: last two digits of a hexadecimal color code are the alpha channel
@@ -189,8 +181,6 @@ void	draw_wall_line(t_data *data, t_ray *ray);
 uint32_t	get_color(t_data *data, t_ray *ray, int tex_x, int tex_y);
 
 void	init_player_start(t_data *data);
-void	init_map(t_data *data);
-void	init_colors(t_data *data);
 void	init_images(t_data *data);
 
 void	calc_map_dimensions(t_data *data);
