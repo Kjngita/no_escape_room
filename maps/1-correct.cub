@@ -1,7 +1,7 @@
-NO /home/gita/Github/2:very_notshort/textures/floor.png
-SO /home/gita/Github/2:very_notshort/textures/wall.png
-WE /home/gita/Github/2:very_notshort/textures/player.png
-EA /home/gita/Github/2:very_notshort/textures/exit.png
+NO ./textures/brick.png
+SO ./textures/gold0.png
+WE ./textures/gravel.png
+EA ./textures/bark.png
 
 
 F 220,100,0

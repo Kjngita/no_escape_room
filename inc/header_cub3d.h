@@ -170,6 +170,7 @@ void	fill_background(t_data *data);
 void	calc_line_height(t_data *data, t_ray *ray);
 void	find_wall_x(t_data *data, t_ray *ray);
 void	draw_wall_line(t_data *data, t_ray *ray);
+uint32_t	get_color(t_data *data, t_ray *ray, int tex_x, int tex_y);
 
 void	init_player_start(t_data *data);
 void	init_map(t_data *data);
