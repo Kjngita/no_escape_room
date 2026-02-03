@@ -1,16 +1,6 @@
 
 #include "header_cub3d.h"
 
-static void print_map(t_mapstuff *map) //DELETEEEEEEEE
-{
-	int i = 0;
-	while (map->dungeon[i])
-	{
-		printf("%s\n", map->dungeon[i]);
-		i++;
-	}
-}
-
 //* UPDATE:renamed from main
 
 int	parse_input(t_mapstuff *map, int ac, char **av)
@@ -21,15 +11,13 @@ int	parse_input(t_mapstuff *map, int ac, char **av)
 		return (errmsg_n_retval("Only 1 file at a time pls", 1));
 	if (check_map_extension(av[1]) == -1)
 		return (1);
-	map->Fcolor = bitshift_rgba(0, 0, 0, 0); //printf("F");color_alr_set(map.Fcolor);
-	map->Ccolor = bitshift_rgba(0, 0, 0, 0); //printf("C");color_alr_set(map.Ccolor);
+	map->Fcolor = bitshift_rgba(0, 0, 0, 0);
+	map->Ccolor = bitshift_rgba(0, 0, 0, 0);
 	if (map_content(map, av[1]) == -1)
 	{
 		wipe_map(map);
 		return (1);
 	}
-	print_map(map); //DELETEEEEEEEEEEEEE
-	//wipe_map(map);
 	return (0);
 }
 
@@ -73,10 +61,19 @@ int	map_content(t_mapstuff *map, char *map_name)
 		return (errmsg_n_retval("ft_calloc failed init mapchain", -1));
 	}
 	if (extract_graphics_elements(map, map_fd, &hotline) == -1)
-		return (clear_maplines(map_chain), close(map_fd), -1);
+	{
+		close(map_fd);
+		return (-1);
+	}
 	if (extract_map(map, map_chain, map_fd, &hotline) == -1)
-		return (clear_maplines(map_chain), close(map_fd), -1);
-	return (close(map_fd), clear_maplines(map_chain), 0); //needs to change
+	{
+		clear_maplines(map_chain);
+		close(map_fd);
+		return (-1);
+	}
+	clear_maplines(map_chain);
+	close(map_fd);
+	return (0);
 }
 
 int	strlen_no_nl(char *line)

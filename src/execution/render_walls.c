@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   render_walls.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/28 13:05:18 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/30 11:56:25 by jjahkola         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "header_cub3d.h"
 
@@ -60,37 +49,63 @@ void	calc_line_height(t_data *data, t_ray *ray)
 		ray->line_bottom = screen_height - 1;
 }
 
-/*
-	Test build function. Returns the draw color corresponding to
-	each wall face, used for solid color rendering.
-	
-	!	Repurpose this function to fetch correct texture instead
-	!	of color when implementing texture rendering?
-*/
-
-uint32_t	get_color(t_ray *ray)
+void	find_wall_x(t_data *data, t_ray *ray)
 {
-	if (ray->wall_face == NORTH)
-		return (N_COLOR);
-	if (ray->wall_face == SOUTH)
-		return(S_COLOR);
-	if (ray->wall_face == WEST)
-		return(W_COLOR);
-	if (ray->wall_face == EAST)
-		return (E_COLOR);
-	return (COLOR_MISSING);
+	if (ray->side == 0)
+	{
+		ray->wall_x = data->pos_y + ray->wall_dist * ray->ray_dir_y;
+		ray->wall_x -= floor(ray->wall_x);
+		if (ray->wall_face == EAST)
+			ray->wall_x = 1 - ray->wall_x;
+	}
+	else if (ray->side == 1)
+	{
+		ray->wall_x = data->pos_x + ray->wall_dist * ray->ray_dir_x;
+		ray->wall_x -= floor(ray->wall_x);
+		if (ray->wall_face == NORTH)
+			ray->wall_x = 1 - ray->wall_x;
+	}
 }
 
 void	draw_wall_line(t_data *data, t_ray *ray)
 {
-	uint32_t	draw_color;
+	uint32_t	color;
 	int			y;
+	int			tex_y;
+	double		tex_pos;
+	double		ratio;
 
-	draw_color = get_color(ray);
+	ray->texture_x = (int)(ray->wall_x * data->map_data.EA_texture->width);
+	ratio = (double)data->map_data.EA_texture->height / ray->line_height;
+	tex_pos = (ray->line_top - data->window->height/2 + ray->line_height/2) 
+		* ratio;
 	y = ray->line_top;
 	while (y <= ray->line_bottom)
 	{
-		mlx_put_pixel(data->img, ray->screen_x, y, draw_color);
+		tex_y = (int)tex_pos % data->map_data.EA_texture->height;
+		color = get_color(data, ray, ray->texture_x, tex_y);
+		mlx_put_pixel(data->img, ray->screen_x, y, color);
+		tex_pos += ratio;
 		y++;
 	}
+}
+
+uint32_t	get_color(t_data *data, t_ray *ray, int tex_x, int tex_y)
+{
+	mlx_texture_t	*texture;
+	uint32_t		color;
+	uint8_t			*pixel;
+
+	texture = NULL;
+	if (ray->wall_face == NORTH)
+		texture = data->map_data.NO_texture;
+	else if (ray->wall_face == SOUTH)
+		texture = data->map_data.SO_texture;
+	else if (ray->wall_face == WEST)
+		texture = data->map_data.WE_texture;
+	else if (ray->wall_face == EAST)
+		texture = data->map_data.EA_texture;
+	pixel = texture->pixels + ((tex_y * texture->height + tex_x) * texture->bytes_per_pixel);
+	color = (pixel[0] << 24 | pixel[1] << 16 | pixel[2] << 8 | pixel[3]);
+	return (color);
 }
