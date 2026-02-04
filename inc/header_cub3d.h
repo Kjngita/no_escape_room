@@ -53,9 +53,10 @@ typedef struct s_map
 	size_t			player_start_x;
 	size_t			player_start_y;
 	char			**dungeon;
-	int				map_width;
-	int				map_height;
-	double			minimap_tile_size;
+	//------------- Minimap drawing data
+	int				map_width; // length of longest map row
+	int				map_height; // number of map rows
+	double			minimap_tile_size; // MINIMAP_SIZE / map_width OR map_height
 }	t_mapstuff;
 
 typedef struct s_data

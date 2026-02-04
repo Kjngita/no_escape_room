@@ -1,11 +1,11 @@
-NO ./textures/brick.png
-SO ./textures/gold0.png
-WE ./textures/gravel.png
-EA ./textures/bark.png
+NO ./textures/t30.png
+SO ./textures/t44.png
+WE ./textures/t43.png
+EA ./textures/t55.png
 
 
-F 220,100,0
-C 123      , 159,68
+F 55,47,0
+C 75      , 7,0
 
         1111111111111111111111111
         1000000000110000000000001

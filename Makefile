@@ -16,7 +16,7 @@ CFILES = $(S_DIR)/main.c \
 	$(S_DIR)/$(PAR)/map_extraction.c \
 	$(S_DIR)/$(PAR)/cleanup.c \
 	$(S_DIR)/$(EXE)/controls.c \
-	$(S_DIR)/$(EXE)/init.c \
+	$(S_DIR)/$(EXE)/init_start_vars.c \
 	$(S_DIR)/$(EXE)/draw_map.c \
 	$(S_DIR)/$(EXE)/init_ray.c \
 	$(S_DIR)/$(EXE)/draw_ray.c \
