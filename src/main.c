@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 13:50:35 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/04 10:29:58 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/04 14:23:42 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ int	main(int argc, char **argv)
 	ft_bzero(&gamedata, sizeof(t_data));
 	if (parse_input(&gamedata.map_data, argc, argv))
 		return (EXIT_FAILURE);
-	calc_map_dimensions(&gamedata);
-	calc_minimap_scaling(&gamedata);
-	init_player_start(&gamedata);
+	init_start_vars(&gamedata);
 	if (init_mlx(&gamedata))
 		return (EXIT_FAILURE);
 	mlx_key_hook(gamedata.window, &key_hook, &gamedata);

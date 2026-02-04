@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 08:57:42 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/04 12:10:47 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/04 14:28:20 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ static int	init_images(t_data *data)
 {
 	data->img = mlx_new_image(data->window, WIDTH, HEIGHT);
 	data->minimap = mlx_new_image(data->window, MINIMAP_SIDE, MINIMAP_SIDE);
-	data->chaingun = load_weapon(data, "./textures/chainsaw.png", 650, 650);
-	if (!data->img || !data->minimap || !data->chaingun)
+	data->weapon = load_weapon(data, "./textures/chainsaw.png", 650, 650);
+	if (!data->img || !data->minimap || !data->weapon)
 		return (-1);
 	data->minimap->enabled = false;
 	if (mlx_image_to_window(data->window, data->img, 0, 0) < 0)
 		return (-1);
 	if (mlx_image_to_window(data->window, data->minimap, 50, 50) < 0)
 		return (-1);
-	if (mlx_image_to_window(data->window, data->chaingun,
+	if (mlx_image_to_window(data->window, data->weapon,
 			(data->window->width / 2 - 325), (data->window->height - 650)) < 0)
 		return (-1);
 	return (0);

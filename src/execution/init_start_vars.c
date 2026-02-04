@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:54:42 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/04 11:30:22 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/04 14:22:50 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 	Calculates map dimensions, for determining minimap tile size
 */
 
-void	calc_map_dimensions(t_data *data)
+static void	calc_map_dimensions(t_data *data)
 {
 	int		x;
 	int		y;
@@ -46,7 +46,7 @@ void	calc_map_dimensions(t_data *data)
 	For tiny maps, will still not draw tiles larger than set limit.
 */
 
-void	calc_minimap_scaling(t_data *data)
+static void	calc_minimap_scaling(t_data *data)
 {
 	double	x_max_tile_size;
 	double	y_max_tile_size;
@@ -73,7 +73,7 @@ void	calc_minimap_scaling(t_data *data)
 	*from parsed data!
 */
 
-void	init_player_start(t_data *data)
+static void	init_player_start(t_data *data)
 {
 	char	facing;
 
@@ -100,4 +100,17 @@ void	init_player_start(t_data *data)
 	}
 	data->pos_x = (double)data->map_data.player_start_x + 0.5;
 	data->pos_y = (double)data->map_data.player_start_y + 0.5;
+}
+
+/*
+	Wrapper function.
+!	TO DO? Error checking? Program should have already exited if any data
+!	dependencies are broken, but maybe for extra security..?
+*/
+
+void	init_start_vars(t_data *data)
+{
+	calc_map_dimensions(data);
+	calc_minimap_scaling(data);
+	init_player_start(data);
 }

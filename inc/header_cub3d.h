@@ -65,7 +65,7 @@ typedef struct s_data
 	mlx_t			*window; // the "frame" where canvas is placed
 	mlx_image_t 	*img; // the "canvas" where pixels are drawn
 	mlx_image_t		*minimap;
-	mlx_image_t		*chaingun;
+	mlx_image_t		*weapon;
 	int				cursor_enabled;
 	// ------------ Player state 
 	double			pos_x; //exact player position, ex. 5.5
@@ -181,12 +181,10 @@ void	find_wall_x(t_data *data, t_ray *ray);
 void	draw_wall_line(t_data *data, t_ray *ray);
 uint32_t	get_color(t_data *data, t_ray *ray, int tex_x, int tex_y);
 
-void	init_player_start(t_data *data);
+void	init_start_vars(t_data *data);
 int		init_mlx(t_data *data);
 int		clean_mlx(t_data *data);
 
-void	calc_map_dimensions(t_data *data);
-void	calc_minimap_scaling(t_data *data);
 void	draw_map(t_data *data);
 
 void	mouse_look(t_data *data);
