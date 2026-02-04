@@ -6,13 +6,13 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 08:57:42 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/04 11:58:38 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/04 12:10:47 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header_cub3d.h"
 
-static mlx_image_t	*load_gun(t_data *data, char *path, int width, int height)
+static mlx_image_t	*load_weapon(t_data *data, char *path, int width, int height)
 {
 	mlx_texture_t	*texture;
 	mlx_image_t		*image;
@@ -33,7 +33,7 @@ static int	init_images(t_data *data)
 {
 	data->img = mlx_new_image(data->window, WIDTH, HEIGHT);
 	data->minimap = mlx_new_image(data->window, MINIMAP_SIDE, MINIMAP_SIDE);
-	data->chaingun = load_gun(data, "./textures/chainsaw.png", 650, 650);
+	data->chaingun = load_weapon(data, "./textures/chainsaw.png", 650, 650);
 	if (!data->img || !data->minimap || !data->chaingun)
 		return (-1);
 	data->minimap->enabled = false;
