@@ -181,7 +181,8 @@ void	draw_wall_line(t_data *data, t_ray *ray);
 uint32_t	get_color(t_data *data, t_ray *ray, int tex_x, int tex_y);
 
 void	init_player_start(t_data *data);
-void	init_images(t_data *data);
+int		init_mlx(t_data *data);
+int		clean_mlx(t_data *data);
 
 void	calc_map_dimensions(t_data *data);
 void	calc_minimap_scaling(t_data *data);
@@ -194,7 +195,6 @@ void	move_backward(t_data *data);
 void	move_left(t_data *data);
 void	move_right(t_data *data);
 
-void	open_window(t_data *data);
 void	resize_hook(int32_t width, int32_t height, void *param);
 void	key_hook(mlx_key_data_t pressed_key, void *param);
 

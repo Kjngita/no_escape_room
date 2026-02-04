@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 13:50:35 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/03 19:19:23 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/04 10:21:00 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,8 @@ int	main(int argc, char **argv)
 	calc_map_dimensions(&gamedata);
 	calc_minimap_scaling(&gamedata);
 	init_player_start(&gamedata);
-	open_window(&gamedata);
-	if (!gamedata.window)
-		return (puts(mlx_strerror(mlx_errno)), EXIT_FAILURE);
-	init_images(&gamedata);
+	if (init_mlx(&gamedata))
+		return (EXIT_FAILURE);
 	mlx_key_hook(gamedata.window, &key_hook, &gamedata);
 	mlx_resize_hook(gamedata.window, &resize_hook, &gamedata);
 	mlx_loop_hook(gamedata.window, &game_loop, &gamedata);

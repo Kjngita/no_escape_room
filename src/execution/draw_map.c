@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 18:03:04 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/03 21:47:06 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/03 21:59:30 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,13 @@ static void	draw_player(t_data *data)
 	int	tile;
 
 	tile = data->map_data.minimap_tile_size;
-	draw_start_x = (data->pos_x * tile) - 1;
-	draw_start_y = (data->pos_y * tile) - 1;
+	draw_start_x = (data->pos_x * tile) - (tile / 4);
+	draw_start_y = (data->pos_y * tile) - (tile / 4);
 	i = 0;
-	while (i < 4)
+	while (i < tile / 2)
 	{
 		j = 0;
-		while (j < 4)
+		while (j < tile / 2)
 		{
 			mlx_put_pixel(data->minimap, draw_start_x + j, draw_start_y + i, 0xFF000DFF);
 			j++;

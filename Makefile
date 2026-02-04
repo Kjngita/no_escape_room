@@ -22,7 +22,8 @@ CFILES = $(S_DIR)/main.c \
 	$(S_DIR)/$(EXE)/draw_ray.c \
 	$(S_DIR)/$(EXE)/cast_rays.c \
 	$(S_DIR)/$(EXE)/render_walls.c \
-	$(S_DIR)/$(EXE)/mlx.c \
+	$(S_DIR)/$(EXE)/mlx_init_clean.c \
+	$(S_DIR)/$(EXE)/mlx_hooks.c \
 	$(S_DIR)/$(EXE)/mouse_look.c
 
 O_DIR = objdir
