@@ -9,7 +9,10 @@ int	extract_map(t_mapstuff *map, t_maplines *map_chain, int map_fd,
 
 	eof = 0;
 	line_no = 0;
-	add_to_flatmap(map_chain, map_1stline, line_no);
+	if (!*map_1stline)
+		return (errmsg_n_retval("No map found", -1));
+	if (add_to_flatmap(map_chain, map_1stline, line_no) == -1)
+		return (-1);
 	while (1)
 	{
 		line = get_next_line(map_fd, &eof);
@@ -22,7 +25,10 @@ int	extract_map(t_mapstuff *map, t_maplines *map_chain, int map_fd,
 		line[strlen_no_nl(line)] = '\0';
 		line_no++;
 		if (map_line_acceptable(map, map_chain, line, line_no) == -1)
+		{
+			free_n_nullify(&line);
 			return (-1);
+		}	
 		free (line);
 	}
 	if (map_valid(map, map_chain, line_no + 1) == -1)
@@ -42,20 +48,30 @@ int	map_line_acceptable(t_mapstuff *map, t_maplines *map_chain,
 
 	i = 0;
 	if (line_is_empty(line))
+	{
+		// free_n_nullify(&line);
 		return (errmsg_n_retval("No empty line in map pls", -1));
+	}
 	while (line[i])
 	{
 		if (ft_strchr("NSWE 01", line[i]) == NULL)
+		{
+			// free_n_nullify(&line);
 			return (errmsg_n_retval("Map line: Foreign character", -1));
+		}
 		if (ft_isalpha(line[i]))
 		{
 			if (start_pos_setup(map, line[i], i, line_no) == -1)
+			{
+				// free_n_nullify(&line);
 				return (-1);
+			}
 			line[i] = '0';
 		}
 		i++;
 	}
-	add_to_flatmap(map_chain, &line, line_no);
+	if (add_to_flatmap(map_chain, &line, line_no) == -1)
+		return (-1);
 	return (0);
 }
 
@@ -90,7 +106,10 @@ int	add_to_flatmap(t_maplines *map_chain, char **line_to_add,
 		return (errmsg_n_retval("ft_calloc failed adding to flatmap", -1));
 	new_node->mapline = ft_strdup(*line_to_add);
 	if (!new_node->mapline)
+	{
+		free (new_node);
 		return (errmsg_n_retval("ft_strdup failed adding to flatmap", -1));
+	}
 	new_node->next = NULL;
 	tail = map_chain;
 	while (tail->next)
@@ -102,7 +121,7 @@ int	add_to_flatmap(t_maplines *map_chain, char **line_to_add,
 int	map_valid(t_mapstuff *map, t_maplines *map_chain, size_t map_height)
 {
 	char	**testmap;
-	int		hole;
+	// int		hole;
 
 	if (!map->start_pos)
 		return (errmsg_n_retval("No spawning orientation found", -1));
@@ -111,9 +130,9 @@ int	map_valid(t_mapstuff *map, t_maplines *map_chain, size_t map_height)
 		return (errmsg_n_retval("ft_calloc failed checking map", -1));
 	if (copy_linkedlist_to_2xpointers(map_chain, testmap) == -1)
 		return (-1);
-	hole = 0;
-	flood_fill(testmap, map->player_start_x, map->player_start_y, &hole);
-	if (hole == 1)
+	// hole = 0;
+	if (flood_fill(testmap, map->player_start_x, map->player_start_y, map_height) == -1)
+	// if (hole == 1)
 	{
 		testmap = clear_2x_char_pointers(testmap);
 		return (errmsg_n_retval("Found black hole in map", -1));
@@ -149,21 +168,25 @@ int	copy_linkedlist_to_2xpointers(t_maplines *map_chain, char **dest)
 	return (0);
 }
 
-void	flood_fill(char **testmap, size_t x_coord, size_t y_coord, int *hole)
+int	flood_fill(char **testmap, size_t x_coord, size_t y_coord, size_t map_height)
 {
 	char	tile;
 
 	tile = testmap[y_coord][x_coord];
-	if (tile == '1' || tile == 'F' || *hole == 1)
-		return ;
-	if (tile == ' ')
+	if (tile == '1' || tile == 'F')
+		return (0);
+	if (tile == ' ' || y_coord > map_height)
 	{
-		*hole = 1;
-		return ;
+		return (-1);
 	}
 	testmap[y_coord][x_coord] = 'F';
-	flood_fill(testmap, x_coord + 1, y_coord, hole);
-	flood_fill(testmap, x_coord - 1, y_coord, hole);
-	flood_fill(testmap, x_coord, y_coord + 1, hole);
-	flood_fill(testmap, x_coord, y_coord - 1, hole);
+	if (flood_fill(testmap, x_coord + 1, y_coord, map_height) == -1)
+		return (-1);
+	if (flood_fill(testmap, x_coord - 1, y_coord, map_height) == -1)
+		return (-1);
+	if (flood_fill(testmap, x_coord, y_coord + 1, map_height) == -1)
+		return (-1);
+	if (flood_fill(testmap, x_coord, y_coord - 1, map_height) == -1)
+		return (-1);
+	return (0);
 }

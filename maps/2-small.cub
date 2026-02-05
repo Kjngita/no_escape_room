@@ -1,14 +1,12 @@
-NO ./path_to_the_north_texture
-F 220,100,0
+EA ./textures/bark.png
 
+NO ./textures/brick.png
 
-SO ./path_to_the_south_texture
+F 13, 15, 17
+WE ./textures/gravel.png
 
-C 225,30,0
-WE ./path_to_the_west_texture
-EA ./path_to_the_east_texture
-
-
+C 100, 150, 200
+SO ./textures/gold0.png
 
  1111
 10001

@@ -24,7 +24,7 @@ int	extract_graphics_elements(t_mapstuff *map, int map_fd, char **hotline)
 			return (got_all_elems(map));
 		free (line);
 	}
-	return (0);
+	return (got_all_elems(map));
 }
 
 int	what_kinda_line(t_mapstuff *map, char **line, char **hotline)
@@ -77,12 +77,22 @@ int	line_has_info(t_mapstuff *map, char *line)
 {
 	char	**broken_down_line;
 	int		info;
+	size_t	i;
 
+	i = 0;
+	while (line[i++])
+	{
+		if (line[i] == '\t' || line[i] == '\v' || line[i] == '\f'
+			|| line[i] == '\r')
+			return (errmsg_n_retval("Found unsupported whitespace", -1));
+	}
 	broken_down_line = ft_split(line, " ");
 	if (!broken_down_line || !broken_down_line[0])
 		return (errmsg_n_retval("ft_split failed line info", -1));
-	info = categorize(broken_down_line[0]); //printf("direction = %i\n", info);
+	info = categorize(broken_down_line[0]);
 	broken_down_line = clear_2x_char_pointers(broken_down_line);
+	if (info == -123)
+		return (errmsg_n_retval("Wrong identifier", -1));
 	if (info == F || info == C)
 		return (paintbrush(map, line, info));
 	else
@@ -90,7 +100,7 @@ int	line_has_info(t_mapstuff *map, char *line)
 }
 
 int	categorize(char *text)
-{ //printf("Categorize %s\n", text);
+{
 	if (ft_strncmp(text, "NO", 3) == 0)
 		return (NO);
 	else if (ft_strncmp(text, "SO", 3) == 0)

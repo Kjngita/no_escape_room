@@ -168,7 +168,7 @@ int			start_pos_setup(t_mapstuff *map, char direction, size_t x_coord,
 int			add_to_flatmap(t_maplines *map_chain, char **line_to_add, size_t line_no);
 int			map_valid(t_mapstuff *map, t_maplines *map_chain, size_t map_height);
 int			copy_linkedlist_to_2xpointers(t_maplines *map_chain, char **dest);
-void		flood_fill(char **testmap, size_t x_coord, size_t y_coord, int *hole);
+int			flood_fill(char **testmap, size_t x_coord, size_t y_coord, size_t map_height);
 
 void	draw_ray(t_data *data, t_ray *ray, mlx_image_t *img);
 void	cast_rays(t_data *data);

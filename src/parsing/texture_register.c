@@ -6,9 +6,6 @@ int	compass(t_mapstuff *map, char *line, int direction)
 	int		check;
 
 	check = 0;
-	if (direction != NO && direction != SO && direction != WE 
-		&& direction != EA)
-		return (errmsg_n_retval("Weird line", -1));
 	extract = ft_split(line, " ");
 	if (!extract || !extract[0] || !extract[1])
 		return (errmsg_n_retval("ft_split failed in texture", -1));
@@ -26,23 +23,25 @@ int	compass(t_mapstuff *map, char *line, int direction)
 	return (check);
 }
 
-int	file_is_png(char *path)
-{
-	if (!path)
-		return (errmsg_n_retval("Could not see file path", 0));
-	if (ft_strcmp(path + (ft_strlen(path) - 4), ".png"))
-		return (errmsg_n_retval("Wrong texture file extension", 0));
-	return (1);
-}
-
 int	register_texture(mlx_texture_t **wall_texture, char *path)
 {
-	if (!file_is_png(path))
-		return (-1);
 	if (*wall_texture)
 		return (errmsg_n_retval("Duplicate texture registration", -1));
+	if (!file_is_png(path))
+		return (-1);
 	*wall_texture = mlx_load_png(path);
 	if (!*wall_texture)
 		return(errmsg_n_retval("Failed to load png", -1));
 	return (0);
+}
+
+int	file_is_png(char *path)
+{
+	if (!path)
+		return (errmsg_n_retval("Could not see file path", 0));
+	if (ft_strlen(path) < 4)
+		return (errmsg_n_retval("Texture file name too short", 0));
+	if (ft_strcmp(path + (ft_strlen(path) - 4), ".png"))
+		return (errmsg_n_retval("Wrong texture file extension", 0));
+	return (1);
 }

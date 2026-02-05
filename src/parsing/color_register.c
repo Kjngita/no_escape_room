@@ -38,7 +38,7 @@ int	color_line_check(char *line)
 		i++;
 	}
 	if (comma != 2)
-		return (errmsg_n_retval("Comma coma", -1));
+		return (errmsg_n_retval("Color comma coma", -1));
 	return (0);
 }
 
@@ -72,7 +72,10 @@ int	set_color(uint32_t *surface_color, char *line)
 	if (!splitted)
 		return (errmsg_n_retval("ft_split failed setting color", -1));
 	if (!splitted[1] || !splitted[2] || !splitted[3] || splitted[4] != NULL)
+	{
+		splitted = clear_2x_char_pointers(splitted);
 		return (errmsg_n_retval("Smt fishy ft_split setting color", -1));
+	}
 	r = cub3d_atoi(splitted[1]);
 	g = cub3d_atoi(splitted[2]);
 	b = cub3d_atoi(splitted[3]);
