@@ -91,7 +91,7 @@ int	line_has_info(t_mapstuff *map, char *line)
 		return (errmsg_n_retval("ft_split failed line info", -1));
 	info = categorize(broken_down_line[0]);
 	broken_down_line = clear_2x_char_pointers(broken_down_line);
-	if (info == -123)
+	if (info == ALIEN)
 		return (errmsg_n_retval("Wrong identifier", -1));
 	if (info == F || info == C)
 		return (paintbrush(map, line, info));
@@ -99,21 +99,4 @@ int	line_has_info(t_mapstuff *map, char *line)
 		return (compass(map, line, info));
 }
 
-int	categorize(char *text)
-{
-	if (ft_strncmp(text, "NO", 3) == 0)
-		return (NO);
-	else if (ft_strncmp(text, "SO", 3) == 0)
-		return (SO);
-	else if (ft_strncmp(text, "WE", 3) == 0)
-		return (WE);
-	else if (ft_strncmp(text, "EA", 3) == 0)
-		return (EA);
-	else if (ft_strncmp(text, "F", 2) == 0)
-		return (F);
-	else if (ft_strncmp(text, "C", 2) == 0)
-		return (C);
-	else
-		return (-123);
-}
 

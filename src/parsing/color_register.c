@@ -86,36 +86,3 @@ int	set_color(uint32_t *surface_color, char *line)
 	return (0);
 }
 
-/*
-Turn a string to integer.
-Other than 1 possible sign for the number, accept only digits.
-
-Return: -1 on errors (not standard/not in 0-255 range integer) 
-or the converted integer
-*/
-int	cub3d_atoi(char *str)
-{
-	size_t		i;
-	int			nbr;
-
-	if (!str)
-		return (-1);
-	i = 0;
-	nbr = 0;
-	if (str[i] == '+' || str[i] == '-')
-	{
-		if (str[i] == '-')
-			return (-1);
-		i++;
-	}
-	while (str[i])
-	{
-		if (str[i] < '0' || str[i] > '9')
-			return (-1);
-		nbr = (nbr * 10 + str[i]) - '0';
-		i++;
-	}
-	if (nbr > 255 || str[i] != 0)
-		return (-1);
-	return (nbr);
-}

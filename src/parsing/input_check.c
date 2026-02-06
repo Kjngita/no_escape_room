@@ -70,15 +70,6 @@ int	map_content(t_mapstuff *map, char *map_name)
 	return (clear_maplines_close_fd_retval(map_chain, map_fd, 0));
 }
 
-int	strlen_no_nl(char *line)
-{
-	size_t	i;
-
-	i = 0;
-	while (line[i] && line[i] != '\n')
-		i++;
-	return (i);
-}
 
 int	got_all_elems(t_mapstuff *map)
 {
@@ -88,4 +79,3 @@ int	got_all_elems(t_mapstuff *map)
 		return (errmsg_n_retval("Not all graphics elements found", -1));
 	return (1);
 }
-

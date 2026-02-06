@@ -32,7 +32,8 @@ enum	e_categorization
 	WE,
 	EA,
 	F,
-	C
+	C,
+	ALIEN
 };
 
 typedef struct s_maplines
@@ -162,6 +163,8 @@ int			set_color(uint32_t *surface_color, char *line);
 
 int			extract_map(t_mapstuff *map, t_maplines *map_chain, int map_fd,
 			char **map_1stline);
+int			build_map_loop(t_mapstuff *map, t_maplines *map_chain, int map_fd, 
+			size_t *line_no);
 int			map_line_acceptable(t_mapstuff *map, t_maplines *map_chain, char *line, size_t line_no);
 int			start_pos_setup(t_mapstuff *map, char direction, size_t x_coord,
 			size_t y_coord);
@@ -169,6 +172,7 @@ int			add_to_flatmap(t_maplines *map_chain, char **line_to_add, size_t line_no);
 int			map_valid(t_mapstuff *map, t_maplines *map_chain, size_t map_height);
 int			copy_linkedlist_to_2xpointers(t_maplines *map_chain, char **dest);
 int			flood_fill(char **testmap, size_t x_coord, size_t y_coord, size_t map_height);
+int			will_fall_to_void(char **testmap, size_t x, size_t y);
 
 void	draw_ray(t_data *data, t_ray *ray, mlx_image_t *img);
 void	cast_rays(t_data *data);
