@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_hooks.c                                        :+:      :+:    :+:   */
+/*   register_hooks.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 10:23:09 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/04 10:24:05 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/06 18:29:52 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,30 @@
 ! TO DO: Check resize fail!
 */
 
-void	resize_hook(int32_t width, int32_t height, void *param)
+static void	resize_hook(int32_t width, int32_t height, void *param)
 {
 	t_data *data;
+	double	weapon_w_ratio;
+	double	weapon_h_ratio;
+	int		new_w;
+	int		new_h;
 	
 	data = (t_data*)param;
 	mlx_resize_image(data->img, width, height);
+	//!CHECK RESIZE FAIL HERE!!
+	mlx_delete_image(data->window, data->weapon);
+	data->weapon = mlx_texture_to_image(data->window, data->weapon_texture);
+	//!CHECK TEXTURE_TO_IMAGE FAIL HERE!!
+	
+	weapon_w_ratio = (double)WEAP_W / WIDTH;
+	weapon_h_ratio = (double)WEAP_H / HEIGHT;
+	new_w = width * weapon_w_ratio;
+	new_h = height * weapon_h_ratio;
+	mlx_image_to_window(data->window, data->weapon, (width / 2) - (new_w / 2), height - new_h);
+	mlx_resize_image(data->weapon, new_w, new_h);
+	//!CHECK RESIZE FAIL HERE!!
+	data->weapon->instances[0].x = width / 2 - (new_w / 2);
+	data->weapon->instances[0].y = height - new_h;
 }
 
 /*
@@ -30,7 +48,7 @@ void	resize_hook(int32_t width, int32_t height, void *param)
 *	the boolean to whatever it is currently *not* :)
 */
 
-void	key_hook(mlx_key_data_t pressed_key, void *param)
+static void	key_hook(mlx_key_data_t pressed_key, void *param)
 {
 	t_data	*data;
 
@@ -51,3 +69,10 @@ void	key_hook(mlx_key_data_t pressed_key, void *param)
 		}
 	}
 }
+
+void	register_hooks(t_data *data)
+{
+	mlx_key_hook(data->window, &key_hook, data);
+	mlx_resize_hook(data->window, &resize_hook, data);
+}
+

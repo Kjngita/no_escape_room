@@ -17,6 +17,8 @@
 #define	HUGE_DELTA 1e30 // Functionally infinite delta, when dir_x or dir_y == 0
 
 #define	MINIMAP_SIDE 400
+#define	WEAP_W 460
+#define	WEAP_H 230
 
 /*
 NOTE: last two digits of a hexadecimal color code are the alpha channel
@@ -65,6 +67,7 @@ typedef struct s_data
 	mlx_t			*window; // the "frame" where canvas is placed
 	mlx_image_t 	*img; // the "canvas" where pixels are drawn
 	mlx_image_t		*minimap;
+	mlx_texture_t	*weapon_texture;
 	mlx_image_t		*weapon;
 	int				cursor_enabled;
 	// ------------ Player state 
@@ -183,7 +186,7 @@ uint32_t	get_color(t_data *data, t_ray *ray, int tex_x, int tex_y);
 
 void	init_start_vars(t_data *data);
 int		init_mlx(t_data *data);
-int		clean_mlx(t_data *data);
+int		clean_all(t_data *data);
 
 void	draw_map(t_data *data);
 
@@ -194,7 +197,6 @@ void	move_backward(t_data *data);
 void	move_left(t_data *data);
 void	move_right(t_data *data);
 
-void	resize_hook(int32_t width, int32_t height, void *param);
-void	key_hook(mlx_key_data_t pressed_key, void *param);
+void	register_hooks(t_data *data);
 
 #endif

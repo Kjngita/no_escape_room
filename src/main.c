@@ -6,13 +6,13 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 13:50:35 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/04 14:23:42 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/06 18:34:40 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header_cub3d.h"
 
-void	game_loop(void *param)
+static void	game_loop(void *param)
 {
 	t_data	*data;
 
@@ -35,6 +35,18 @@ void	game_loop(void *param)
 	draw_map(data);
 }
 
+static void	start_game(t_data *data)
+{
+	mlx_loop_hook(data->window, &game_loop, data);
+	mlx_loop(data->window);
+}
+
+/*
+!	TO DO: CHECK HOW TO PROPAGATE WEAPON RESIZE ERROR UP THE CALL CHAIN!
+!	DOES start_game RUN IF WINDOW HAS BEEN CLOSED FOLLOWING ERROR IN
+!	register_hooks COMPONENTS?
+*/
+
 int	main(int argc, char **argv)
 {
 	t_data	gamedata;
@@ -45,11 +57,8 @@ int	main(int argc, char **argv)
 	init_start_vars(&gamedata);
 	if (init_mlx(&gamedata))
 		return (EXIT_FAILURE);
-	mlx_key_hook(gamedata.window, &key_hook, &gamedata);
-	mlx_resize_hook(gamedata.window, &resize_hook, &gamedata);
-	mlx_loop_hook(gamedata.window, &game_loop, &gamedata);
-	mlx_loop(gamedata.window);
-	mlx_terminate(gamedata.window);
-	wipe_map(&gamedata.map_data);
+	register_hooks(&gamedata);
+	start_game(&gamedata);
+	clean_all(&gamedata);
 	return (EXIT_SUCCESS);
 }
