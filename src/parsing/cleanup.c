@@ -42,18 +42,24 @@ void	*clear_2x_char_pointers(char **trash)
 	return (NULL);
 }
 
-void	clear_maplines(t_maplines *map_chain)
+int	clear_maplines_close_fd_retval(t_maplines *map_chain, int fd, int value)
 {
 	t_maplines	*del;
 
-	while (map_chain)
+	if (map_chain != NULL)
 	{
-		del = map_chain->next;
-		if (map_chain->mapline)
-			free_n_nullify(&map_chain->mapline);
-		free (map_chain);
-		map_chain = del;
+		while (map_chain)
+		{
+			del = map_chain->next;
+			if (map_chain->mapline)
+				free_n_nullify(&map_chain->mapline);
+			free (map_chain);
+			map_chain = del;
+		}
 	}
+	if (fd > 0)
+		close(fd);
+	return (value);
 }
 
 int	errmsg_n_retval(char *msg, int value)
