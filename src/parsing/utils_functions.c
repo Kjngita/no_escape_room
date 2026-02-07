@@ -1,5 +1,8 @@
 #include "header_cub3d.h"
 
+/*
+Return: length of a string, disregarding the possible \n at the end
+*/
 int	strlen_no_nl(char *line)
 {
 	size_t	i;
@@ -11,53 +14,35 @@ int	strlen_no_nl(char *line)
 }
 
 /*
-Turn a string to integer.
-Other than 1 possible sign for the number, accept only digits.
+Check if a line is empty or contains only spaces (also considered empty).
 
-Return: -1 on errors (not standard/not in 0-255 range integer) 
-or the converted integer
+Return: 1 if line is empty, 0 if not
 */
-int	cub3d_atoi(char *str)
+int	line_is_empty(char *line)
 {
-	size_t		i;
-	int			nbr;
+	size_t	i;
 
-	if (!str)
-		return (-1);
 	i = 0;
-	nbr = 0;
-	if (str[i] == '+' || str[i] == '-')
-	{
-		if (str[i] == '-')
-			return (-1);
+	while (line[i] && line[i] == ' ')
 		i++;
-	}
-	while (str[i])
-	{
-		if (str[i] < '0' || str[i] > '9')
-			return (-1);
-		nbr = (nbr * 10 + str[i]) - '0';
-		i++;
-	}
-	if (nbr > 255 || str[i] != 0)
-		return (-1);
-	return (nbr);
+	if (line[i] == '\0')
+		return (1);
+	return (0);
 }
 
-int	categorize(char *text)
+/*
+Extract the alpha channel of a color. Alpha's value is the last 8 bit stored
+in the color which was initialized as 0 in the beginning. Masking with 0xFF to
+check if it was changed to 255, meaning the color was registered.
+
+Return: 0 for not yet register color, 1 for already done
+*/
+int	color_alr_set(uint32_t color)
 {
-	if (ft_strncmp(text, "NO", 3) == 0)
-		return (NO);
-	else if (ft_strncmp(text, "SO", 3) == 0)
-		return (SO);
-	else if (ft_strncmp(text, "WE", 3) == 0)
-		return (WE);
-	else if (ft_strncmp(text, "EA", 3) == 0)
-		return (EA);
-	else if (ft_strncmp(text, "F", 2) == 0)
-		return (F);
-	else if (ft_strncmp(text, "C", 2) == 0)
-		return (C);
-	else
-		return (ALIEN);
+	uint8_t	a_value;
+
+	a_value = color & 0xFF;
+	if (a_value == 0)
+		return (0);
+	return (1);
 }

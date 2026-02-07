@@ -33,7 +33,7 @@ enum	e_categorization
 	EA,
 	F,
 	C,
-	ALIEN
+	UNRECOGNIZED
 };
 
 typedef struct s_maplines
@@ -174,32 +174,31 @@ int			copy_linkedlist_to_2xpointers(t_maplines *map_chain, char **dest);
 int			flood_fill(char **testmap, size_t x_coord, size_t y_coord, size_t map_height);
 int			will_fall_to_void(char **testmap, size_t x, size_t y);
 
-void	draw_ray(t_data *data, t_ray *ray, mlx_image_t *img);
-void	cast_rays(t_data *data);
-void	init_ray(t_data *data, t_ray *ray, int x);
+void		cast_rays(t_data *data);
+void		init_ray(t_data *data, t_ray *ray, int x);
 
-void	fill_background(t_data *data);
-void	calc_line_height(t_data *data, t_ray *ray);
-void	find_wall_x(t_data *data, t_ray *ray);
-void	draw_wall_line(t_data *data, t_ray *ray);
+void		fill_background(t_data *data);
+void		calc_line_height(t_data *data, t_ray *ray);
+void		find_wall_x(t_data *data, t_ray *ray);
+void		draw_wall_line(t_data *data, t_ray *ray);
 uint32_t	get_color(t_data *data, t_ray *ray, int tex_x, int tex_y);
 
-void	init_player_start(t_data *data);
-void	init_images(t_data *data);
+void		init_player_start(t_data *data);
+void		init_images(t_data *data);
 
-void	calc_map_dimensions(t_data *data);
-void	calc_minimap_scaling(t_data *data);
-void	draw_map(t_data *data);
+void		calc_map_dimensions(t_data *data);
+void		calc_minimap_scaling(t_data *data);
+void		draw_map(t_data *data);
 
-void	mouse_look(t_data *data);
-void	rotate(t_data *data, double dir);
-void	move_forward(t_data *data);
-void	move_backward(t_data *data);
-void	move_left(t_data *data);
-void	move_right(t_data *data);
+void		mouse_look(t_data *data);
+void		rotate(t_data *data, double dir);
+void		move_forward(t_data *data);
+void		move_backward(t_data *data);
+void		move_left(t_data *data);
+void		move_right(t_data *data);
 
-void	open_window(t_data *data);
-void	resize_hook(int32_t width, int32_t height, void *param);
-void	key_hook(mlx_key_data_t pressed_key, void *param);
+void		open_window(t_data *data);
+void		resize_hook(int32_t width, int32_t height, void *param);
+void		key_hook(mlx_key_data_t pressed_key, void *param);
 
 #endif

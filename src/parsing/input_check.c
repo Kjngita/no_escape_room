@@ -1,16 +1,20 @@
 
 #include "header_cub3d.h"
 
-//* UPDATE:renamed from main
+/*
+Start of process of parsing input file.
+Register information provided in input file into the `t_mapstuff` struct.
 
+Return: 0 on success, -1 on errors
+*/
 int	parse_input(t_mapstuff *map, int ac, char **av)
 {
 	if (ac < 2)
-		return (errmsg_n_retval("No scene file provided", 1));
+		return (errmsg_n_retval("No scene file provided", -1));
 	if (ac > 2)
-		return (errmsg_n_retval("Only 1 file at a time pls", 1));
+		return (errmsg_n_retval("Only 1 file at a time pls", -1));
 	if (check_map_extension(av[1]) == -1)
-		return (1);
+		return (-1);
 	map->Fcolor = bitshift_rgba(0, 0, 0, 0);
 	map->Ccolor = bitshift_rgba(0, 0, 0, 0);
 	if (map_content(map, av[1]) == -1)
@@ -21,6 +25,12 @@ int	parse_input(t_mapstuff *map, int ac, char **av)
 	return (0);
 }
 
+/*
+(helper function of `parse_input()`)
+Check input file extension.
+
+Return: 0 on acceptable extension, -1 on errors
+*/
 int	check_map_extension(char *map_name)
 {
 	int	extension;
@@ -36,14 +46,18 @@ int	check_map_extension(char *map_name)
 }
 
 /*
-*	UPDATES:
-*	1.	Added cleanup if extract_graphics_elements fails
-*	2.	Packed clear_maplines and close function calls into
-*		return statements to save lines
-*	3.	Moved map_chain allocation to after fd opening and
-*		and added fd close on ft_calloc failure
-*/
+(helper function of `parse_input()`)
+- Open input file and allocate memory for first node of a linked list used to
+construct the map
+- Pass a string to helper function that extracts graphical elements to save the
+content of the map's first line
+- Pass the linked list of map lines, the string that holds content of the map's
+first line, and the same fd (opened midway) to another helper function to build
+the map
+- Graphical elements and map will be registered into the `t_mapstuff` struct
 
+Return: 0 on success, -1 on errors
+*/
 int	map_content(t_mapstuff *map, char *map_name)
 {
 	int			map_fd;
@@ -70,7 +84,12 @@ int	map_content(t_mapstuff *map, char *map_name)
 	return (clear_maplines_close_fd_retval(map_chain, map_fd, 0));
 }
 
+/*
+(helper function of `extract_graphics_elements()`)
+Check NO/SO/WE/EA textures and F/C colors.
 
+Return: 1 if all graphical elements were registered, -1 if not
+*/
 int	got_all_elems(t_mapstuff *map)
 {
 	if (map->NO_texture == NULL || map->SO_texture == NULL

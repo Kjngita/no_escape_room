@@ -1,10 +1,24 @@
 #include "header_cub3d.h"
 
+/*
+Combine 4 individual channel bytes into a single integer using bit-shifting.
+8 bits representing the value of red channel is shifted 3 bytes to the left,
+green - 2 bytes, blue - 1 byte, and alpha channel occupy the last byte.
+
+Return: An uint32_t number that has (r | g | b | a) info of a color
+*/
 uint32_t	bitshift_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 {
 	return (r << 24 | g << 16 | b << 8 | a);
 }
 
+/*
+(helper function of `line_has_info()`)
+- Check whether the line passed to the function is correctly constructed
+- Set the floor/ceiling color according to the info from the input
+
+Return: 0 on success, -1 on errors
+*/
 int	paintbrush(t_mapstuff *map, char *line, int surface)
 {
 	if (color_line_check(line) == -1)
@@ -22,6 +36,14 @@ int	paintbrush(t_mapstuff *map, char *line, int surface)
 	return (0);
 }
 
+/*
+(helper function of `paintbrush()`)
+- Check whether there is any foreign character than those expected in a
+color input line
+- Check if the number of commas appearing in the line is 2
+
+Return: 0 for acceptable line, -1 for errors
+*/
 int	color_line_check(char *line)
 {
 	size_t	i;
@@ -43,22 +65,12 @@ int	color_line_check(char *line)
 }
 
 /*
-Extract the alpha channel of a color. Alpha's value is the last 8 bit stored
-in the color which was initialized as 0 in the beginning. Masking with 0xFF to
-check if it was changed to 255, meaning the color was registered.
+(helper function of `paintbrush()`)
+- Check if the color was set previously
+- Check if the color values are within range
 
-Return: 0 for not yet register color, 1 for already done
+Return: 0 on success, -1 on errors
 */
-int	color_alr_set(uint32_t color)
-{
-	uint8_t	a_value;
-
-	a_value = color & 0xFF;
-	if (a_value == 0)
-		return (0);
-	return (1);
-}
-
 int	set_color(uint32_t *surface_color, char *line)
 {
 	char	**splitted;
@@ -86,3 +98,33 @@ int	set_color(uint32_t *surface_color, char *line)
 	return (0);
 }
 
+/*
+(helper function of `set_color()`)
+Turn a string to integer.
+Other than 1 positive sign at the front of the string, accept only digits.
+
+Return: -1 on errors (not standard/not in 0-255 range integer) 
+or the converted integer
+*/
+int	cub3d_atoi(char *str)
+{
+	size_t		i;
+	int			nbr;
+
+	if (!str)
+		return (-1);
+	i = 0;
+	nbr = 0;
+	if (str[i] == '+')
+		i++;
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (-1);
+		nbr = (nbr * 10 + str[i]) - '0';
+		i++;
+	}
+	if (nbr > 255)
+		return (-1);
+	return (nbr);
+}
