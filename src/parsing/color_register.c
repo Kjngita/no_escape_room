@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   color_register.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gita <gita@student.hive.fi>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/09 21:48:29 by gita              #+#    #+#             */
+/*   Updated: 2026/02/09 21:48:30 by gita             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "header_cub3d.h"
 
 /*
@@ -53,7 +65,7 @@ int	color_line_check(char *line)
 	comma = 0;
 	while (line[i])
 	{
-		if (ft_strchr("FC, ", line[i]) == NULL && !ft_isdigit(line[i]))
+		if (ft_strchr("FC, +", line[i]) == NULL && !ft_isdigit(line[i]))
 			return (errmsg_n_retval("Color line: Foreign character", -1));
 		if (line[i] == ',')
 			comma++;
