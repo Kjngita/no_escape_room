@@ -1,5 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_validation.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gita <gita@student.hive.fi>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/10 20:39:06 by gita              #+#    #+#             */
+/*   Updated: 2026/02/10 21:16:06 by gita             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "header_cub3d.h"
 
+/*
+(helper function of extract_map()`)
+- Perform flood fill on a test map
+- If map has no issue, save the map into `t_mapstuff` struct
+
+Return: 0 on success, -1 on errors
+*/
 int	map_valid(t_mapstuff *map, t_maplines *map_chain, size_t map_height)
 {
 	char	**testmap;
@@ -12,7 +31,7 @@ int	map_valid(t_mapstuff *map, t_maplines *map_chain, size_t map_height)
 	if (copy_linkedlist_to_2xpointers(map_chain, testmap) == -1)
 		return (-1);
 	if (flood_fill(testmap, map->player_start_x, map->player_start_y,
-		map_height) == -1)
+			map_height) == -1)
 	{
 		testmap = clear_2x_char_pointers(testmap);
 		return (errmsg_n_retval("Found black hole in map", -1));
@@ -26,6 +45,12 @@ int	map_valid(t_mapstuff *map, t_maplines *map_chain, size_t map_height)
 	return (0);
 }
 
+/*
+(helper function of `map_valid()`)
+Convert from `t_maplines` into `char **` (linked list -> double array)
+
+Return: 0 on success, -1 on error
+*/
 int	copy_linkedlist_to_2xpointers(t_maplines *map_chain, char **dest)
 {
 	t_maplines	*copy;
@@ -48,6 +73,14 @@ int	copy_linkedlist_to_2xpointers(t_maplines *map_chain, char **dest)
 	return (0);
 }
 
+/*
+(helper function of `map_valid()`)
+Start from saved starting coordinates, turn '0' tile to 'F'. If able to reach
+last row or left most column of map, or will encounter forbidden scenarios,
+flag an error.
+
+Return: 0 on success, -1 on errors
+*/
 int	flood_fill(char **testmap, size_t x_coord, size_t y_coord,
 	size_t map_height)
 {
@@ -71,6 +104,13 @@ int	flood_fill(char **testmap, size_t x_coord, size_t y_coord,
 	return (0);
 }
 
+/*
+(helper function of `flood_fill()`)
+Check if encountering `' '` or `'\0'` or reaching out of bound memory
+in the next step to any of the 4 directions.
+
+Return: 0 for safety, 1 for death
+*/
 int	will_fall_to_void(char **testmap, size_t x, size_t y)
 {
 	char	to_north;
@@ -85,8 +125,8 @@ int	will_fall_to_void(char **testmap, size_t x, size_t y)
 	to_west = testmap[y][x - 1];
 	to_east = testmap[y][x + 1];
 	if (to_north == ' ' || to_north == '\0' || to_south == ' '
-		|| to_south == '\0' || to_west == ' ' || to_west == '\0'
-		|| to_east == ' ' || to_east == '\0')
+		|| to_south == '\0' || to_east == ' ' || to_east == '\0'
+		|| to_west == ' ')
 		return (1);
 	return (0);
 }

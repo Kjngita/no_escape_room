@@ -8,15 +8,13 @@
 # include <math.h>
 # include <string.h>
 
-
-#define WIDTH 1920 // Default starting screen width
-#define HEIGHT 1080 // Default starting screen height
-#define MOVE_SPEED 0.06 // Move amount per frame
-#define ROT_SPEED 0.02 // Turn amount per frame
-#define	MOUSE_SENSITIVITY 0.08 // Used by mouse_look to dampen rotation factor
-#define	HUGE_DELTA 1e30 // Functionally infinite delta, when dir_x or dir_y == 0
-
-#define	MINIMAP_SIDE 400
+# define WIDTH 1920 // Default starting screen width
+# define HEIGHT 1080 // Default starting screen height
+# define MOVE_SPEED 0.06 // Move amount per frame
+# define ROT_SPEED 0.02 // Turn amount per frame
+# define MOUSE_SENSITIVITY 0.08 // Used by mouse_look to dampen rotation factor
+# define HUGE_DELTA 1e30 //Functionally infinite delta, when dir_x or dir_y == 0
+# define MINIMAP_SIDE 400
 
 /*
 NOTE: last two digits of a hexadecimal color code are the alpha channel
@@ -44,12 +42,12 @@ typedef struct s_maplines
 
 typedef struct s_map
 {
-	mlx_texture_t	*NO_texture;
-	mlx_texture_t	*SO_texture;
-	mlx_texture_t	*WE_texture;
-	mlx_texture_t	*EA_texture;
-	uint32_t		Fcolor;
-	uint32_t		Ccolor;
+	mlx_texture_t	*north_texture;
+	mlx_texture_t	*south_texture;
+	mlx_texture_t	*west_texture;
+	mlx_texture_t	*east_texture;
+	uint32_t		floor_color;
+	uint32_t		ceiling_color;
 	char			start_pos; //Player start facing 
 	size_t			player_start_x;
 	size_t			player_start_y;
@@ -63,7 +61,7 @@ typedef struct s_data
 {
 	// ------------ MLX data
 	mlx_t			*window; // the "frame" where canvas is placed
-	mlx_image_t 	*img; // the "canvas" where pixels are drawn
+	mlx_image_t		*img; // the "canvas" where pixels are drawn
 	mlx_image_t		*minimap;
 	mlx_image_t		*chaingun;
 	int				cursor_enabled;
@@ -94,7 +92,6 @@ typedef struct s_ray
 	double	camera_x; // ray position along camera plane, between -1 and 1
 	double	ray_dir_x; //if camera_x = 0, equal to dir_x
 	double	ray_dir_y; //if camera_x = 0, equal to dir_y
-
 	// WALL DETECTION & DISTANCE CALCULATION
 	int		map_x; //current map square
 	int		map_y; //current map square
@@ -107,15 +104,13 @@ typedef struct s_ray
 	double	wall_dist; //diagonal distance from player to wall
 	int		side; // 0: vertical (N TO S) wall hit, 1 if horizontal (W to E)
 	t_face	wall_face; //which wall face the ray hit
-
 	// RENDERING
 	double	wall_x; //exact hit location on wall, range 0.0 - 1.0
-	int	texture_x; //pixel column that wall_x corresponds to, range 0 - texture width
-	int	screen_x; //screen pixel column to draw
-	int	line_height; //how high to draw the wall column
-	int	line_top; //screen y pixel to start drawing from
-	int	line_bottom; //screen y pixel to stop drawing at
-
+	int		texture_x; //pixel column that wall_x corresponds to, range 0 - texture width
+	int		screen_x; //screen pixel column to draw
+	int		line_height; //how high to draw the wall column
+	int		line_top; //screen y pixel to start drawing from
+	int		line_bottom; //screen y pixel to stop drawing at
 }	t_ray;
 
 //used by draw_line to store variables
@@ -127,21 +122,23 @@ typedef struct s_line
 	int	sy; //step y: vertical direction, either 1 (up) or -1 (down)
 	int	err; //tracks drift from perfect mathematical line
 	int	e2; //err * 2 for calculation efficiency
-	int		map_x;
-	int		map_y;
+	int	map_x;
+	int	map_y;
 }	t_line;
 
 int			parse_input(t_mapstuff *map, int ac, char **av);
 void		free_n_nullify(char **useless);
 void		*clear_2x_char_pointers(char **trash);
-int			clear_maplines_close_fd_retval(t_maplines *map_chain, int fd, int value);
+int			clear_maplines_close_fd_retval(t_maplines *map_chain, int fd,
+				int value);
 void		wipe_map(t_mapstuff *map);
 int			errmsg_n_retval(char *msg, int value);
 
 int			check_map_extension(char *map_name);
 int			strlen_no_nl(char *line);
 int			map_content(t_mapstuff *map, char *map_name);
-int			extract_graphics_elements(t_mapstuff *map, int map_fd, char **hotline);
+int			extract_graphics_elements(t_mapstuff *map, int map_fd,
+				char **hotline);
 int			what_kinda_line(t_mapstuff *map, char **line, char **hotline);
 
 int			line_has_info(t_mapstuff *map, char *line);
@@ -162,16 +159,20 @@ int			cub3d_atoi(char *str);
 int			set_color(uint32_t *surface_color, char *line);
 
 int			extract_map(t_mapstuff *map, t_maplines *map_chain, int map_fd,
-			char **map_1stline);
-int			build_map_loop(t_mapstuff *map, t_maplines *map_chain, int map_fd, 
-			size_t *line_no);
-int			map_line_acceptable(t_mapstuff *map, t_maplines *map_chain, char *line, size_t line_no);
+				char **map_1stline);
+int			build_map_loop(t_mapstuff *map, t_maplines *map_chain, int map_fd,
+				size_t *line_no);
+int			map_line_acceptable(t_mapstuff *map, t_maplines *map_chain,
+				char *line, size_t line_no);
 int			start_pos_setup(t_mapstuff *map, char direction, size_t x_coord,
-			size_t y_coord);
-int			add_to_flatmap(t_maplines *map_chain, char **line_to_add, size_t line_no);
-int			map_valid(t_mapstuff *map, t_maplines *map_chain, size_t map_height);
+				size_t y_coord);
+int			add_to_flatmap(t_maplines *map_chain, char **line_to_add,
+				size_t line_no);
+int			map_valid(t_mapstuff *map, t_maplines *map_chain,
+				size_t map_height);
 int			copy_linkedlist_to_2xpointers(t_maplines *map_chain, char **dest);
-int			flood_fill(char **testmap, size_t x_coord, size_t y_coord, size_t map_height);
+int			flood_fill(char **testmap, size_t x_coord, size_t y_coord,
+				size_t map_height);
 int			will_fall_to_void(char **testmap, size_t x, size_t y);
 
 void		cast_rays(t_data *data);

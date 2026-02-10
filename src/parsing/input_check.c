@@ -6,7 +6,7 @@
 /*   By: gita <gita@student.hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 21:58:54 by gita              #+#    #+#             */
-/*   Updated: 2026/02/09 21:58:56 by gita             ###   ########.fr       */
+/*   Updated: 2026/02/10 18:31:54 by gita             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	parse_input(t_mapstuff *map, int ac, char **av)
 		return (errmsg_n_retval("Only 1 file at a time pls", -1));
 	if (check_map_extension(av[1]) == -1)
 		return (-1);
-	map->Fcolor = bitshift_rgba(0, 0, 0, 0);
-	map->Ccolor = bitshift_rgba(0, 0, 0, 0);
+	map->floor_color = bitshift_rgba(0, 0, 0, 0);
+	map->ceiling_color = bitshift_rgba(0, 0, 0, 0);
 	if (map_content(map, av[1]) == -1)
 	{
 		wipe_map(map);
@@ -103,9 +103,10 @@ Return: 1 if all graphical elements were registered, -1 if not
 */
 int	got_all_elems(t_mapstuff *map)
 {
-	if (map->NO_texture == NULL || map->SO_texture == NULL
-		|| map->WE_texture == NULL || map->EA_texture == NULL
-		|| !color_alr_set(map->Fcolor) || !color_alr_set(map->Ccolor))
+	if (map->north_texture == NULL || map->south_texture == NULL
+		|| map->west_texture == NULL || map->east_texture == NULL
+		|| !color_alr_set(map->floor_color)
+		|| !color_alr_set(map->ceiling_color))
 		return (errmsg_n_retval("Not all graphics elements found", -1));
 	return (1);
 }
