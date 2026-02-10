@@ -32,7 +32,8 @@ enum	e_categorization
 	WE,
 	EA,
 	F,
-	C
+	C,
+	UNRECOGNIZED
 };
 
 typedef struct s_maplines
@@ -133,7 +134,7 @@ typedef struct s_line
 int			parse_input(t_mapstuff *map, int ac, char **av);
 void		free_n_nullify(char **useless);
 void		*clear_2x_char_pointers(char **trash);
-void		clear_maplines(t_maplines *map_chain);
+int			clear_maplines_close_fd_retval(t_maplines *map_chain, int fd, int value);
 void		wipe_map(t_mapstuff *map);
 int			errmsg_n_retval(char *msg, int value);
 
@@ -162,40 +163,42 @@ int			set_color(uint32_t *surface_color, char *line);
 
 int			extract_map(t_mapstuff *map, t_maplines *map_chain, int map_fd,
 			char **map_1stline);
+int			build_map_loop(t_mapstuff *map, t_maplines *map_chain, int map_fd, 
+			size_t *line_no);
 int			map_line_acceptable(t_mapstuff *map, t_maplines *map_chain, char *line, size_t line_no);
 int			start_pos_setup(t_mapstuff *map, char direction, size_t x_coord,
 			size_t y_coord);
 int			add_to_flatmap(t_maplines *map_chain, char **line_to_add, size_t line_no);
 int			map_valid(t_mapstuff *map, t_maplines *map_chain, size_t map_height);
 int			copy_linkedlist_to_2xpointers(t_maplines *map_chain, char **dest);
-void		flood_fill(char **testmap, size_t x_coord, size_t y_coord, int *hole);
+int			flood_fill(char **testmap, size_t x_coord, size_t y_coord, size_t map_height);
+int			will_fall_to_void(char **testmap, size_t x, size_t y);
 
-void	draw_ray(t_data *data, t_ray *ray, mlx_image_t *img);
-void	cast_rays(t_data *data);
-void	init_ray(t_data *data, t_ray *ray, int x);
+void		cast_rays(t_data *data);
+void		init_ray(t_data *data, t_ray *ray, int x);
 
-void	fill_background(t_data *data);
-void	calc_line_height(t_data *data, t_ray *ray);
-void	find_wall_x(t_data *data, t_ray *ray);
-void	draw_wall_line(t_data *data, t_ray *ray);
+void		fill_background(t_data *data);
+void		calc_line_height(t_data *data, t_ray *ray);
+void		find_wall_x(t_data *data, t_ray *ray);
+void		draw_wall_line(t_data *data, t_ray *ray);
 uint32_t	get_color(t_data *data, t_ray *ray, int tex_x, int tex_y);
 
-void	init_player_start(t_data *data);
-void	init_images(t_data *data);
+void		init_player_start(t_data *data);
+void		init_images(t_data *data);
 
-void	calc_map_dimensions(t_data *data);
-void	calc_minimap_scaling(t_data *data);
-void	draw_map(t_data *data);
+void		calc_map_dimensions(t_data *data);
+void		calc_minimap_scaling(t_data *data);
+void		draw_map(t_data *data);
 
-void	mouse_look(t_data *data);
-void	rotate(t_data *data, double dir);
-void	move_forward(t_data *data);
-void	move_backward(t_data *data);
-void	move_left(t_data *data);
-void	move_right(t_data *data);
+void		mouse_look(t_data *data);
+void		rotate(t_data *data, double dir);
+void		move_forward(t_data *data);
+void		move_backward(t_data *data);
+void		move_left(t_data *data);
+void		move_right(t_data *data);
 
-void	open_window(t_data *data);
-void	resize_hook(int32_t width, int32_t height, void *param);
-void	key_hook(mlx_key_data_t pressed_key, void *param);
+void		open_window(t_data *data);
+void		resize_hook(int32_t width, int32_t height, void *param);
+void		key_hook(mlx_key_data_t pressed_key, void *param);
 
 #endif
