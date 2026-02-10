@@ -6,7 +6,7 @@
 /*   By: gita <gita@student.hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 21:48:53 by gita              #+#    #+#             */
-/*   Updated: 2026/02/09 21:58:04 by gita             ###   ########.fr       */
+/*   Updated: 2026/02/10 18:34:21 by gita             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ int	compass(t_mapstuff *map, char *line, int direction)
 		return (errmsg_n_retval("Smt fishy ft_split setting texture", -1));
 	}
 	if (direction == NO)
-		check = register_texture(&map->NO_texture, extract[1]);
+		check = register_texture(&map->north_texture, extract[1]);
 	else if (direction == SO)
-		check = register_texture(&map->SO_texture, extract[1]);
+		check = register_texture(&map->south_texture, extract[1]);
 	else if (direction == WE)
-		check = register_texture(&map->WE_texture, extract[1]);
+		check = register_texture(&map->west_texture, extract[1]);
 	else if (direction == EA)
-		check = register_texture(&map->EA_texture, extract[1]);
+		check = register_texture(&map->east_texture, extract[1]);
 	extract = clear_2x_char_pointers(extract);
 	return (check);
 }

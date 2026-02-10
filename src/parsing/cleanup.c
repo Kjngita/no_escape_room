@@ -6,7 +6,7 @@
 /*   By: gita <gita@student.hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 21:48:10 by gita              #+#    #+#             */
-/*   Updated: 2026/02/09 21:48:11 by gita             ###   ########.fr       */
+/*   Updated: 2026/02/10 18:33:31 by gita             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ void	wipe_map(t_mapstuff *map)
 {
 	if (!map)
 		return ;
-	if (map->NO_texture)
-		mlx_delete_texture(map->NO_texture);
-	if (map->SO_texture)
-		mlx_delete_texture(map->SO_texture);
-	if (map->WE_texture)
-		mlx_delete_texture(map->WE_texture);
-	if (map->EA_texture)
-		mlx_delete_texture(map->EA_texture);
+	if (map->north_texture)
+		mlx_delete_texture(map->north_texture);
+	if (map->south_texture)
+		mlx_delete_texture(map->south_texture);
+	if (map->west_texture)
+		mlx_delete_texture(map->west_texture);
+	if (map->east_texture)
+		mlx_delete_texture(map->east_texture);
 	if (map->dungeon)
 		map->dungeon = clear_2x_char_pointers(map->dungeon);
 }

@@ -6,7 +6,7 @@
 /*   By: gita <gita@student.hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 21:48:29 by gita              #+#    #+#             */
-/*   Updated: 2026/02/09 21:48:30 by gita             ###   ########.fr       */
+/*   Updated: 2026/02/10 18:32:54 by gita             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ int	paintbrush(t_mapstuff *map, char *line, int surface)
 		return (-1);
 	if (surface == F)
 	{
-		if (set_color(&map->Fcolor, line) == -1)
+		if (set_color(&map->floor_color, line) == -1)
 			return (-1);
 	}
 	else if (surface == C)
 	{
-		if (set_color(&map->Ccolor, line) == -1)
+		if (set_color(&map->ceiling_color, line) == -1)
 			return (-1);
 	}
 	return (0);
