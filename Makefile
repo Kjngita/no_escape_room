@@ -14,6 +14,8 @@ CFILES = $(S_DIR)/main.c \
 	$(S_DIR)/$(PAR)/texture_register.c \
 	$(S_DIR)/$(PAR)/color_register.c \
 	$(S_DIR)/$(PAR)/map_extraction.c \
+	$(S_DIR)/$(PAR)/map_validation.c \
+	$(S_DIR)/$(PAR)/utils_functions.c \
 	$(S_DIR)/$(PAR)/cleanup.c \
 	$(S_DIR)/$(EXE)/controls.c \
 	$(S_DIR)/$(EXE)/init_start_vars.c \

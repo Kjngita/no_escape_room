@@ -1,14 +1,12 @@
-NO ./textures/bark.png
-F 220,100,0
+EA ./textures/bark.png
 
+NO ./textures/brick.png
 
-SO ./textures/gravel.png
+F 13, 15, 17
+WE ./textures/gravel.png
 
-C 225,30,0
-WE ./textures/gold0.png
-EA ./textures/brick.png
-
-
+C 100, 150, 200
+SO ./textures/gold0.png
 
  1111
 10001
