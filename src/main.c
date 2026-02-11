@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gita <gita@student.hive.fi>                +#+  +:+       +#+        */
+/*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 13:50:35 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/03 19:33:09 by gita             ###   ########.fr       */
+/*   Updated: 2026/02/11 15:26:33 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header_cub3d.h"
 
-void	game_loop(void *param)
+static void	game_loop(void *param)
 {
 	t_data	*data;
 
@@ -35,6 +35,18 @@ void	game_loop(void *param)
 	draw_map(data);
 }
 
+static void	start_game(t_data *data)
+{
+	mlx_loop_hook(data->window, &game_loop, data);
+	mlx_loop(data->window);
+}
+
+/*
+!	TO DO: CHECK HOW TO PROPAGATE WEAPON RESIZE ERROR UP THE CALL CHAIN!
+!	DOES start_game RUN IF WINDOW HAS BEEN CLOSED FOLLOWING ERROR IN
+!	register_hooks COMPONENTS?
+*/
+
 int	main(int argc, char **argv)
 {
 	t_data	gamedata;
@@ -42,26 +54,11 @@ int	main(int argc, char **argv)
 	ft_bzero(&gamedata, sizeof(t_data));
 	if (parse_input(&gamedata.map_data, argc, argv))
 		return (EXIT_FAILURE);
-	calc_map_dimensions(&gamedata);
-	calc_minimap_scaling(&gamedata);
-	init_player_start(&gamedata);
-	open_window(&gamedata);
-	if (!gamedata.window)
-		return (puts(mlx_strerror(mlx_errno)), EXIT_FAILURE);
-	init_images(&gamedata);
-	/*
-	gamedata.img = mlx_new_image(gamedata.window, WIDTH, HEIGHT);
-	gamedata.minimap = mlx_new_image(gamedata.window, 400, 400);
-	gamedata.minimap->enabled = false;
-	mlx_image_to_window(gamedata.window, gamedata.img, 0, 0);
-	mlx_image_to_window(gamedata.window, gamedata.minimap, 50, gamedata.window->height - 200);
-	*/
-	mlx_key_hook(gamedata.window, &key_hook, &gamedata);
-	mlx_resize_hook(gamedata.window, &resize_hook, &gamedata);
-	mlx_loop_hook(gamedata.window, &game_loop, &gamedata);
-	printf("Window opened! Press ESC to close.\n");
-	mlx_loop(gamedata.window);
-	mlx_terminate(gamedata.window);
-	wipe_map(&gamedata.map_data);
+	init_start_vars(&gamedata);
+	if (init_mlx(&gamedata))
+		return (EXIT_FAILURE);
+	register_hooks(&gamedata);
+	start_game(&gamedata);
+	clean_all(&gamedata);
 	return (EXIT_SUCCESS);
 }

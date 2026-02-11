@@ -6,12 +6,11 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 21:26:38 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/01/30 11:10:04 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/11 13:54:47 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header_cub3d.h"
-
 
 /*
 Initializes delta distances for a ray (the diagonal distance a ray needs
