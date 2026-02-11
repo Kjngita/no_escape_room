@@ -6,7 +6,7 @@
 /*   By: gita <gita@student.hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 21:58:54 by gita              #+#    #+#             */
-/*   Updated: 2026/02/10 18:31:54 by gita             ###   ########.fr       */
+/*   Updated: 2026/02/11 19:32:56 by gita             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,9 @@ int	got_all_elems(t_mapstuff *map)
 		|| !color_alr_set(map->floor_color)
 		|| !color_alr_set(map->ceiling_color))
 		return (errmsg_n_retval("Not all graphics elements found", -1));
+	if (map->north_texture->height != map->south_texture->height
+		|| map->north_texture->height != map->west_texture->height
+		|| map->north_texture->height != map->east_texture->height)
+		return (errmsg_n_retval("Textures have different sizes", -1));
 	return (1);
 }

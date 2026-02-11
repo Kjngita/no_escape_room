@@ -6,7 +6,7 @@
 /*   By: gita <gita@student.hive.fi>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 21:48:53 by gita              #+#    #+#             */
-/*   Updated: 2026/02/10 18:34:21 by gita             ###   ########.fr       */
+/*   Updated: 2026/02/11 19:21:49 by gita             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	register_texture(mlx_texture_t **wall_texture, char *path)
 	*wall_texture = mlx_load_png(path);
 	if (!*wall_texture)
 		return (errmsg_n_retval("Failed to load png", -1));
+	if ((*wall_texture)->height != (*wall_texture)->width)
+		return (errmsg_n_retval("Not a square texture", -1));
 	return (0);
 }
 
