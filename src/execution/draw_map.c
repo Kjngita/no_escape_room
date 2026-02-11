@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 18:03:04 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/04 11:08:04 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/11 13:53:26 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static void	draw_player(t_data *data)
 		j = 0;
 		while (j < tile / 2)
 		{
-			mlx_put_pixel(data->minimap, draw_start_x + j, draw_start_y + i, 0xFF000DFF);
+			mlx_put_pixel(data->minimap, draw_start_x + j,
+				draw_start_y + i, 0xFF000DFF);
 			j++;
 		}
 		i++;
@@ -68,10 +69,9 @@ static void	draw_tile(t_data *data, int x, int y)
 /*
 	UPDATE: Modified function to use parsed map data, with varying
 	map heights and widths. Walls white, floors black, whitespace skipped
-*	UPDATE: Split draw tile into separate function for norm compliance
+	UPDATE: Split draw tile into separate function for norm compliance
 */
-
-void draw_map(t_data *data)
+void	draw_map(t_data *data)
 {
 	int			x;
 	int			y;

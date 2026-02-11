@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:54:42 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/04 14:22:50 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/11 13:55:14 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	calc_map_dimensions(t_data *data)
 	int		y;
 	int		max_x;
 	char	**map;
-	
+
 	y = 0;
 	max_x = 0;
 	map = data->map_data.dungeon;
@@ -51,7 +51,7 @@ static void	calc_minimap_scaling(t_data *data)
 	double	x_max_tile_size;
 	double	y_max_tile_size;
 	int		max_tile_size_rounded;
-	
+
 	x_max_tile_size = MINIMAP_SIDE / data->map_data.map_width;
 	y_max_tile_size = MINIMAP_SIDE / data->map_data.map_height;
 	if (x_max_tile_size < y_max_tile_size)

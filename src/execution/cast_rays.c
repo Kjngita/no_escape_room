@@ -6,36 +6,52 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 11:24:03 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/11 10:43:21 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/11 13:44:36 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header_cub3d.h"
 
+/*
+	Checks which block face the ray hits.
+	
+	side 0 = vertical wall
+		step_x < 0 = ray moving left, hits E facing wall
+		step_x > 0 = ray moving right, hits W facing wall
+		
+	side 1 (else)= horizontal wall
+		step_y < 0 = ray moving up, hits S facing wall
+		step_y > 0 = ray moving down, hits N facing wall
+	
+	Note! Y-coordinates are 'flipped' so 0 is up
+*/
+
 static void	check_face(t_ray *ray)
 {
-	if (ray->side == 0) // vertical (N to S) wall hit
+	if (ray->side == 0)
 	{
-		if (ray->step_x < 0) //moved left, hit E facing wall
+		if (ray->step_x < 0)
 			ray->wall_face = EAST;
 		else
-			ray->wall_face = WEST; //moved right, hit W facing wall
+			ray->wall_face = WEST;
 	}
-	else// horizontal (W to E) wall hit
+	else
 	{
-		if (ray->step_y < 0) // moved up, hit S facing wall (Y coordinates flipped)
+		if (ray->step_y < 0)
 			ray->wall_face = SOUTH;
 		else
-			ray->wall_face = NORTH; //moved down , hit N facing wall (Y coordinates flipped)
+			ray->wall_face = NORTH;
 	}
 }
 
 static void	calc_wall_dist(t_data *data, t_ray *ray)
 {
 	if (ray->side == 0)
-		ray->wall_dist = (ray->map_x - data->pos_x + (1 - ray->step_x) / 2) / ray->ray_dir_x;
+		ray->wall_dist = (ray->map_x - data->pos_x
+				+ (1 - ray->step_x) / 2) / ray->ray_dir_x;
 	else
-		ray->wall_dist = (ray->map_y - data->pos_y + (1 - ray->step_y) / 2) / ray->ray_dir_y;
+		ray->wall_dist = (ray->map_y - data->pos_y
+				+ (1 - ray->step_y) / 2) / ray->ray_dir_y;
 }
 
 //*Updated to use parsed map data
@@ -43,7 +59,7 @@ static void	calc_wall_dist(t_data *data, t_ray *ray)
 static void	cast_ray(t_data *data, t_ray *ray)
 {
 	int	hit;
-	
+
 	hit = 0;
 	while (hit == 0)
 	{
@@ -51,28 +67,30 @@ static void	cast_ray(t_data *data, t_ray *ray)
 		{
 			ray->side_dist_x += ray->delta_x;
 			ray->map_x += ray->step_x;
-			ray->side = 0; //hit vertical (x) grid line
+			ray->side = 0;
 		}
 		else
 		{
 			ray->side_dist_y += ray->delta_y;
 			ray->map_y += ray->step_y;
-			ray->side = 1; //hit horizontal (y) grid line
+			ray->side = 1;
 		}
 		if (data->map_data.dungeon[ray->map_y][ray->map_x] != '0')
 			hit = 1;
 	}
 }
 /*
-*UPDATE: now supports window resizing, by fetching screen width
-*from mlx img data.
+	Wrapper to handle ray initialization, casting, hit detection
+	and rendering the actual wall column.
+
+	One ray is cast per pixel of window width.
 */
 
 void	cast_rays(t_data *data)
 {
 	t_ray	ray;
 	int		i;
-	
+
 	i = 0;
 	while (i < (int)data->img->width)
 	{

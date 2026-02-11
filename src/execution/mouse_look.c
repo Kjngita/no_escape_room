@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 08:56:22 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/03 17:56:44 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/11 13:58:19 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	mouse_look(t_data *data)
 {
-	int32_t	x;
-	int32_t	y;
+	int32_t		x;
+	int32_t		y;
 	int			center_x;
 	int			delta_x;
 
