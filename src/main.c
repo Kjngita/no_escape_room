@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 13:50:35 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/11 15:26:33 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/12 12:13:28 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,6 @@ static void	start_game(t_data *data)
 	mlx_loop_hook(data->window, &game_loop, data);
 	mlx_loop(data->window);
 }
-
-/*
-!	TO DO: CHECK HOW TO PROPAGATE WEAPON RESIZE ERROR UP THE CALL CHAIN!
-!	DOES start_game RUN IF WINDOW HAS BEEN CLOSED FOLLOWING ERROR IN
-!	register_hooks COMPONENTS?
-*/
 
 int	main(int argc, char **argv)
 {

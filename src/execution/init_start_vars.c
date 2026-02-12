@@ -6,14 +6,16 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 15:54:42 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/11 13:55:14 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/12 13:38:25 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header_cub3d.h"
 
 /*
-	Calculates map dimensions, for determining minimap tile size
+	Calculates map dimensions, for determining minimap tile size.
+	Map width is determined by longest map array row (max_x)
+	Map height is determined by the number of rows.
 */
 
 static void	calc_map_dimensions(t_data *data)
@@ -52,25 +54,27 @@ static void	calc_minimap_scaling(t_data *data)
 	double	y_max_tile_size;
 	int		max_tile_size_rounded;
 
-	x_max_tile_size = MINIMAP_SIDE / data->map_data.map_width;
-	y_max_tile_size = MINIMAP_SIDE / data->map_data.map_height;
+	x_max_tile_size = (double)MINIMAP_SIDE / data->map_data.map_width;
+	y_max_tile_size = (double)MINIMAP_SIDE / data->map_data.map_height;
 	if (x_max_tile_size < y_max_tile_size)
 		max_tile_size_rounded = (int)x_max_tile_size;
 	else
 		max_tile_size_rounded = (int)y_max_tile_size;
-	if (max_tile_size_rounded > 25)
-		max_tile_size_rounded = 25;
-	if (max_tile_size_rounded == 0)
+	if (max_tile_size_rounded > 20)
+		max_tile_size_rounded = 20;
+	if (max_tile_size_rounded < 1)
 		max_tile_size_rounded = 1;
 	data->map_data.minimap_tile_size = max_tile_size_rounded;
 }
 
 /*
-	All dir and plane values are initialized to 0 by default, and only changed
-	by init_player_start when necessary.
+	Initializes player position, facing and view plane starting values.
+		
+	All dir and plane values are pre-initialized to 0 by default,
+	and changed by this function only where necessary.
 
-	*UPDATE: Now gets initial facing and start location x y coordinates
-	*from parsed data!
+	0.5 is added to pos_x and pos_y to center the player on the starting
+	map tile.
 */
 
 static void	init_player_start(t_data *data)
@@ -101,12 +105,6 @@ static void	init_player_start(t_data *data)
 	data->pos_x = (double)data->map_data.player_start_x + 0.5;
 	data->pos_y = (double)data->map_data.player_start_y + 0.5;
 }
-
-/*
-	Wrapper function.
-!	TO DO? Error checking? Program should have already exited if any data
-!	dependencies are broken, but maybe for extra security..?
-*/
 
 void	init_start_vars(t_data *data)
 {
