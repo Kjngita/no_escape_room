@@ -119,19 +119,6 @@ typedef struct s_ray
 	int		line_bottom; //screen y pixel to stop drawing at
 }	t_ray;
 
-//used by draw_line to store variables
-typedef struct s_line
-{
-	int	dx; //delta x: total horizontal distance from start to end
-	int	dy; //delta y: total vertical distance from start to end
-	int	sx; //step x: horizontal direction, either 1 (right) or -1 (left)
-	int	sy; //step y: vertical direction, either 1 (up) or -1 (down)
-	int	err; //tracks drift from perfect mathematical line
-	int	e2; //err * 2 for calculation efficiency
-	int	map_x;
-	int	map_y;
-}	t_line;
-
 int			parse_input(t_mapstuff *map, int ac, char **av);
 void		free_n_nullify(char **useless);
 void		*clear_2x_char_pointers(char **trash);

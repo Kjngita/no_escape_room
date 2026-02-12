@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 08:57:42 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/12 17:00:10 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/12 17:14:04 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	init_mlx(t_data *data)
 	mlx_set_cursor_mode(data->window, MLX_MOUSE_HIDDEN);
 	if (init_images(data) < 0)
 	{
-		printf("Error\nFailed to initialize graphics\n", 2);
+		printf("Error\nFailed to initialize graphics\n");
 		return (clean_all(data));
 	}
 	return (0);
