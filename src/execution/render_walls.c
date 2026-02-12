@@ -6,17 +6,11 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 14:00:34 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/11 18:34:28 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/12 16:48:52 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header_cub3d.h"
-
-/*
-*UPDATE: now uses ceiling and floor colors parsed from map file
-*UPDATE: now supports window resizing, by fetching screen height
-*from mlx img data.
-*/
 
 void	fill_background(t_data *data)
 {
@@ -38,11 +32,6 @@ void	fill_background(t_data *data)
 		x++;
 	}
 }
-
-/*
-*UPDATE: now supports window resizing, by fetching screen height
-*from mlx img data.
-*/
 
 void	calc_line_height(t_data *data, t_ray *ray)
 {

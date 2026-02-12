@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 08:57:42 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/12 16:41:35 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/12 17:00:10 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ static int	init_images(t_data *data)
 
 int	clean_all(t_data *data)
 {
+	wipe_map(&data->map_data);
 	if (data->weapon_texture)
 		mlx_delete_texture(data->weapon_texture);
 	if (data->window)
 		mlx_terminate(data->window);
-	wipe_map(&data->map_data);
 	return (-1);
 }
 
