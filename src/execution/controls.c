@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 16:07:45 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/11 13:46:51 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/12 16:49:12 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	rotate(t_data *data, double dir)
 		+ data->plane_y * cos(ROT_SPEED * dir);
 }
 
-//*UPDATED to use parsed map data
 void	move_forward(t_data *data)
 {
 	double	new_pos_x;
@@ -50,7 +49,6 @@ void	move_forward(t_data *data)
 		data->pos_x = new_pos_x;
 }
 
-//*UPDATED to use parsed map data
 void	move_backward(t_data *data)
 {
 	double	new_pos_x;

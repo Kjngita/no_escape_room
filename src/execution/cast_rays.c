@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 11:24:03 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/11 13:44:36 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/12 13:48:14 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ static void	check_face(t_ray *ray)
 	}
 }
 
+/*
+	Calculates the distance that a ray has travelled from the
+	player position before hitting a wall.
+	
+	Is used to determine how high a wall column should be drawn.
+*/
+
 static void	calc_wall_dist(t_data *data, t_ray *ray)
 {
 	if (ray->side == 0)
@@ -54,7 +61,12 @@ static void	calc_wall_dist(t_data *data, t_ray *ray)
 				+ (1 - ray->step_y) / 2) / ray->ray_dir_y;
 }
 
-//*Updated to use parsed map data
+/*
+	Calculates ray propagation one map square at a time,
+	until a square containing a wall is reached.
+	With each loop iteration, checks whether the nearest
+	grid line is horizontal or vertical and jumps to it.
+*/
 
 static void	cast_ray(t_data *data, t_ray *ray)
 {

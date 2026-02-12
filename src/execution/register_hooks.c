@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 10:23:09 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/11 16:13:52 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/12 16:38:57 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static void	key_hook(mlx_key_data_t pressed_key, void *param)
 	t_data	*data;
 
 	data = (t_data *)param;
-	if (pressed_key.action == MLX_PRESS || pressed_key.action == MLX_REPEAT)
+	if (pressed_key.action == MLX_PRESS)
 	{
 		if (pressed_key.key == MLX_KEY_ESCAPE)
 			mlx_close_window(data->window);
