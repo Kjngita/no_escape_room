@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 08:57:42 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/11 13:57:55 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/12 16:41:35 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ int	init_mlx(t_data *data)
 			"Chaplin Moustache Hunting Club", true);
 	if (!data->window)
 	{
-		ft_putstr_fd("Error\nFailed to initialize window", 2);
+		printf("Error\nFailed to initialize window\n");
 		return (clean_all(data));
 	}
 	mlx_set_cursor_mode(data->window, MLX_MOUSE_HIDDEN);
 	if (init_images(data) < 0)
 	{
-		ft_putstr_fd("Error\nFailed to initialize graphics", 2);
+		printf("Error\nFailed to initialize graphics\n", 2);
 		return (clean_all(data));
 	}
 	return (0);
