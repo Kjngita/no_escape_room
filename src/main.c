@@ -6,7 +6,7 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 13:50:35 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/12 12:13:28 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/13 14:21:46 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	game_loop(void *param)
 {
 	t_data	*data;
 
-	data = (t_data*)param;
+	data = (t_data *)param;
 	if (mlx_is_key_down(data->window, MLX_KEY_LEFT))
 		rotate(data, -1);
 	if (mlx_is_key_down(data->window, MLX_KEY_RIGHT))
