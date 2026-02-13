@@ -6,11 +6,17 @@
 /*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 18:03:04 by jjahkola          #+#    #+#             */
-/*   Updated: 2026/02/11 13:53:26 by jjahkola         ###   ########.fr       */
+/*   Updated: 2026/02/13 14:44:24 by jjahkola         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header_cub3d.h"
+
+static void	clear_minimap(t_data *data)
+{
+	ft_bzero(data->minimap->pixels,
+		(data->minimap->width * data->minimap->height * sizeof(int32_t)));
+}
 
 static void	draw_player(t_data *data)
 {
@@ -76,6 +82,7 @@ void	draw_map(t_data *data)
 	int			x;
 	int			y;
 
+	clear_minimap(data);
 	y = 0;
 	while (data->map_data.dungeon[y] != NULL)
 	{

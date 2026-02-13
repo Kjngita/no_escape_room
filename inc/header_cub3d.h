@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   header_cub3d.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jjahkola <jjahkola@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/13 14:19:47 by jjahkola          #+#    #+#             */
+/*   Updated: 2026/02/13 14:23:17 by jjahkola         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef HEADER_CUB3D_H
 # define HEADER_CUB3D_H
 
@@ -8,17 +20,24 @@
 # include <math.h>
 # include <string.h>
 
-
-#define WIDTH 1920 // Default starting screen width
-#define HEIGHT 1080 // Default starting screen height
-#define MOVE_SPEED 0.06 // Move amount per frame
-#define ROT_SPEED 0.02 // Turn amount per frame
-#define	MOUSE_SENSITIVITY 0.08 // Used by mouse_look to dampen rotation factor
-#define	HUGE_DELTA 1e30 // Functionally infinite delta, when dir_x or dir_y == 0
-
-#define	MINIMAP_SIDE 400
-#define	WEAP_W 460
-#define	WEAP_H 230
+// Default start screen pixel width
+# define WIDTH 1920
+// Default start screen pixel height
+# define HEIGHT 1080
+// Move amount per frame
+# define MOVE_SPEED 0.06
+// Turn amount per frame
+# define ROT_SPEED 0.02
+// Used by mouse_look to dampen rotation factor
+# define MOUSE_SENSITIVITY 0.08
+// Functionally infinite delta, when dir_x or dir_y == 0
+# define HUGE_DELTA 1e30
+// Size of minimap bounding box
+# define MINIMAP_SIDE 400
+// Pixel width of default weapon texture
+# define WEAP_W 460
+// Pixel height of default weapon texture
+# define WEAP_H 230
 
 /*
 NOTE: last two digits of a hexadecimal color code are the alpha channel
@@ -52,33 +71,46 @@ typedef struct s_map
 	mlx_texture_t	*east_texture;
 	uint32_t		floor_color;
 	uint32_t		ceiling_color;
-	char			start_pos; //Player start facing 
+	// Player start facing
+	char			start_pos;
 	size_t			player_start_x;
 	size_t			player_start_y;
 	char			**dungeon;
-	//------------- Minimap drawing data
-	int				map_width; // length of longest map row
-	int				map_height; // number of map rows
-	double			minimap_tile_size; // MINIMAP_SIZE / map_width OR map_height
+	// Length of longest map row
+	int				map_width;
+	// Number of map rows
+	int				map_height;
+	// calculated as MINIMAP_SIZE / map_width OR map_height
+	double			minimap_tile_size;
 }	t_mapstuff;
 
 typedef struct s_data
 {
-	// ------------ MLX data
-	mlx_t			*window; // the "frame" where canvas is placed
-	mlx_image_t		*img; // the "canvas" where pixels are drawn
+	// the "frame" where images are placed
+	mlx_t			*window;
+	// the 3d rendering is drawn here
+	mlx_image_t		*img;
+	// the minimap is drawn here
 	mlx_image_t		*minimap;
+	// the currently displayed weapon image
 	mlx_texture_t	*weapon_texture;
+	// the currently displayed weapon image
 	mlx_image_t		*weapon;
+	// flag to enable mouse look and show cursor
 	int				cursor_enabled;
-	// ------------ Player state 
-	double			pos_x; //exact player position, ex. 5.5
-	double			pos_y; //exact player position, ex. 5.5
-	double			dir_x; //x offset of point player is facing (x + y sum remains constant when rotating view)
-	double			dir_y; //y offet of point player is facing (x + y sum remains constant when rotating view)
-	double			plane_x; //x offset of right edge of view plane, from dir_x
-	double			plane_y; //y offset of right edge of view plane, from dir_y
-	// ------------ Parsed data
+	// exact player x position, ex. 5.5
+	double			pos_x;
+	// exact player y position, ex. 5.5
+	double			pos_y;
+	// x offset of point player is facing, from pos_x
+	double			dir_x;
+	// y offet of point player is facing, from pos_y
+	double			dir_y;
+	// offset of right edge of view plane, from dir_x
+	double			plane_x;
+	// y offset of right edge of view plane, from dir_y
+	double			plane_y;
+	// struct containing parsed map data
 	t_mapstuff		map_data;
 }	t_data;
 
@@ -91,32 +123,49 @@ typedef enum e_face
 	EAST = 3
 }	t_face;
 
-//used by cast_rays to store variables
+// Used by cast_rays to store variables
 typedef struct s_ray
 {
-	// RAY DIRECTION
-	double	camera_x; // ray position along camera plane, between -1 and 1
-	double	ray_dir_x; //if camera_x = 0, equal to dir_x
-	double	ray_dir_y; //if camera_x = 0, equal to dir_y
-	// WALL DETECTION & DISTANCE CALCULATION
-	int		map_x; //current map square
-	int		map_y; //current map square
-	double	step_x; //direction to advance ray: -1 (left) or 1 (right)
-	double	step_y; //direction to advance ray: -1 (up) or 1 (down)
-	double	delta_x; //delta x: diagonal distance to travel between VERTICAL grid lines
-	double	delta_y; //delta y: diagonal distance to travel between HORIZONTAL grid lines
-	double	side_dist_x; //distance to next x grid line from origin (increments by delta_x)
-	double	side_dist_y; //distance to next y grid line from origin (increment by delta_y)
-	double	wall_dist; //diagonal distance from player to wall
-	int		side; // 0: vertical (N TO S) wall hit, 1 if horizontal (W to E)
-	t_face	wall_face; //which wall face the ray hit
-	// RENDERING
-	double	wall_x; //exact hit location on wall, range 0.0 - 1.0
-	int		texture_x; //pixel column that wall_x corresponds to, range 0 - texture width
-	int		screen_x; //screen pixel column to draw
-	int		line_height; //how high to draw the wall column
-	int		line_top; //screen y pixel to start drawing from
-	int		line_bottom; //screen y pixel to stop drawing at
+	// Ray position along camera plane, between -1 and 1
+	double	camera_x;
+	// If camera_x = 0, equal to dir_x
+	double	ray_dir_x;
+	// If camera_x = 0, equal to dir_y
+	double	ray_dir_y;
+	// Current map square
+	int		map_x;
+	// Current map square
+	int		map_y;
+	// Direction to advance ray: -1 (left) or 1 (right)
+	double	step_x;
+	// Direction to advance ray: -1 (up) or 1 (down)
+	double	step_y;
+	// Delta x: diagonal distance to travel between VERTICAL grid lines
+	double	delta_x;
+	// Delta y: diagonal distance to travel between HORIZONTAL grid lines
+	double	delta_y;
+	// Distance to next x grid line from origin (increments by delta_x)
+	double	side_dist_x;
+	// Distance to next y grid line from origin (increment by delta_y)
+	double	side_dist_y;
+	// Diagonal distance from player to wall
+	double	wall_dist;
+	// 0: vertical (N TO S) wall hit, 1 if horizontal (W to E)
+	int		side;
+	// Which wall face the ray hit
+	t_face	wall_face;
+	// Exact hit location on wall, range 0.0 - 1.0
+	double	wall_x;
+	// Pixel column that wall_x corresponds to, range 0 - texture width
+	int		texture_x;
+	// Screen pixel column to draw
+	int		screen_x;
+	// How high to draw the wall column
+	int		line_height;
+	// Screen y pixel to start drawing from
+	int		line_top;
+	// Screen y pixel to stop drawing at
+	int		line_bottom;
 }	t_ray;
 
 int			parse_input(t_mapstuff *map, int ac, char **av);
@@ -177,11 +226,11 @@ void		find_wall_x(t_data *data, t_ray *ray);
 void		draw_wall_line(t_data *data, t_ray *ray);
 uint32_t	get_color(t_data *data, t_ray *ray, int tex_x, int tex_y);
 
-void	init_start_vars(t_data *data);
-int		init_mlx(t_data *data);
-int		clean_all(t_data *data);
+void		init_start_vars(t_data *data);
+int			init_mlx(t_data *data);
+int			clean_all(t_data *data);
 
-void	draw_map(t_data *data);
+void		draw_map(t_data *data);
 
 void		mouse_look(t_data *data);
 void		rotate(t_data *data, double dir);
@@ -190,6 +239,6 @@ void		move_backward(t_data *data);
 void		move_left(t_data *data);
 void		move_right(t_data *data);
 
-void	register_hooks(t_data *data);
+void		register_hooks(t_data *data);
 
 #endif
